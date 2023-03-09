@@ -1,0 +1,38 @@
+
+
+
+from typing import List
+
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        # 左右指针
+        left, right = 0, len(nums) - 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if nums[mid] == target:
+                return mid
+            # 落在同一数组的情况，同时落在数组1或数组2
+            if nums[mid] >= nums[left]:
+                # target 落在 left 和 mid 之间，则移动我们的 right，完全有序的一个区间内查找
+                if nums[mid] > target and target >= nums[left]:
+                    right = mid - 1
+                # target 落在 right 和 mid 之间，有可能在数组1，也有可能在数组2
+                else:
+                    left = mid + 1
+            # 不落在同一数组的情况，left 在数组1，mid 落在数组2
+            else:
+                # 有序的一段区间，target 在 mid 和 right 之间
+                if nums[mid] < target and target <= nums[right]:
+                    left = mid + 1
+                # 两种情况，target 在 left 和 mid 之间
+                else:
+                    right = mid - 1
+        # 没有查找到
+        return -1
+
+        
+nums =  [4,5,6,7,0,1,2]
+target = 0
+sol = Solution()
+result = sol.search(nums, target)
+print(result)  # Output: 
