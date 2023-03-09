@@ -1,1 +1,34 @@
-f
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+        #创建双指针
+        left = 0
+        right = len(nums)-1
+        #遍历循环数组
+        while left<=right:
+            mid = left + (right-left)//2
+            if nums[mid]==target:
+                return True
+            #cornercase 出现[1,3,1,1]情况，此时mid1与left1不在一个数组
+            if nums[mid]==nums[left]:
+                left+=1
+                continue
+            #1.mid与left在一个数组
+            elif nums[mid]>nums[left]:
+                #1.1target在mid左区间
+                if nums[target]<nums[mid] and nums[target]>=nums[left]:
+                    right = mid-1
+                #1.2target在mid右区间
+                else:
+                    left = mid+1
+
+
+            #2.mid与left不在一个数组
+            else:
+                #2.1target在mid右区间
+                if nums[mid]<target and target<= nums[right]:
+                    left = mid+1
+                #2.2target在mid左区间
+                else:
+                    right = mid-1
+
+        return False
