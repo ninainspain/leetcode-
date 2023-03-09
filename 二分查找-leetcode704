@@ -18,6 +18,12 @@ target < nums[mid] 则在左半区间继续进行搜索，即 right = mid -1；
 
 '''
 
+'''
+本质上是移动指针
+nums[mid] == target 时则返回，nums[mid] < target 时则移动左指针，在右区间进行查找， nums[mid] > target时则移动右指针，在左区间内进行查找。
+
+'''
+
 
 '''
 易错点：
