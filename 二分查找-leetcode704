@@ -1,0 +1,59 @@
+'''
+二分查找也称折半查找（Binary Search），是一种在有序数组中查找某一特定元素的搜索算法。
+我们可以从定义可知，运用二分搜索的前提是数组必须是有序的，
+这里需要注意的是，我们的输入不一定是数组，也可以是数组中某一区间的起始位置和终止位置
+'''
+
+
+'''
+二分查找的执行过程如下
+
+1.从已经排好序的数组或区间中，取出中间位置的元素，将其与我们的目标值进行比较，判断是否相等，如果相等则返回。
+
+2.如果 nums[mid] 和 target 不相等，则对 nums[mid] 和 target 值进行比较大小，通过比较结果决定是从 mid
+
+的左半部分还是右半部分继续搜索。如果 target > nums[mid] 则右半区间继续进行搜索，即 left = mid + 1; 若
+
+target < nums[mid] 则在左半区间继续进行搜索，即 right = mid -1；
+
+'''
+
+
+'''
+易错点：
+while left<= right
+left = mid + 1
+right = mid - 1
+'''
+
+
+
+
+
+from typing import List
+
+#正文部分
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        #创建双指针
+        left = 0
+        right = len(nums) - 1
+        #循环遍历整个数组
+        while left <= right:
+            #将数组一分为二
+            mid = left + (right-left)//2
+            #判断target和中间值
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] > target:
+                right = mid-1
+            else:
+                left = mid+1
+        return -1
+
+#用来测试
+nums = [-1,0,3,5,9,12]
+target = 9
+sol = Solution()
+result = sol.search(nums, target)
+print(result)  # Output: 4
