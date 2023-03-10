@@ -4,3 +4,48 @@
 https://www.youtube.com/watch?v=2tbi1W7ce1c
 '''
 
+'''
+文字版讲解
+
+https://leetcode.cn/problems/3sum/solution/hua-jie-suan-fa-15-san-shu-zhi-he-by-guanpengchn/
+'''
+
+class Solution:
+    @staticmethod
+    def threeSum(nums: List[int]) -> List[List[int]]:
+        #创建空list来放最后的答案
+        result = []
+        #排序nums
+        nums.sort()  
+        #遍历循环整个数组
+        n = len(nums）
+        for i in range(n):
+            #corner case
+            if nums[i] > 0:
+                break 
+            #去重
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue  
+            #建立双指针
+            L, R = i + 1, n - 1
+            #碰撞指针
+            while L < R:
+                #取sum
+                total = nums[i] + nums[L] + nums[R]
+                #1.total=0
+                if total == 0:
+                    result.append([nums[i], nums[L], nums[R]])
+                    # 因为重复值，不可以加到最后的result。所以要handle重复值情况，但是当total!=0的时候不用考虑该情况
+                    while L < R and nums[L] == nums[L + 1]:
+                        L += 1  
+                    while L < R and nums[R] == nums[R - 1]:
+                        R -= 1  
+                    # Move pointers
+                    L += 1
+                    R -= 1
+                elif total < 0:
+                    L += 1
+                else:
+                    R -= 1
+        return result
+
