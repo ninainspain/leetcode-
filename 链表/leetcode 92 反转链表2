@@ -1,1 +1,43 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
+class Solution:
+    def reverseBetween(self, head: ListNode, left: int, right: int) -> ListNode:
+        #创建dummy head
+        dummy = ListNode(-1)
+        dummy.next=head
+        #创建指针
+        #用start标记元素，不在遍历中被改变的
+        start=dummy
+        #到达要反转的node前一个
+        for i in range(left-1):
+            start=start.next
+        #创建双指针，进行反转
+        pre=start
+        cur=pre.next
+        #开始进行反转
+        for i in range(right-left+1):
+            temp = cur.next
+            cur.next=pre
+            pre=cur
+            cur=temp
+
+        start.next.next=cur
+        start.next=pre
+
+        return dummy.next
+
+
+# Create the linked list
+head = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
+
+# Call the function with the given input
+solution = Solution()
+result = solution.reverseBetween(head, 2, 4)
+
+# Print the result
+while result:
+    print(result.val)
+    result = result.next
