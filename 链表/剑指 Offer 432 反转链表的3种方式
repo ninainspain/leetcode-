@@ -1,1 +1,96 @@
+'''
+参考资料
+
+https://mp.weixin.qq.com/s?__biz=MzU0ODMyNDk0Mw==&mid=2247488340&idx=1&sn=c3d6adc9f737672aab544931502dda2e&chksm=fb418074cc360962b46cb764068a5818f58bed6a4cd05ef61057823918d95f3a192550f02408&scene=21#wechat_redirect
+
+'''
+
+
+
+'''
+使用栈解决
+
+'''
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+        
+
+class Solution:
+    def reverseList(self, head: ListNode) -> ListNode:
+        stack = []
+        # 把链表节点全部摘掉放到栈中
+        while head:
+            stack.append(head)
+            head = head.next
+        if not stack:
+            return None
+        node = stack.pop()
+        dummy = node
+        # 栈中的结点全部出栈，然后重新连成一个新的链表
+        while stack:
+            tempNode = stack.pop()
+            node.next = tempNode
+            node = node.next
+        # 最后一个结点就是反转前的头结点，一定要让他的next
+        # 等于空，否则会构成环
+        node.next = None
+        return dummy
+
+
+# Create the linked list
+node5 = ListNode(5)
+node4 = ListNode(4, node5)
+node3 = ListNode(3, node4)
+node2 = ListNode(2, node3)
+node1 = ListNode(1, node2)
+
+# Reverse the linked list
+solution = Solution()
+reversed_head = solution.reverseList(node1)
+
+# Print the reversed linked list
+while reversed_head:
+    print(reversed_head.val)
+    reversed_head = reversed_head.next
+
+
+'''
+双链表求解
+'''
+
+class ListNode:
+  def __init__(self,val=0,next=None):
+    self.val=val
+    self.next=next
+
+class Solution:
+  def reverseList(self, head:ListNode) -> ListNode:
+    newHead=None
+    while head:
+      temp = head.next
+      head.next=newHead
+      newHead=head
+      head=temp
+    return newHead
+
+# Example usage:
+# Create a linked list with values 1->2->3->4->5
+head = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
+# Reverse the linked list
+solution = Solution()
+new_head = solution.reverseList(head)
+# Print the values of the reversed linked list
+while new_head:
+    print(new_head.val, end=' ')
+    new_head = new_head.next
+# Output: 5 4 3 2 1
+  
+  
+
+
+
+
 
