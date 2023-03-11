@@ -5,24 +5,34 @@ https://leetcode.cn/problems/4sum-ii/solution/chao-ji-rong-yi-li-jie-de-fang-fa-
 
 '''
 
+from typing import List
+
 class Solution:
-    def fourSumCount(self, nums1: List[int], nums2: List[int], nums3: List[int], nums4: List[int]) -> int:
+    def fourSumCount(self, A: List[int], B: List[int], C: List[int], D: List[int]) -> int:
+        
         #创建hashmap
         map = {}
-        #创建新变量
-        result=0
-        for i in range(len(nums1)):
-            for j in range(len(nums2)):
-                sumAB = nums1[i] + nums2[j]
-                if sumAB not in map:
-                    map[sumAB] = 1
+        res = 0
+        for i in range(len(A)):
+            for j in range(len(B)):
+                sumAB = A[i] + B[j]
+                if sumAB in map:
+                    map[sumAB] += 1
                 else:
-                    map[sumAB] +=1
-        
-        for k in range(len(nums3)):
-            for l in range(len(nums4)):
-                sumCD = -(nums3[k]+nums4[l])
+                    map[sumAB] = 1
+        for i in range(len(C)):
+            for j in range(len(D)):
+                sumCD = -(C[i] + D[j])
                 if sumCD in map:
-                    result+=1
+                    res += map[sumCD]
+        return res
+
         
-        return result
+nums1 = [1,2]
+nums2 = [-2,-1]
+nums3 = [-1,2]
+nums4 = [0,2]
+target=0
+sol = Solution()
+result = sol.fourSumCount(nums1,nums2,nums3,nums4)
+print(result)
