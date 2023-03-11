@@ -39,6 +39,10 @@ print(result)
 
 双指针（L,R）法的思路很简单，L 指针用来指向第一个值，R 指针用来从第 L 指针的后面查找数组中是否含有和 L 指针指向值和为目标值的数
 
+暴力解法
+
+两层循环: 一层用来遍历所有元素, 另一层用来寻找目标数
+
 '''
 
 # Import the List and Dict types from the typing module
