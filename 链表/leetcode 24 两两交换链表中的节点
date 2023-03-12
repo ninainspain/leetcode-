@@ -1,1 +1,32 @@
+'''
+图文讲解
 
+https://leetcode.cn/problems/swap-nodes-in-pairs/solution/yuan-lai-hui-luo-ji-qing-xi-jian-dan-yi-8t93h/
+
+'''
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        #create a dummy head
+        dummy = ListNode(-1)
+        dummy.next = head
+        #create a pointer to iterate 
+        cur = dummy 
+        #start iterate through the list
+        while cur and cur.next and cur.next.next:
+            #create three pointers to swap the nodes
+            f=cur
+            s=cur.next
+            t=cur.next.next
+            #swap the nodes
+            f.next=t
+            s.next=t.next
+            t.next=s
+            #iterate
+            cur=cur.next.next
+        return dummy.next
