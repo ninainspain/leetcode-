@@ -1,1 +1,33 @@
+'''
+图文解释
 
+https://leetcode.cn/problems/remove-nth-node-from-end-of-list/solution/dong-hua-yan-shi-kuai-man-zhi-zhen-19-sh-n9ih/
+'''
+
+
+'''
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        #create dummy head
+        dummy = ListNode(-1)
+        dummy.next = head
+        #create two pointers to iterate through the list
+        fast = dummy
+        slow = dummy 
+        for i in range(n+1):
+            fast=fast.next
+
+        while fast:
+            fast=fast.next
+            slow=slow.next
+        
+        slow.next=slow.next.next
+        return dummy.next
+
+
+'''
