@@ -1,1 +1,26 @@
+'''
+找到该结点的前一个结点，进行删除操作
+'''
 
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:
+        # create a dummy node as the head
+        dummy = ListNode(-1)
+        dummy.next = head
+        # create two pointers
+        pre = dummy
+        cur = dummy.next
+        # loop through the linked list until the end
+        while cur:
+            if cur.val==val:
+                pre.next=cur.next
+            else:
+                pre=pre.next
+            cur=cur.next
+        return dummy.next
