@@ -18,9 +18,10 @@ class Solution:
 
         #进行单词的翻转
         def reverse(l,r):
-            chars[l],char[r] = chars[r],chars[l]
-            l+=1
-            r-=1
+            while l< r
+                chars[l],chars[r] = chars[r],chars[l]
+                l+=1
+                r-=1
 
         n = len(chars)
         #先整体翻转
