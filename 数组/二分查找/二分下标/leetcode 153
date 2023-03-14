@@ -1,0 +1,41 @@
+'''
+
+- 数组完全有序 nums[left] < nums[right]，此时返回 nums[left] 即可
+
+- left 和 mid 在一个都在前半部分，单调递增区间内，所以需要移动 left，继续查找，left = mid + 1；
+
+- left 在前半部分，mid 在后半部分，则最小值必在 left 和 mid 之间（见下图）。则需要移动 right ，right = mid，我们见上图，如果我们 right = mid - 1，则会漏掉我们的最小值，因为此时 mid 指向的可能就是我们的最小值。所以应该是 right = mid 。
+
+'''
+
+from typing import List
+
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        #创建双指针
+        left = 0
+        right = len(nums)-1
+
+        #遍历循环数组
+        while left<=right:
+            #1.完全有序
+            if nums[left] < nums[right]:
+                return nums[left]
+            #2.非完全有序
+            else:
+                mid = left+(right-left)//2
+                #2.1left和mid在同一个数组
+                if nums[left]<=nums[mid]:
+                    left=mid+1
+                #2.2left和mid不在同一个数组
+                else:
+                    right=mid
+
+        return nums[left]
+
+        
+nums = [5,6,7,0,1,2,3]
+
+sol = Solution()
+result = sol.findMin(nums)
+print(result)  # Output: 0
