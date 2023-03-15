@@ -1,1 +1,45 @@
+'''
+__init__: Initializes the two stacks stackIn and stackOut.
+
+push: Pushes an element x into the stackIn stack.
+
+pop: Pops an element out of the queue. If the stackOut stack is not empty, the top element of stackOut is popped and returned. Otherwise, all the elements in stackIn are popped and pushed into stackOut, and then the top element of stackOut is popped and returned. If the queue is empty, None is returned.
+
+peek: Returns the top element of the queue without removing it. This is done by calling the pop method and storing the result, then pushing the result back onto stackOut and returning it.
+
+empty: Returns True if both stackIn and stackOut are empty, and False otherwise.
+
+'''
+
+class MyQueue:
+
+    def __init__(self):
+        self.stackIn = []
+        self.stackOut = []
+
+
+    def push(self, x: int) -> None:
+        self.stackIn.append(x)
+
+
+    def pop(self) -> int:
+        if self.empty():
+            return None
+        
+        if self.stackOut:
+            return self.stackOut.pop()
+        else:
+            for i in range(len(self.stackIn)):
+                self.stackOut.append(self.stackIn.pop())
+            return self.stackOut.pop()
+
+
+    def peek(self) -> int:
+        ans = self.pop()
+        self.stackOut.append(ans)
+        return ans
+
+
+    def empty(self) -> bool:
+        return not (self.stackIn or self.stackOut)
 
