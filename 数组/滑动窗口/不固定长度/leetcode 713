@@ -1,0 +1,25 @@
+'''
+解题思路
+
+https://leetcode.cn/problems/subarray-product-less-than-k/solution/by-fuxuemingzhu-jg1f/
+'''
+
+Let's consider an example to understand this. Suppose we have an array [1, 2, 3, 4, 5] and we want to count the number of contiguous subarrays ending at index 2. These subarrays are: [1, 2, 3], [2, 3], and [3]. We can see that for each subarray ending at index 2, there is a corresponding starting position for the subarray.
+
+The starting position of a contiguous subarray ending at index right can range from 0 to right. Hence, the number of contiguous subarrays ending at index right can be calculated as (right-left+1) by considering all the possible starting positions for the subarrays.
+
+
+class Solution:
+    def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
+        n=len(nums)
+        left,right=0,0
+        prod = 1
+        res=0
+        while right<n:
+            prod *= nums[right]
+            if prod>=k and left<=right:
+                prod/=nums[left]
+                left+=1
+            res+=right-left+1
+            right+=1
+        return res
