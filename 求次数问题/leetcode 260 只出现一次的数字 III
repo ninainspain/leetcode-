@@ -1,1 +1,39 @@
+'''
+哈希表
+'''
 
+class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        result = []
+        hashMap = {}
+        for i in range(len(nums)):
+            if nums[i] in hashMap:
+                hashMap[nums[i]] +=1
+            else:
+                hashMap[nums[i]] = 1
+
+        for key in hashMap.keys():
+            if hashMap[key]==1:
+                result.append(key)
+        
+        return result
+        
+ '''
+ hashset
+ '''
+ 
+ class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        hashSet = set()
+        for num in nums:
+            if num in hashSet:
+                hashSet.remove(num)
+            else:
+                hashSet.add(num)
+        
+        result=[]
+        for num in hashSet:
+            result.append(num)
+        return result
+        
+  
