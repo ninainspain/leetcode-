@@ -1,1 +1,19 @@
+class Solution:
+    def findMaxAverage(self, nums: List[int], k: int) -> float:
+        left = 0   # initialize left pointer
+        right = 0  # initialize right pointer
+        sum = 0    # initialize sum to 0
+        maxAverage = float('-inf')  # initialize maxAverage to negative infinity
+
+        # loop until right pointer reaches the end of the list
+        while right < len(nums):
+            sum += nums[right]  # add the value at the right pointer to the sum
+            if right - left + 1 == k:  # if the size of the window is equal to k
+                average = sum / k  # calculate the average of the window
+                maxAverage = max(maxAverage, average)  # update maxAverage if the current average is greater
+                sum -= nums[left]  # subtract the value at the left pointer from the sum
+                left += 1  # move the left pointer to the right by 1
+            right += 1  # move the right pointer to the right by 1
+
+        return maxAverage  # return the maximum average
 
