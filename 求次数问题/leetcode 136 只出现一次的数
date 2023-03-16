@@ -1,0 +1,97 @@
+'''
+哈希表
+'''
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        hashMap = {}
+        
+        for i in range(len(nums)):
+            if nums[i] in hashMap:
+                hashMap[nums[i]] +=1
+            else:
+                hashMap[nums[i]] = 1
+        
+        
+            
+        for key in hashMap.keys():
+           if hashMap[key]==1:
+               return key
+               
+               
+'''
+快慢指针
+'''
+这个方法也是特别容易想到的，我们首先对数组进行排序，
+
+然后遍历数组，因为数组中其他数字都出现两次，只有目标值出现一次，
+
+所以则让我们的指针每次跳两步，当发现当前值和前一位不一样的情况时，返回前一位即可，
+
+当然我们需要考虑这种情况，当我们的目标值出现在数组最后一位的情况，所以当数组遍历结束后没有返回值，则我们需要返回数组最后一位
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        nums.sort()
+        for i in range(1,len(nums),2):
+            if nums[i] != nums[i-1]:
+                return nums[i-1]
+        return nums[len(nums)-1]
+        
+'''
+Hashset
+'''
+
+这个方法也是比较容易实现的，我们利用 HashSet 来完成。HashSet 
+
+在我们刷题时出现频率是特别高的，它是基于 HashMap 来实现的，是一个不允许有重复元素的集合。
+
+那么在这个题解中，它起到什么作用呢？解题思路如下，我们依次遍历元素并与 HashSet 内的元素进行比较，如果 HashSet 内没有该元素（说明该元素第一次出现）则存入，
+
+若是 HashSet 已经存在该元素(第二次出现)，则将其从 HashSet 中去除，并继续遍历下一个元素。最后 HashSet 内剩下的则为我们的目标数。
+
+思路和我们之前说过的括号匹配问题类似，我们一起来看一下动图解析吧
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        hashSet = set()
+        # 循环遍历
+        for num in nums:
+            # 已经存在，则去除
+            if num in hashSet:
+                hashSet.remove(num)
+            # 否则存入
+            else:
+                hashSet.add(num)
+        # 返回仅剩的一个元素
+        return hashSet.pop()
+        
+'''
+栈
+
+'''
+
+该方法也很容易想到，我们首先将其排序，然后遍历数组，如果栈为空则将当前元素压入栈，如果栈不为空，若当前元素和栈顶元素相同则出栈，继续遍历下一元素，如果当前元素和栈顶元素不同的话，则说明栈顶元素是只出现一次的元素，我们将其返回即可。这个题目也可以使用队列做，思路一致，我们就不在这里说明啦。下面我们看下动图解析。
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        #corner case 
+        if len(nums)==1:
+            return nums[0]
+        
+        nums.sort()
+
+        stack = deque()
+
+        for num in nums:
+            if not stack:
+                stack.append(num)
+                continue
+            
+            if stack[-1] != num:
+                break
+
+            else:
+                stack.pop()
+            
+        return stack[-1]
