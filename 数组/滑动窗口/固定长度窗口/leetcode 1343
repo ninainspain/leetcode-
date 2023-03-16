@@ -1,1 +1,27 @@
-
+class Solution:
+    def numOfSubarrays(self, arr: List[int], k: int, threshold: int) -> int:
+        # initialize left pointer to 0
+        left = 0
+        # initialize right pointer to 0
+        right = 0
+        # initialize the sum of the current window to 0                
+        sum = 0   
+        # initialize the answer to 0        
+        result = 0  
+        # loop until the right pointer reaches the end of the array                
+        while right < len(arr):
+             # add the current element to the window sum
+            sum+=arr[right]
+            # check if the window size is equal to k
+            windowLength = right-left+1
+            if windowLength==k:
+                # check if the average of the current window is greater than or equal to threshold
+                if sum>=k*threshold:
+                    result+=1
+                # remove the leftmost element from the window sum
+                sum-=arr[left]
+                # move the left pointer to the right
+                left+=1
+             # move the right pointer to the right
+            right+=1
+        return result
