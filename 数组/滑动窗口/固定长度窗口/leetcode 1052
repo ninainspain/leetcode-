@@ -1,1 +1,23 @@
 
+class Solution:
+    def maxSatisfied(self, customers: List[int], grumpy: List[int], minutes: int) -> int:
+        left = 0 # initialize left pointer
+        right = 0 # initialize right pointer
+        sum = 0 # initialize sum variable to keep track of grumpy customers
+        maxSatisfied = 0 # initialize maxSatisfied variable to keep track of maximum satisfied customers
+
+        while right < len(customers): # loop through customers list
+            if grumpy[right] == 1: # if the customer is grumpy
+                sum += customers[right] # add the number of customers to the sum variable
+            if right - left + 1 == minutes: # if the window size is equal to minutes
+                maxSatisfied = max(maxSatisfied,sum) # update the maximum satisfied customers
+                if grumpy[left] == 1: # if the left customer is grumpy
+                    sum -= customers[left] # subtract the number of customers from the sum variable
+                left += 1 # move the left pointer
+            right += 1 # move the right pointer
+
+        for i in range(len(customers)): # loop through the customers list
+            if grumpy[i] == 0: # if the customer is not grumpy
+                maxSatisfied += customers[i] # add them to the total satisfied customers
+
+        return maxSatisfied # return the maximum satisfied customers
