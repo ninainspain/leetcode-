@@ -1,0 +1,47 @@
+'''
+滑动窗口：**就是通过不断调节子数组的起始位置和终止位置，进而得到我们想要的结果，滑动窗口也是双指针的一种。
+
+下面我们来看一下这道题目的做题思路，其实原理也很简单，
+
+我们创建两个指针，一个指针负责在前面探路，并不断累加遍历过的元素的值，当和大于等于我们的目标值时，
+
+后指针开始进行移动，判断去除当前值时，是否仍能满足我们的要求，直到不满足时后指针停止，前面指针继续移动，直到遍历结束。
+
+是不是很简单呀。前指针和后指针之间的元素个数就是我们的滑动窗口的窗口大小
+
+'''
+
+'''
+图片显示
+https://img-blog.csdnimg.cn/2021032111513777.gif
+'''
+
+'''
+易错点
+1.while sum>=target
+
+'''
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        leng = len(nums)
+        sum = 0
+        windownlen = float('inf')
+
+        #创建双指针
+        i = 0
+        #用j指针遍历
+        for j in range(leng):
+            sum+=nums[j]
+            #当符合条件时
+            #是while
+            while sum >= target:
+                #记录窗口长度
+                windownlen = min(windownlen,j-i+1)
+                #滑动i指针
+                sum=sum-nums[i]
+                i+=1
+        
+        if windownlen == float('inf'):
+            return 0
+        else:
+            return windownlen
