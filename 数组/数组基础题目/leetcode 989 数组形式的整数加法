@@ -1,1 +1,27 @@
+class Solution:
+    def addToArrayForm(self, num: List[int], k: int) -> List[int]:
+        
+        # Initialize an empty list to store the result
+        res=[]
+        # Initialize index i to the rightmost digit of num and carry to 0
+        i, carry = len(num)-1,0
+        # Loop while there are digits left in num or k
+        while i>=0 or k != 0:
+            # Get the current digit of num or 0 if there are no more digits
+            x = num[i] if i>=0 else 0
+            # Get the ones digit of k or 0 if k is 0
+            y = k % 10 if k!= 0 else 0
+            # Calculate the sum of the current digits and the carry from the previous iteration
+            sum = x+y+carry
+            # Append the ones digit of the sum to the result list
+            res.append(sum%10)
+            # Update the carry for the next iteration
+            carry = sum//10
+            # Decrement the index for num and divide k by 10 to remove the ones digit
+            i-=1
+            k//=10
+        # If there is a carry left after the loop, append it to the result
+        if carry !=0:res.append(carry)
+        # Return the result in reverse order
+        return res[::-1]
 
