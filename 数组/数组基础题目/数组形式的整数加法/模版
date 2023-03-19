@@ -1,0 +1,24 @@
+def addTwoNum(self, num1: List[int], num2: List[int]) -> List[int]:
+    # Create an empty list to store the result
+    res = []
+    # Initialize the indices for both input lists and the carry variable
+    i1, i2, carry = len(num1) - 1, len(num2) - 1, 0
+    # Loop while either input list still has digits left
+    while i1 >= 0 or i2 >= 0:
+        # Get the current digits for each input list, or 0 if there are no more digits
+        x = num1[i1] if i1 >= 0 else 0
+        y = num2[i2] if i2 >= 0 else 0
+
+        # Calculate the sum of the current digits and the carry from the previous iteration
+        sum = x + y + carry
+        # Append the ones digit of the sum to the result list
+        res.append(sum % 10)
+        # Update the carry for the next iteration
+        carry = sum // 10
+
+        # Decrement the indices for both input lists
+        i1, i2 = i1 - 1, i2 - 1
+    # If there is a carry left after the loop, append it to the result
+    if carry != 0: res.append(carry)
+    # Return the result in reverse order
+    return res[::-1]
