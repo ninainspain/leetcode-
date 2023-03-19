@@ -41,7 +41,7 @@ class MyQueue:
 
 
     def peek(self) -> int:
-        ans = self.pop()
+        ans = self.stackIn.pop()
         self.stackOut.append(ans)
         return ans
 
