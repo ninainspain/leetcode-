@@ -1,0 +1,15 @@
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        res=''                           # initialize an empty string to store the result
+        i1,i2,carry = len(num1)-1,len(num2)-1,0    # initialize pointers to the last index of each string, and a carry variable to 0
+        while i1>=0 or i2>=0:             # while there are still digits to add
+            x = ord(num1[i1])-ord('0') if i1>=0 else 0    # get the numerical value of the current digit in num1 (or 0 if there are no more digits)
+            y = ord(num2[i2])-ord('0')  if i2>=0 else 0   # get the numerical value of the current digit in num2 (or 0 if there are no more digits)
+            sum = x+y+carry               # add the two digits and the carry (if there is one)
+            res+=str(sum%10)              # append the ones digit of the sum to the result string
+            carry=sum//10                 # update the carry variable to the tens digit of the sum
+            i1,i2=i1-1,i2-1               # move the pointers to the next digit
+            
+        if carry!=0:res+=carry           # if there is a final carry after the loop, append it to the result string
+        return res[::-1]                 # reverse the order of the result string and return it
+
