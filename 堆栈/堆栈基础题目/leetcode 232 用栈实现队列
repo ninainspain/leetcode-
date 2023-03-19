@@ -1,4 +1,10 @@
 '''
+视频讲解
+
+https://www.bilibili.com/video/BV1nY4y1w7VC/?spm_id_from=333.788&vd_source=cde64dea53008919ff0ec17ff3464cf4
+'''
+
+'''
 __init__: Initializes the two stacks stackIn and stackOut.
 
 push: Pushes an element x into the stackIn stack.
