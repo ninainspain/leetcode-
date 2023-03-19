@@ -1,0 +1,23 @@
+from typing import List
+
+class Solution:
+    def plusOne(self, digits: List[int]) -> List[int]:
+        # Iterate over the digits in reverse order
+        for i in range(len(digits) - 1, -1, -1):
+            digits[i] += 1  # Add 1 to the current digit
+            digits[i] = digits[i] % 10  # If the result is 10 or more, set it to 0
+            if digits[i] != 0: return digits  # If the result is less than 10, return the digits list
+
+        # If we get here, all digits were 9, so we need to add a new digit with value 1
+        res = [0] * (len(digits) + 1)
+        res[0] = 1
+        return res
+
+# Example input
+digits = [9,9,9]
+
+# Create a Solution object and call the plusOne method with the input digits
+result = Solution().plusOne(digits)
+
+# Print the result
+print(result)
