@@ -1,0 +1,9 @@
+#将小写字母a-z装换成0-25index，从而建立数组
+def letter_to_index(letter):
+    return ord(letter) - ord('a')
+
+res=[0]*26
+for i in range(len(s)):
+    tempIndex = letter_to_index(s[i])
+    res[tempIndex]+=1
+print(res)
