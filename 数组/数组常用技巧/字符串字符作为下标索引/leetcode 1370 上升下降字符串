@@ -1,1 +1,23 @@
+class Solution:
+    def sortString(self, s: str) -> str:
+        #计算每一个字符出现的次数
+        res=[0]*26
+        for char in s:
+            res[ord(char)-ord('a')]+=1
+        
+        ans=''
+        while len(ans)<len(s):
+            #上升，从左往右遍历数组
+            for i in range(26):
+                if res[i]>0:
+                    ans+= chr(i+ord('a'))
+                    res[i]-=1
+            #下降，从右到左遍历数组    
+            for j in range(25,-1,-1):
+                if res[j]>0:
+                    ans+=chr(j+ord('a'))
+                    res[j]-=1
+
+        return ans
+        
 
