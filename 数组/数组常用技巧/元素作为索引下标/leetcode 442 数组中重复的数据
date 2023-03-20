@@ -1,0 +1,54 @@
+⭕️第一种解法
+给你一个长度为 n 的整数数组 nums ，其中 nums 的所有整数都在范围 [1, n] 内，且每个整数出现 一次 或 两次 
+▶️nums 的所有整数都在范围 [1, n] 内
+▶️构建新数组，索引等于原数组的值，值等于出现的次数
+class Solution:
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        res = [0]*n
+        ans = []
+        for i in range(n):
+            res[nums[i]-1]+=1
+        
+        for i in range(n):
+            if res[i]==2:
+                ans.append(i+1)
+        return ans
+▶️时间复杂度O(n)空间复杂度O(n)
+⭕️第二种解法 在第一种解法基础上优化空间复杂度
+▶️使用负数的方式标记一个元素是否出现过一次
+class Solution:
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        #循环遍历原数组，获取值，该值对应的-1的index的值变为负数
+        #if是负数，即出现两次，加入res
+        res=[]
+        for i in range(len(nums)):
+            tempIndex = abs(nums[i])-1
+            if nums[tempIndex]<0:
+                res.append(abs(nums[i]))
+            else:
+                nums[tempIndex] = -nums[tempIndex]
+        return res
+ ▶️时间复杂度O(n)空间复杂度O(1)       
+⭕️第三种解法 在第一种解法基础上优化空间复杂度
+▶️使用➕n的方式标记一个元素是否出现过一次
+class Solution:
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        #遍历循环数组，每个值-1为index，该index上的值➕n
+        #由于值被变化，所以用（nums[i]-1）%n
+        n = len(nums)
+        for i in range(n):
+            tempIndex = (nums[i]-1)%n
+            nums[tempIndex]=nums[tempIndex]+n
+        res=[]
+        for i in range(n):
+            #元素值最小是1
+            if nums[i]>2*n:
+                res.append(i+1)
+        return res
+
+
+
+
+
+
