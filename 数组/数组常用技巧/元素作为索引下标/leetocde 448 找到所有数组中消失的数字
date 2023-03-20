@@ -1,0 +1,16 @@
+class Solution:
+    def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
+        #遍历循环nums，出现的nums+n
+        #由于nums+n，index需要（nums-1）%n
+        #出现0次说明%n=本身
+
+        n=len(nums)
+        for i in range(n):
+            tempIndex = (nums[i]-1)%n 
+            nums[tempIndex]+=n 
+        
+        res=[]
+        for i in range(n):
+            if nums[i]<=n:
+                res.append(i+1)
+        return res
