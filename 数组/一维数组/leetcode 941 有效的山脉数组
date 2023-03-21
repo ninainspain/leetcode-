@@ -1,1 +1,17 @@
+class Solution:
+    def validMountainArray(self, arr: List[int]) -> bool:
+        n=len(arr)
+        i=0
+        #找到最高点
+        while i<n-1 and arr[i]<arr[i+1]:
+            i+=1
 
+        #防止是单调增长或者单调递减的情况
+        if i==0 or i==n-1:
+            return False
+
+        #从最高点往后递减扫描
+        while i<n-1 and arr[i]>arr[i+1]:
+            i+=1
+
+        return i==n-1
