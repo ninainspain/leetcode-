@@ -1,0 +1,25 @@
+⭕️快慢指针
+class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        if len(nums)==0:return 
+        #已处理的区域的下一位
+        #慢指针
+        i=0
+        #快指针
+        for j in range(len(nums)):
+            if nums[j]!=val:
+                nums[i]=nums[j]
+                i+=1
+        return i
+        
+ ⭕️碰撞指针 如果要删除的元素特别少
+ class Solution:
+    def removeElement(self, nums: List[int], val: int) -> int:
+        left,right=0,len(nums)-1
+        while left<=right:
+            if nums[left]==val:
+                nums[left],nums[right]=nums[right],nums[left]
+                right-=1
+            else:
+                left+=1
+        return left
