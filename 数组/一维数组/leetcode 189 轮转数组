@@ -1,1 +1,60 @@
+⭕️方案一：使用额外数组
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n=len(nums)
+        k=k%n
+        res=[0]*n
+        for i in range(n):
+            tempIndex=(i+k)%n
+            res[tempIndex]=nums[i]
+        nums[:]=res
+        
+⭕️方案二：不需要使用额外数组
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        k = k % n
+        count = 0
+        #每一个环的起始点
+        start = 0
+        while count < n:
+            curr = start
+            prev = nums[curr]
+            # Start loop for replacement
+            while True:
+                next = (curr + k) % n
+                #交换prev和next的值 
+                temp = nums[next]
+                nums[next] = prev
+                prev = temp
+                #进入下一次循环
+                curr = next
+                count += 1
+                if start == curr:
+                    break
+            start += 1
+⭕️方案三：数组反转
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        k = k % n 
+        self.reverse(nums, 0, n-1)
+        self.reverse(nums, 0, k-1)
+        self.reverse(nums, k, n-1)
 
+    def reverse(self, nums, start, end):
+        while start < end:
+            temp = nums[start]
+            nums[start] = nums[end]
+            nums[end] = temp
+            start += 1
+            end -= 1
