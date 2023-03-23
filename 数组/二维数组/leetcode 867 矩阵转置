@@ -1,0 +1,11 @@
+class Solution:
+    def transpose(self, matrix: List[List[int]]) -> List[List[int]]:
+        #行和列不一定相等
+        m = len(matrix)
+        n = len(matrix[0])
+        #n行m列
+        t = [[0]*m for _ in range(n)]
+        for i in range(m):
+            for j in range(n):
+                t[j][i]=matrix[i][j]
+        return t
