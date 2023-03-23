@@ -1,1 +1,17 @@
+class Solution:
+    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
+        i=0
+        #所有花坛遍历完或者花种完了
+        while i<len(flowerbed) and n>0:
+            #当前花坛已经种花了
+            if flowerbed[i]==1:
+                i+=2
+            #是最后一个花坛或者i和i+1处的位置都没有种花
+            elif i==len(flowerbed)-1 or flowerbed[i+1]==0:
+                n-=1
+                i+=2
+            #i处没有种花，但是i+1处种花
+            else:
+                i+=3
+        return n<=0
 
