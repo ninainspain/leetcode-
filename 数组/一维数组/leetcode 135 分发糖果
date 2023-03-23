@@ -1,0 +1,41 @@
+⭕️暴力解法
+class Solution:
+    def candy(self, ratings: List[int]) -> int:
+        n=len(ratings)
+        res = [1]*n
+        hasChanged = True
+        while hasChanged:
+            hasChanged=False
+            for i in range(n):
+                if i!=n-1 and ratings[i]>ratings[i+1] and res[i]<=res[i+1]:
+                    res[i]=res[i+1]+1
+                    hasChanged=True
+                
+                if i!=0 and ratings[i]>ratings[i-1] and res[i]<=res[i-1]:
+                    res[i]=res[i-1]+1
+                    hasChanged=True
+        sum=0
+        for i in range(n):
+            sum+=res[i]
+        return sum
+            
+▶️时间复杂度 O(n^2)
+
+⭕️两个数组+两次遍历
+class Solution:
+    def candy(self, ratings: List[int]) -> int:
+        n=len(ratings)
+        left2right=[1]*n
+        right2left=[1]*n
+        
+        for i in range(0,n):
+            if i!=0 and ratings[i]>ratings[i-1]:
+                left2right[i]=left2right[i-1]+1
+    
+        sum=0
+        for i in range(n-1,-1,-1):
+            if i!=n-1 and ratings[i]>ratings[i+1]:
+                right2left=right2left[i+1]+1
+            sum+=max(left2right[i],right2left[i])  
+        
+        return sum 
