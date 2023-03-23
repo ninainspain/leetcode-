@@ -10,11 +10,12 @@ class Solution:
             for col in range(len(board[0])):
                 if board[row][col] != '.':
                     num = int(board[row][col])-1
+                    #rowUsed[row][num]表示num+1在row行出现
                     if rowUsed[row][num]:
                         return False
                     else:
                         rowUsed[row][num]=True
-
+                    #colUsed[col][num]表示num+1在col行出现
                     if colUsed[col][num]:
                         return False
                     else:
@@ -26,4 +27,3 @@ class Solution:
                     else:
                         boxUsed[boxIndex][num]=True
         return True
-
