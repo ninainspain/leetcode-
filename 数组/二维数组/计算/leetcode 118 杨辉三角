@@ -1,0 +1,15 @@
+class Solution:
+    def generate(self, numRows: int) -> List[List[int]]:
+        #每行的元素个数等于当前行索引+1
+        #每行的第一个元素和最后一个元素等于1
+        rows = []
+        for row in range(numRows):
+            oneRow = []
+            for col in range(row+1):
+                if col == 0 or col == row:
+                    oneRow.append(1)
+                else:
+                    preRow = rows[row-1]
+                    oneRow.append(preRow[col-1]+preRow[col])
+            rows.append(oneRow)
+        return rows
