@@ -1,0 +1,58 @@
+⭕️直接模拟
+
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        #往右row不变，col➕1；往下row+1，col不变；往左row不变，col-1；往上row-1，col不变
+        dirs = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        m = len(matrix)
+        n = len(matrix[0])
+        row, col = 0, 0
+        res = []
+        seen = [[False for j in range(n)] for i in range(m)]
+        di = 0
+        for i in range(m * n):
+            res.append(matrix[row][col])
+            seen[row][col]=True
+            #往右走
+            nextRow = row + dirs[di][0]
+            nextCol = col + dirs[di][1]
+            if nextRow < 0 or nextRow >= m or nextCol < 0 or nextCol >= n or seen[nextRow][nextCol]:
+                di = (di + 1) % 4
+            row = row + dirs[di][0]
+            col = col + dirs[di][1]
+        return res
+
+⭕️按层模拟
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        if not matrix:
+            return []
+        res=[]
+        startRow,endRow,startCol,endCol = 0,len(matrix)-1,0,len(matrix[0])-1
+        while (startRow < endRow and startCol < endCol):
+
+            #top行
+            for i in range(startCol, endCol+1):
+                res.append(matrix[startRow][i])
+            #right列
+            for i in range(startRow+1, endRow+1):
+                res.append(matrix[i][endCol])
+            #防止只有一行或者只有一列的情况
+            while startRow < endRow and startCol< endCol:
+                #bottom行
+                for i in range(endCol-1, startCol-1, -1):
+                    if startRow == endRow:
+                        break
+                    res.append(matrix[endRow][i])
+                #left列
+                for i in range(endRow-1, startRow, -1):
+                    if startCol == endCol:
+                        break
+                    res.append(matrix[i][startCol])
+
+            startRow += 1
+            endRow -= 1
+            startCol += 1
+            endCol -= 1
+
+        return res
