@@ -1,0 +1,45 @@
+class Solution:
+    def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:
+        #斜上 row-1 col+1 
+        #斜下 row+1 col-1
+
+        #提前执行：col>=n:row+=2,col=n-1,换方向
+        #提前执行：row>=m:row=m-1,col+=2,换方向
+
+        #row<0:row=0,col不变，换方向
+        #col<0:row不变，col=0，换方向
+
+        
+        if len(mat)==0:
+            return []
+        
+        m=len(mat)
+        n=len(mat[0])
+        dirs=[[-1,1],[1,-1]]
+        res=[]
+        row=0
+        col=0
+        dir=0
+        for i in range(m*n):
+            res.append(mat[row][col])
+            row=row+dirs[dir][0]
+            col=col+dirs[dir][1]
+
+            if col>=n:
+                col=n-1
+                row+=2
+                dir=1-dir 
+
+            if row>=m:
+                row=m-1
+                col+=2
+                dir=1-dir 
+            
+            if col<0:
+                col=0
+                dir=1-dir
+            
+            if row<0:
+                row=0
+                dir=1-dir 
+        return res
