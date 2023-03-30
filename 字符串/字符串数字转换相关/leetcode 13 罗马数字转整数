@@ -1,1 +1,31 @@
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        sum = 0
+        pre = self.getValue(s[0])
+        for i in range(1, len(s)):
+            curr = self.getValue(s[i])
+            if pre < curr:
+                sum -= pre
+            else:
+                sum += pre
+            pre = curr
+        sum += pre
+        return sum
 
+    def getValue(self, ch: str) -> int:
+        if ch == 'I':
+            return 1
+        elif ch == 'V':
+            return 5
+        elif ch == 'X':
+            return 10
+        elif ch == 'L':
+            return 50
+        elif ch == 'C':
+            return 100
+        elif ch == 'D':
+            return 500
+        elif ch == 'M':
+            return 1000
+        else:
+            return 0
