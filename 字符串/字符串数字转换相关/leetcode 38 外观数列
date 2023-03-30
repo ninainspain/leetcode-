@@ -15,3 +15,7 @@ class Solution:
                     count = 1
             curr += str(count) + say
         return curr
+
+n=4
+solution = Solution()
+print(solution.countAndSay(n))
