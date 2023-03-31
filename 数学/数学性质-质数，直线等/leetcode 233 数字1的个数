@@ -1,0 +1,32 @@
+⭕️数学规律
+▶️给定一个整数，小于等于n中的所有数中，个位数上有1的个数：
+如果n%10==0 那么个数为n/10
+如果n%10！=0 那么个数为n/10+1
+(n/10)*1 + min(max((n%10-1+1),0),1)
+
+▶️给定一个整数，小于等于n中的所有数中，十位数上有1的个数：
+如果n%100==0 那么个数为（n/100）*10
+如果n%100！=0 那么个数为n/100+1
+
+(n/100)*10 + min(max((n%100-10+1),0),10)
+
+
+
+
+
+
+
+
+⭕️暴力解法
+class Solution:
+    def countDigitOne(self, n: int) -> int:
+        res = 0
+        for i in range(1,n+1):
+            i = list(str(i))
+            temp=0
+            for char in i: 
+                if char == "1":
+                    temp+=1
+            res+=temp
+        return res
+
