@@ -1,0 +1,39 @@
+⭕️
+▶️规律1 当特定到一个质数，该质数的倍数肯定不是质数
+class Solution:
+    def countPrimes(self, n: int) -> int:
+        ans = 0
+        notPrime = [False]*n
+        for x in range(2,n):
+            if notPrime[x]:
+                continue
+            ans+=1
+            for i in range(x+x,n,x):
+                notPrime[i]=True
+        return ans
+
+
+▶️时间复杂度O（n*log（log（n））
+
+⭕️暴力解法
+def isPrime(n):
+    for i in range(2,n):
+        if n % i == 0:
+            return False
+      
+    return True 
+    
+class Solution:
+    def countPrimes(self, n: int) -> int:
+        ans = 0
+        for i in range(2, n):
+            ans += 1 if self.isPrime(i) else 0
+        return ans
+    
+    def isPrime(self, x):
+        if x < 2:
+            return False
+        for i in range(2, x):
+            if x % i == 0:
+                return False
+        return True
