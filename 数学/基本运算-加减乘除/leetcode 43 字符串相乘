@@ -1,0 +1,68 @@
+⭕️按照规律来
+▶️num1长度m num2长度n长度不大于m+n
+▶️个位数 放在i+j+1 进位数放在i+j
+
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        if num1 == "0" or num2 == "0":
+            return "0"
+        m, n = len(num1), len(num2)
+        res = [0] * (m + n)
+        for i in range(n-1, -1, -1):
+            y = int(num2[i])
+            for j in range(m-1, -1, -1):
+                x = int(num1[j])
+                sum = res[i+j+1] + x*y
+                res[i+j+1] = sum % 10
+                res[i+j] += sum // 10
+        return ''.join(map(str, res)).lstrip('0') or '0'
+
+
+
+⭕️先单独乘法再加法
+
+class Solution:
+    def multiply(self, num1: str, num2: str) -> str:
+        if num1 == "0" or num2 == "0":
+            return "0"
+
+        ans = "0"
+        m, n = len(num1), len(num2)
+        #循环遍历num2
+        for i in range(n-1, -1, -1):
+            currAns = ["0"] * (n - i - 1)
+            #获取每个个位上的数
+            y = int(num2[i])
+            carry = 0
+            #循环遍历num1
+            for j in range(m-1, -1, -1):
+                #获取每个个位上的数
+                x = int(num1[j])
+                #获取乘积
+                product = x * y + carry
+                #将结果放入字符串中
+                currAns.append(str(product % 10))
+                #计算进位
+                carry = product // 10
+            if carry != 0:
+                currAns.append(str(carry))
+            ans = self.addStrings(ans, "".join(currAns[::-1]))
+        return ans
+
+    def addStrings(self, num1: str, num2: str) -> str:
+        res = []
+        carry = 0
+        l1, l2 = len(num1)-1, len(num2)-1
+        while l1 >= 0 or l2 >= 0:
+            x = int(num1[l1]) if l1 >= 0 else 0
+            y = int(num2[l2]) if l2 >= 0 else 0
+            sum = x + y + carry
+            res.append(str(sum % 10))
+            carry = sum // 10
+            l1 -= 1
+            l2 -= 1
+        if carry != 0:
+            res.append(str(carry))
+        return "".join(res[::-1])
+
+
