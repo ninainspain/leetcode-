@@ -1,0 +1,44 @@
+⭕️直接模拟
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        sbs = ["" for j in range(numRows)]
+        n = len(s)
+        i = 0
+        while i < n:
+            # 垂直向下
+            for idx in range(numRows):
+                if i >= n:
+                    break
+                sbs[idx] += s[i]
+                i += 1
+            # 右前向上
+            for idx in range(numRows - 2, 0, -1):
+                if i >= n:
+                    break
+                sbs[idx] += s[i]
+                i += 1
+        res = ""
+        for j in range(numRows):
+            res += sbs[j]
+        return res
+
+s = "PAYPALISHIRING"
+numRows = 3
+solution = Solution()
+print(solution.convert(s,numRows))
+⭕️改变方向
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        sbs = ["" for _ in range(numRows)]
+        currRow = 0
+        goingDown = False
+        for c in s:
+            sbs[currRow] += c
+            if currRow == 0 or currRow == numRows - 1:
+                goingDown = not goingDown
+            currRow += 1 if goingDown else -1
+        res = ""
+        for j in range(numRows):
+            res += sbs[j]
+        return res
+
