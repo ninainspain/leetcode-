@@ -1,0 +1,16 @@
+def twoNumberAdd(nums1,nums2):
+    res=[]
+    carry = 0
+    l1 = len(nums1)-1
+    l2 = len(nums2)-1
+    while l1 >= 0 or l2 >= 0:
+        x = nums1[l1] if l1 >= 0 else 0
+        y = nums2[l2] if l2 >= 0 else 0
+        sum = x+y+carry
+        res.append(sum%10)
+        carry=sum//10
+        l1-=1
+        l2-=1
+    if carry:
+        res.append(carry)
+    return res[::-1]
