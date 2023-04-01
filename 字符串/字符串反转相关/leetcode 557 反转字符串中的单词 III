@@ -1,21 +1,21 @@
+
 class Solution:
     def reverseWords(self, s: str) -> str:
         s=list(s)
         n=len(s)
-        left=0
-        while left<n:
-            if s[left]!=' ':
-                right=left
-                while right + 1< n and s[right+1]!= " ":
-                    right+=1
-                self.reverseWord(s,left,right)
-                left=right+1
-            else:
-                left+=1
+        left,right=0,0
+        while right<n:
+            while right<n and s[right]!=" ":
+                right+=1
+            self.reverse(s,left,right-1)
+            while right<n and s[right]==" ":
+                right+=1
+            left=right
         return ''.join(s)
 
-    def reverseWord(self,nums,left,right):
+    def reverse(self,nums,left,right):
         while left<right:
             nums[left],nums[right]=nums[right],nums[left]
             left+=1
             right-=1
+
