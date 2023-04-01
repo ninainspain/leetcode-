@@ -8,28 +8,27 @@ def string_to_number(string):
 
 class Solution:
     def myAtoi(self, s: str) -> int:
-        s = list(s)
-        start = 0
-        n = len(s)
-        sign = 1
-        # discard leading whitespace
-        while start < n and s[start] == " ":
-            start += 1
-        if start == n:
-            return 0
-        # determine sign
-        if s[start] == "-":
-            sign = -1
-            start += 1
-        elif s[start] == "+":
-            start += 1
-        # compute result
+        s=list(s)
+        n=len(s)
+        start=0 
+        sign=1
+        #去掉空白
+        while start<n and s[start]==' ':
+            start+=1
+        if start==n:
+            return 0 
+        #辨别符号
+        if s[start]=='-':
+            sign=-1
+            start+=1
+        if s[start]=='+':
+            start+=1
         base = 0
-        while start < n and s[start] >= '0' and s[start] <= '9':
+        while start < n and s[start].isdigit():
             digit = ord(s[start]) - ord('0')
             # check for overflow
             if base > (2**31 - 1 - digit) // 10:
                 return sign * (2**31 - 1) if sign == 1 else sign * 2**31
             base = base * 10 + digit
             start += 1
-        return sign * base
+        return sign*base
