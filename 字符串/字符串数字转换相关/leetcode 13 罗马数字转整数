@@ -11,6 +11,10 @@ class Solution:
             pre = curr
         sum += pre
         return sum
+        
+    def getValue(self, ch: str) -> int:
+    values = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
+    return values.get(ch, 0)
 
     def getValue(self, ch: str) -> int:
         if ch == 'I':
