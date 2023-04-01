@@ -1,25 +1,5 @@
 ⭕️字符移动代表题型
 
-⭕️ 从左往右
-class Solution:
-    def lengthOfLastWord(self, s: str) -> int:
-        start,end=0,0
-        answer=0
-        while end<len(s):
-            if s[start] == " ":
-                start+=1
-                end+=1
-
-            while end<len(s) and s[end]!=' ':
-                end+=1
-            answer = end-start
-
-            while end<len(s) and s[end]==' ':
-                end+=1
-    
-            if end<len(s) and s[end]!=' ':
-                start=end
-        return answer
 ⭕️从右往左
 class Solution:
     def lengthOfLastWord(self, s: str) -> int:
