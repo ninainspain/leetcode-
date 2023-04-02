@@ -28,31 +28,22 @@ class Solution:
         if not matrix:
             return []
         res=[]
-        startRow,endRow,startCol,endCol = 0,len(matrix)-1,0,len(matrix[0])-1
-        while (startRow < endRow and startCol < endCol):
-
-            #top行
-            for i in range(startCol, endCol+1):
-                res.append(matrix[startRow][i])
-            #right列
-            for i in range(startRow+1, endRow+1):
-                res.append(matrix[i][endCol])
-            #防止只有一行或者只有一列的情况
-            while startRow < endRow and startCol< endCol:
-                #bottom行
-                for i in range(endCol-1, startCol-1, -1):
-                    if startRow == endRow:
-                        break
-                    res.append(matrix[endRow][i])
-                #left列
-                for i in range(endRow-1, startRow, -1):
-                    if startCol == endCol:
-                        break
-                    res.append(matrix[i][startCol])
-
-            startRow += 1
-            endRow -= 1
-            startCol += 1
-            endCol -= 1
-
+        startRow,endRow,startCol,endCol=0,len(matrix)-1,0,len(matrix[0])-1
+        while startRow<=endRow and startCol<=endCol:
+            for col in range(startCol,endCol+1):
+                res.append(matrix[startRow][col])
+            for row in range(startRow+1,endRow+1):
+                res.append(matrix[row][endCol])
+            for col in range(endCol-1,startCol-1,-1):
+                if startRow==endRow:
+                    break
+                res.append(matrix[endRow][col])
+            for row in range(endRow-1,startRow,-1):
+                if startCol==endCol:
+                    break
+                res.append(matrix[row][startCol])
+            startRow+=1
+            endRow-=1
+            startCol+=1
+            endCol-=1
         return res
