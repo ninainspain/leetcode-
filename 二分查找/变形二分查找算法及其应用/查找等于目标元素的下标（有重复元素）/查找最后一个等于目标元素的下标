@@ -1,0 +1,17 @@
+def findLastElememt(arr,target):
+    if arr==None or len(arr)==0: return -1
+    left,right=0,len(arr)-1
+    while left<=right:
+        mid=left+(right-left)//2
+        if arr[mid]==target:
+        #往右看
+            if mid==len(arr)-1 or arr[mid+1]!=target:
+                return mid
+            else:
+                left=mid+1
+        elif arr[mid]>target:
+            right=mid-1
+        else:
+            left=mid+1
+    return -1
+
