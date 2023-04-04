@@ -6,6 +6,7 @@ class Solution:
             return 0
         if len(nums)==0:
             return -1
+        #当target大于所有的值
         if target>nums[len(nums)-1]:
             return len(nums)
         #找到第一个大于等于目标元素的值
