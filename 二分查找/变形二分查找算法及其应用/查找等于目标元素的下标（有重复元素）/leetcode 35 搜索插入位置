@@ -1,2 +1,22 @@
 ⭕️找到第一个大于等于target的元素
 
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        if nums==None:
+            return 0
+        if len(nums)==0:
+            return -1
+        if target>nums[len(nums)-1]:
+            return len(nums)
+        #找到第一个大于等于目标元素的值
+        left,right=0,len(nums)-1
+        while left<=right:
+            mid=left+(right-left)//2
+            if nums[mid]>=target:
+                if mid==0 or nums[mid-1]<target:
+                    return mid
+                else:
+                    right=mid-1
+            else:
+                left=mid+1
+        return -1
