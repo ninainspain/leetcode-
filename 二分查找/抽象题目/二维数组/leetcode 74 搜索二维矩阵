@@ -1,1 +1,16 @@
-
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        #将二维数组转成一维数组，再运用二分查找，将mid对应的索引转化为二维数组中的位置
+        #matrix[mid/n][mid%n]
+        m,n=len(matrix),len(matrix[0])
+        left,right=0,m*n-1
+        while left<=right:
+            mid=left+(right-left)//2
+            midValue=matrix[mid//n][mid%n]
+            if midValue==target:
+                return True
+            elif midValue<target:
+                left=mid+1
+            else:
+                right=mid-1
+        return False
