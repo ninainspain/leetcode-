@@ -1,0 +1,43 @@
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        #在第一行应用二分查找
+        #在第一列应用二分查找
+        #在第二行应用二分查找...
+        #次数是由对角线决定
+        m,n=len(matrix),len(matrix[0])
+        shortDim = min(m,n)
+        for i in range(shortDim):
+            rowFound = self.binarySearchRow(matrix,i,target)
+            colFound = self.binarySearchCOl(matrix,i,target)
+
+            if rowFound or colFound:
+                return True
+
+        return False
+
+    def binarySearchRow(self,matrix,row,target):
+        left=row
+        right=len(matrix[0])-1
+        while left<=right:
+            mid=left+(right-left)//2
+            if matrix[row][mid]==target:
+                return True
+            elif matrix[row][mid]<target:
+                left=mid+1
+            else:
+                right=mid-1
+        return False
+    
+    def binarySearchCOl(self,matrix,col,target):
+        left=col
+        right=len(matrix)-1
+        while left<=right:
+            mid=left+(right-left)//2
+            if matrix[mid][col]==target:
+                return True
+            elif matrix[mid][col]<target:
+                left=mid+1
+            else:
+                right=mid-1
+        return False
+        
