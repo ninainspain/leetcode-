@@ -1,0 +1,15 @@
+⭕️线性查找
+
+class Solution:
+    def findPeakElement(self, nums: List[int]) -> int:
+        n=len(nums)
+        i=0
+        while i<n-1:
+            if nums[i]>nums[i+1]:
+                return i
+            i+=1
+        return n-1
+        
+ ⭕️二分查找
+ 
+ 
