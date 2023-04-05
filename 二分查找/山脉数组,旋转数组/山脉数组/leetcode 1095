@@ -1,0 +1,35 @@
+class Solution:
+    def findInMountainArray(self, target: int, mountain_arr: 'MountainArray') -> int:
+        # Find the peak index
+        peak_index = self.find_peak_index(mountain_arr)
+
+        # Search in the left half of the mountain array
+        left_index = self.binary_search(mountain_arr, 0, peak_index, target)
+        if left_index != -1:
+            return left_index
+
+        # Search in the right half of the mountain array
+        return self.binary_search(mountain_arr, peak_index + 1, mountain_arr.length() - 1, target)
+       
+       
+    def find_peak_index(self, mountain_arr: 'MountainArray') -> int:
+        left, right = 0, mountain_arr.length() - 1
+        while left < right:
+            mid = (left + right) // 2
+            if mountain_arr.get(mid) < mountain_arr.get(mid + 1):
+                left = mid + 1
+            else:
+                right = mid
+        return left
+
+    def binary_search(self, mountain_arr: 'MountainArray', left: int, right: int, target: int) -> int:
+        while left <= right:
+            mid = (left + right) // 2
+            mid_value = mountain_arr.get(mid)
+            if mid_value == target:
+                return mid
+            elif mid_value < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return -1
