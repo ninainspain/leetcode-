@@ -1,0 +1,44 @@
+⭕️暴力解法
+def cutWood(k,nums):
+    maxValue=float('inf')
+    for num in nums:
+        maxValue=max(maxValue,num)
+    
+    maxM = 0
+    for m in range(1,maxValue+1):
+        cnt=0
+        for i in range(len(nums)):
+            cnt+=nums[i]//m
+        
+        if cnt>=k:
+            maxM = max(maxM,cnt)
+    
+    return maxM
+
+
+⭕️二分查找
+
+def cutWood(k,nums):
+    maxValue = float('inf')
+    for num in nums:
+        maxValue = max(maxValue,num)
+
+    #找尽可能大的m值，往右边移动
+    left,right=1,maxValue
+    while left < right:
+        #不用这个的话，会死循环
+        mid=left+(right-left + 1)//2
+        if self.calWoodCnt(mid,nums)>=k:
+            #有可能mid是唯一一个满足条件
+            left=mid
+        else:
+            right=mid-1
+
+    return left
+
+
+def calWoodCnt(mid,nums):
+    cnt=0
+    for j in range(len(nums)):
+        cnt+=nums[j]//mid
+    return cnt
