@@ -17,6 +17,24 @@ class Solution:
 
  ⭕️二分查找
  
+ class Solution:
+    def findKthPositive(self, arr: List[int], k: int) -> int:
+        #当没有缺失数字的情况下，num[i]-i-1=0
+        #nums[i]前面缺失数字的个数 nums[i]-i-1
+        #找到第一个前面缺失数字的个数大于等于k
+        if arr[0]>k:
+            return k
+        left,right=0,len(arr)
+        while left<right:
+            mid=left+(right-left)//2
+            if arr[mid]-mid-1<k:
+                left=mid+1
+            else:
+                right=mid
+        #前面一个数缺失的整数的个数
+        leftMissCnt = arr[left-1]-(left-1)-1
+
+        return arr[left-1]+(k-leftMissCnt)
  
  
  
