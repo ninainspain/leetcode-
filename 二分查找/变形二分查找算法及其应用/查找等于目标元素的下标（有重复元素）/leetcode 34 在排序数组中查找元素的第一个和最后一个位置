@@ -1,4 +1,8 @@
+#分别写两个函数来寻找第一个和最后一个目标元素
+
+
 class Solution:
+
     def searchRange(self, nums: List[int], target: int) -> List[int]:
         if nums == None or len(nums) == 0:
             return [-1, -1]
