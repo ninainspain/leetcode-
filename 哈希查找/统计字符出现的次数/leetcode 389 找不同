@@ -1,0 +1,16 @@
+▶️数组的解法比哈希表更优，原因是减少空间复杂度
+
+
+class Solution:
+    def findTheDifference(self, s: str, t: str) -> str:
+        countS = [0]*26
+        for char in s:
+            index = ord(char)-ord('a')
+            countS[index]+=1
+        for char in t:
+            index = ord(char)-ord('a')
+            countS[index]-=1
+
+        for i in range(26):
+            if countS[i]!=0:
+                return chr(i+ord('a'))
