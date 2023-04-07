@@ -1,0 +1,15 @@
+class Solution:
+    def leastBricks(self, wall: List[List[int]]) -> int:
+        #为了尽可能少地穿过砖，垂直线穿过的边缘应该尽可能的多
+        #边缘该如何表达，距离edge的位置
+        #边缘该如何计算，不算最后边缘的位置
+        edgeFreq = {}
+        for row in wall:
+            edgePosition = 0
+            for brick in row[:-1]:
+                edgePosition += brick
+                edgeFreq[edgePosition] = edgeFreq.get(edgePosition, 0) + 1
+
+        maxFreq = max(edgeFreq.values(), default=0)
+
+        return len(wall) - maxFreq
