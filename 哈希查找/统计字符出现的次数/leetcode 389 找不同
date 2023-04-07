@@ -1,6 +1,6 @@
 ▶️数组的解法比哈希表更优，原因是减少空间复杂度
 
-
+⭕️数组解法
 class Solution:
     def findTheDifference(self, s: str, t: str) -> str:
         countS = [0]*26
@@ -12,3 +12,22 @@ class Solution:
             countS[index]-=1
             if countS[index]<0:
                 return chr(index+ord('a'))
+
+⭕️计算ascii码解法
+class Solution:
+    def findTheDifference(self, s: str, t: str) -> str:
+        asum = 0
+        at = 0
+        for c in s:
+            asum += ord(c)-ord('a')
+        for c in t:
+            at += ord(c)-ord('a')
+        return chr((at - asum)+ord('a'))
+⭕️位运算
+class Solution:
+    def findTheDifference(self, s: str, t: str) -> str:
+        res = 0
+        for c in s+t:
+            res ^= ord(c)
+        return chr(res)
+
