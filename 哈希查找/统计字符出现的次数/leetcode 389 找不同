@@ -10,7 +10,5 @@ class Solution:
         for char in t:
             index = ord(char)-ord('a')
             countS[index]-=1
-
-        for i in range(26):
-            if countS[i]!=0:
-                return chr(i+ord('a'))
+            if countS[index]<0:
+                return chr(index+ord('a'))
