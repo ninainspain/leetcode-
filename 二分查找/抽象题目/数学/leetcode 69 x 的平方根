@@ -1,14 +1,16 @@
 class Solution:
     def mySqrt(self, x: int) -> int:
+        #找到最后一个小于等于x的值
         if x<2:
             return x
         left,right=0,x//2
-        ans=-1
         while left<=right:
             mid=left+(right-left)//2
-            if mid*mid>x:
-                right=mid-1
+            if mid*mid<=x:
+                if (mid+1)*(mid+1)>x:
+                    return mid
+                else:
+                    left=mid+1
             else:
-                ans=mid
-                left=mid+1
-        return ans
+                right=mid-1
+        return -1
