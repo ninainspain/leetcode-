@@ -1,0 +1,42 @@
+⭕️暴力解法
+class Solution:
+    def numJewelsInStones(self, jewels: str, stones: str) -> int:
+        count=0
+        for i in range(len(stones)):
+            stoneI= stones[i]
+            for j in range(len(jewels)):
+                if stoneI == jewels[j]:
+                    count+=1
+                
+        return count
+
+⭕️哈希表
+class Solution:
+    def numJewelsInStones(self, jewels: str, stones: str) -> int:
+        set = set(jewels)
+        ans = 0
+        for c in stones:
+            if c in set:
+                ans += 1
+        return ans
+
+▶️how to create a hashMap in python 
+# Using curly braces
+my_dict = {"apple": 2, "banana": 3, "orange": 1}
+
+# Using the dict() function
+my_dict = dict(apple=2, banana=3, orange=1)
+
+⭕️数组解法 空间复杂度减少
+class Solution:
+    def numJewelsInStones(self, jewels: str, stones: str) -> int:
+        count=0
+        arr=[0]*58 #大写字母和小写字母中间有断开
+        for c in jewels:
+            arrIndex = ord(c)-ord('a')
+            arr[arrIndex]=1
+        for c in stones:
+            tempIndex= ord(c)-ord('a')
+            if arr[tempIndex]!=0:
+                count+=1
+        return count
