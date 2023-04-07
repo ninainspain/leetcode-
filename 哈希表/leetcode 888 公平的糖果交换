@@ -1,0 +1,18 @@
+class Solution:
+    def fairCandySwap(self, aliceSizes: List[int], bobSizes: List[int]) -> List[int]:
+        #sumA-x+y=sumB-y+x
+        #x=y+(sumA-sumB)//2
+        #对于B中任意的y，只有A中存在一个x，满足以上公式，那么（x，y）就是一个解
+        sumA=0
+        for a in aliceSizes:
+            sumA+=a
+        
+        sumB=0
+        for b in bobSizes:
+            sumB+=b
+
+        
+        for y in bobSizes:
+            x=y+(sumA-sumB)//2
+            if x in aliceSizes:
+                return [x,y]
