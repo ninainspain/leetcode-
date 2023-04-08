@@ -1,0 +1,31 @@
+▶️字母异位词关键就是由相同的字母组成不同的string，可以通过排序或者数组解法找出最初的字母
+
+⭕️哈希查找
+
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        d = {}
+        for s in strs:
+            sortedS = ''.join(sorted(s))
+            if sortedS in d:
+                d[sortedS].append(s)
+            else:
+                d[sortedS] = [s]
+        return list(d.values())
+
+⭕️数组解法
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        d={}
+        for s in strs:
+            chars = list(s)
+            count=[0]*26
+            for c in chars:
+                index = ord(c)-ord('a')
+                count[index]+=1
+            count=str(count) #数组没有办法成为key
+            if count in d:
+                d[count].append(s)
+            else:
+                d[count]=[s]
+        return list(d.values())
