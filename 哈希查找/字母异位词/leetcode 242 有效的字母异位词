@@ -1,0 +1,48 @@
+⭕️哈希查找
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        d = {}
+        for char in s:
+            if char not in d:
+                d[char] = 1
+            else:
+                d[char] += 1
+
+        for char in t:
+            if char not in d:
+                return False
+            else:
+                d[char] -= 1
+
+        return all(value == 0 for value in d.values())
+
+⭕️数组
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        #因为只有小写字母，可以使用数组
+        if len(s)!=len(t):
+            return False
+
+        arr = [0]*26
+        for char in s:
+            index = ord(char)-ord('a')
+            arr[index]+=1
+        
+        for char in t:
+            index = ord(char)-ord('a')
+            arr[index]-=1
+            if arr[index]<0:
+                return False
+        return True
+        
+ ⭕️排序解法
+ class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        #排序解法
+        if len(s)!=len(t):
+            return False
+        s=list(s)
+        t=list(t)
+        s.sort()
+        t.sort()
+        return s==t
