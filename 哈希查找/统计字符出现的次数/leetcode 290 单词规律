@@ -1,1 +1,18 @@
+class Solution:
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        s = s.split(' ')
+        if len(pattern) != len(s):
+            return False
 
+        dict={}
+        for i in range(len(pattern)):
+            charP = pattern[i]
+            charS = s[i]
+            if charP in dict:
+                if dict[charP]!=charS:
+                    return False
+            else:
+                if charS in dict.values():
+                    return False
+                dict[charP]=charS
+        return True
