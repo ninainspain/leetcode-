@@ -1,0 +1,59 @@
+⭕️暴力解法
+
+▶️线性查找->哈希查找 进行优化
+
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        #最大缺失只能是数组的长度+1
+        for i in range(1,len(nums)+1):
+            isExist = False
+            for j in range(0,len(nums)):
+                if nums[j]==i: 
+                    isExist=True
+            if not isExist:
+                return i
+        return len(nums)+1
+        
+⭕️哈希查找
+▶️空间复杂度变成O(n)->换一种方式记录已经出现的元素的信息 放到nums数组的索引
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        #最大缺失只能是数组的长度+1
+        for i in range(1,len(nums)+1):
+            isExist = False
+            for j in range(0,len(nums)):
+                if nums[j]==i: 
+                    isExist=True
+            if not isExist:
+                return i
+        return len(nums)+1
+        
+ ⭕️数组查找
+The purpose of the code is to find the first missing positive integer in the given array.
+The maximum missing positive integer can only be at most the length of the array (n) + 1. This is because, in the worst case, the array contains all positive integers from 1 to n. In that case, the first missing positive integer would be n+1.
+By replacing all negative numbers and zeros with n+1, you effectively eliminate them from consideration as you're looking for positive integers only. This value is chosen because it is guaranteed to be greater than the maximum possible missing positive integer.
+The code iterates through the array and marks the visited positive integers by negating the corresponding index value (subtracting 1 from the integer as indexing starts from 0). This is done to keep track of which positive integers have already been encountered in the array.
+Finally, the code iterates through the modified array to find the first index with a positive value. This index represents the first missing positive integer (by adding 1 to the index value).
+
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        #最大缺失只能是数组的长度+1
+        #已经出现的值将其映射到索引上，出现的值-1=索引，然后将该索引上的值变为负数，标志已经出现该数字
+        #遍历后找到负数，将该负数的绝对值+1
+
+        n = len(nums)
+        # Replace negative numbers with zero
+        for i in range(n):
+            if nums[i] <= 0:
+                nums[i] = n+1
+        # Mark positive numbers as visited
+        for i in range(n):
+            num = abs(nums[i])
+            if num > 0 and num <= n:
+                nums[num-1] = -abs(nums[num-1])
+        # Find the first missing positive
+        for i in range(n):
+            if nums[i] > 0:
+                return i + 1
+        # All elements are negative or zero
+        return n + 1
