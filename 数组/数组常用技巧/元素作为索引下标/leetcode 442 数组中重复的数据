@@ -4,14 +4,14 @@
 ▶️构建新数组，索引等于原数组的值，值等于出现的次数
 class Solution:
     def findDuplicates(self, nums: List[int]) -> List[int]:
-        n = len(nums)
-        res = [0]*n
-        ans = []
-        for i in range(n):
-            res[nums[i]-1]+=1
+        arr = [0]*len(nums)
+        for num in nums:
+            index = num-1
+            arr[index]+=1
         
-        for i in range(n):
-            if res[i]==2:
+        ans=[]
+        for i in range(len(arr)):
+            if arr[i]==2:
                 ans.append(i+1)
         return ans
 ▶️时间复杂度O(n)空间复杂度O(n)
