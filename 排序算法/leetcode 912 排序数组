@@ -1,0 +1,77 @@
+#因为数据规模超过10^4，就不能使用O(n^2)的排序算法
+#因为-5 * 104 <= nums[i] <= 5 * 104，不能使用计数排序；因为有排序，不能使用基数排序
+#剩下归并排序和快速排序
+
+⭕️归并排序
+▶️归并排序
+▶️递推公式：sort(left..right)=merge(sort(left,mid),sort(mid+1,right))
+▶️递归终止条件：left==right
+▶️归并排序的主要思想是将一个待排序的序列不断地分成两半，直到每个子序列只有一个元素，然后不断地合并两个有序子序列，直到合并成一个有序序列为止。
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        temp = [0] * len(nums)
+        self.mergeSort(nums, 0, len(nums) - 1, temp)
+        return nums
+
+    def mergeSort(self, nums, lo, hi, temp):
+        if lo >= hi:
+            return
+        mid = lo + (hi - lo) // 2
+        self.mergeSort(nums, lo, mid, temp)
+        self.mergeSort(nums, mid + 1, hi, temp)
+        self.merge(nums, lo, mid, hi, temp)
+
+    def merge(self, nums, lo, mid, hi, temp):
+        for i in range(lo, hi + 1):
+            temp[i] = nums[i]
+        i = lo
+        j = mid + 1
+        for k in range(lo, hi + 1):
+            if i > mid:
+                nums[k] = temp[j]
+                j += 1
+            elif j > hi:
+                nums[k] = temp[i]
+                i += 1
+            elif temp[i] <= temp[j]:
+                nums[k] = temp[i]
+                i += 1
+            else:
+                nums[k] = temp[j]
+                j += 1
+
+                
+⭕️快速排序
+▶️快速排序的主要思想是通过一趟排序将待排序序列分成独立的两部分，其中一部分的元素均比另一部分的元素小，然后再按照同样的方式对这两部分元素继续进行排序，直到整个序列有序为止。具体地，快速排序可以分为三个步骤：选取基准元素、划分操作和递归排序。选取基准元素可以随机选择待排序序列中的一个元素，也可以选择待排序序列的第一个元素或最后一个元素；划分操作是将待排序序列中小于基准元素的元素放到基准元素的左边，大于基准元素的元素放到基准元素的右边，最后返回基准元素的位置；递归排序是对基准元素左边和右边的子序列分别进行快速排序。
+▶️递推公式 sort(num,lo,hi)
+1.分区:int j= partition(num,lo,hi)
+2.sort(num,lo,j-1)+sort(num,j+1,hi)
+▶️递归终止条件：lo>=hi
+
+import random
+
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        self.quickSort(nums, 0, len(nums) - 1)
+        return nums
+
+    def quickSort(self, nums: List[int], lo: int, hi: int) -> None:
+        if lo >= hi:
+            return
+        index = self.partition(nums, lo, hi)
+        self.quickSort(nums, lo, index - 1)
+        self.quickSort(nums, index + 1, hi)
+
+    def partition(self, nums: List[int], lo: int, hi: int) -> int:
+        i = random.randint(lo, hi) # 随机选一个作为pivot
+        nums[i], nums[hi] = nums[hi], nums[i]
+        pivot = nums[hi]
+        less = lo
+        for great in range(lo, hi):
+            if nums[great] < pivot:
+                nums[less], nums[great] = nums[great], nums[less]
+                less += 1
+        nums[less], nums[hi] = nums[hi], nums[less]
+        return less
+
+
