@@ -1,0 +1,14 @@
+#在一个很长很长的数组中，如何快速找到第二大的元素
+def secondMaxNumber(self,nums):
+    first = float('-inf')
+    second = float('-inf')
+    for num in nums:
+        if num > first:
+            second = first
+            first = num
+        else:
+            if num > second:
+                second = num
+    return second
+
+#时间复杂度为O(n)，空间复杂度为O(1)
