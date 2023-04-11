@@ -7,6 +7,7 @@
 ▶️递推公式：sort(left..right)=merge(sort(left,mid),sort(mid+1,right))
 ▶️递归终止条件：left==right
 ▶️归并排序的主要思想是将一个待排序的序列不断地分成两半，直到每个子序列只有一个元素，然后不断地合并两个有序子序列，直到合并成一个有序序列为止。
+▶️原地排序，稳定排序
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
         temp = [0] * len(nums)
