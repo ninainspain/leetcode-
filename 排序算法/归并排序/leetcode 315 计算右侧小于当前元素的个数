@@ -1,1 +1,57 @@
+class Solution:
+    def countSmaller(self, nums: List[int]) -> List[int]:
+        #用于记录每一个元素的索引信息，方便在合并的时候知道是计算哪一个元素
+        #instance variable
+        self.indexes = [0] * len(nums)
+        for i in range(len(nums)):
+            self.indexes[i] = i
+
+        self.tempIndexes = [0] * len(nums)
+        self.ans = [0] * len(nums)
+        #instance method
+        self.mergeSort(nums, 0, len(nums) - 1, temp=[0] * len(nums))
+        return self.ans
+
+    def mergeSort(self, nums, lo, hi, temp):
+        if lo >= hi:
+            return
+
+        mid = lo + (hi - lo) // 2
+        self.mergeSort(nums, lo, mid, temp)
+        self.mergeSort(nums, mid + 1, hi, temp)
+        self.merge(nums, lo, mid, hi, temp)
+
+    def merge(self, nums, lo, mid, hi, temp):
+        for i in range(lo, hi + 1):
+            temp[i] = nums[i]
+            self.tempIndexes[i] = self.indexes[i]
+
+        i, j, k = lo, mid + 1, lo
+        while i <= mid and j <= hi:
+            if temp[i] <= temp[j]:
+                nums[k] = temp[i]
+                self.indexes[k] = self.tempIndexes[i]
+                #当碰到前面比后面大的，先放置不管；当遇到第一个前面的小于后面的，计算这之前的
+                #计算比当前元素小的后面元素的个数
+                self.ans[self.tempIndexes[i]] += (j - mid - 1)
+                i += 1
+            else:
+                nums[k] = temp[j]
+                self.indexes[k] = self.tempIndexes[j]
+                j += 1
+            k += 1
+
+        while i <= mid:
+            nums[k] = temp[i]
+            self.indexes[k] = self.tempIndexes[i]
+            self.ans[self.tempIndexes[i]] += (j - mid - 1)
+            i += 1
+            k += 1
+
+        while j <= hi:
+            nums[k] = temp[j]
+            self.indexes[k] = self.tempIndexes[j]
+            j += 1
+            k += 1
+
 
