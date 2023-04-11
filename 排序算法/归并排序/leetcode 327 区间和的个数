@@ -1,0 +1,84 @@
+⭕️暴力解法
+
+class Solution:
+    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
+        count=0
+        for i in range(len(nums)):
+            for j in range(i,len(nums)):
+                sum=0
+                for k in range(i,j+1):
+                    sum+=nums[k]
+                if sum<=upper and sum>=lower:
+                    count+=1
+        return count
+
+
+⭕️前缀和
+class Solution:
+    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
+        prefixSum = [0]*(len(nums)+1)
+        prefixSum[0]=0
+        for i in range(len(nums)):
+            prefixSum[i+1]=prefixSum[i]+nums[i]
+
+        count=0
+        for i in range(len(prefixSum)):
+            for j in range(i+1,len(prefixSum)):
+                sum=prefixSum[j]-prefixSum[i]
+                if sum<=upper and sum>=lower:
+                    count+=1
+        return count
+        
+ ⭕️归并排序
+ ▶️查找【i，j】使prefixSum[j]-prefixSum[i]属于【lower,upper】
+ 其中i < j
+ 
+ class Solution:
+    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
+        prefixSum = [0]*(len(nums)+1)
+        prefixSum[0]=0
+        for i in range(len(nums)):
+            prefixSum[i+1]=prefixSum[i]+nums[i]
+        temp = [0] * len(prefixSum)
+        return self.mergeSort(prefixSum, 0, len(prefixSum)-1, temp, lower, upper)
+
+    def mergeSort(self, nums, lo, hi, temp, lower, upper):
+        if lo >= hi:
+            return 0
+        mid = lo + (hi - lo) // 2
+        leftSumCount = self.mergeSort(nums, lo, mid, temp, lower, upper)
+        rightSumCount = self.mergeSort(nums, mid+1, hi, temp, lower, upper)
+        count = 0
+        # Calculate the current valid subarrays sum
+        i = lo
+        l = r = mid+1
+        while i <= mid:
+            # Find the first element that >= prefixSum[l] - prefixSum[i] - upper
+            while l <= hi and nums[l] - nums[i] < lower:
+                l += 1
+            # Find the first element that > prefixSum[r] - prefixSum[i] - upper
+            while r <= hi and nums[r] - nums[i] <= upper:
+                r += 1
+            count += r - l
+            i += 1
+            
+        self.merge(nums, lo, mid, hi, temp)
+        return leftSumCount + rightSumCount + count
+
+    def merge(self, nums, lo, mid, hi, temp):
+        for i in range(lo, hi+1):
+            temp[i] = nums[i]
+        i, j = lo, mid+1
+        for k in range(lo, hi+1):
+            if i > mid:
+                nums[k] = temp[j]
+                j += 1
+            elif j > hi:
+                nums[k] = temp[i]
+                i += 1
+            elif temp[i] <= temp[j]:
+                nums[k] = temp[i]
+                i += 1
+            else:
+                nums[k] = temp[j]
+                j += 1
