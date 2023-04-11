@@ -1,0 +1,64 @@
+1.位运算
+▶️按位与：
+
+在计算机中，按位与（AND）是一种位运算，它对两个二进制数的对应位进行操作，将它们的每一位进行逻辑与操作，得到一个新的二进制数。
+
+按位与操作符通常用符号“&”表示，对于两个数x和y，x & y的结果是一个二进制数，它的每一位都是x和y对应位上的数值进行逻辑与操作的结果。
+
+具体来说，如果x和y在对应位上都是1，则结果中的对应位也为1，否则为0。
+
+▶️按位或
+
+在计算机中，按位或（OR）是一种位运算，它对两个二进制数的对应位进行操作，将它们的每一位进行逻辑或操作，得到一个新的二进制数。
+
+按位或操作符通常用符号“|”表示，对于两个数x和y，x | y的结果是一个二进制数，它的每一位都是x和y对应位上的数值进行逻辑或操作的结果。
+
+具体来说，如果x和y在对应位上至少有一个数值为1，则结果中的对应位为1，否则为0。
+
+▶️异或
+
+在计算机中，异或（XOR）是一种位运算，它对两个二进制数的对应位进行操作，将它们的每一位进行逻辑异或操作，得到一个新的二进制数。
+
+异或操作符通常用符号“^”表示，对于两个数x和y，x ^ y的结果是一个二进制数，它的每一位都是x和y对应位上的数值进行逻辑异或操作的结果。
+
+具体来说，如果x和y在对应位上的数值不同，则结果中的对应位为1，否则为0。
+
+2.～取反
+<<左移
+>>有符号右移
+>>>无符号右移
+
+3.有符号整数，无符号整数
+在计算机中，整数类型可以分为有符号整数和无符号整数。
+
+有符号整数是带符号的，可以表示正数、负数和0。有符号整数通常使用补码表示，其中最高位为符号位，0表示正数，1表示负数。例如，在一个8位有符号整数中，最大值为01111111（+127），最小值为10000000（-128），0用00000000表示。
+
+无符号整数是不带符号的，只能表示非负数，包括0和正整数。无符号整数的所有位都用来表示值，没有符号位。例如，在一个8位无符号整数中，最大值为11111111（255），最小值为00000000（0）。
+
+
+4.原码，反码，补码
+原码是最简单的表示方法，直接将一个数转换成二进制数，最高位是符号位，0表示正数，1表示负数。例如，十进制数-5的原码为10000101，其中最高位1表示负数。
+
+反码是将原码的符号位不变，其余各位取反得到的值。如果原码是正数，则反码和原码相同；如果原码是负数，则反码是将原码除符号位以外的所有位取反。例如，十进制数-5的反码为11111010。
+
+补码是将原码取反后加1得到的值。对于正数，补码和原码相同；对于负数，补码是将原码除符号位以外的所有位取反后加1。例如，十进制数-5的补码为11111011。
+
+使用补码表示有符号整数的好处是可以使用同一套加减运算规则处理正数和负数，从而简化了计算机的运算实现。例如，对于两个二进制数x和y，x-y可以转换为x+(-y)的形式，这样只需要实现加法运算，就可以处理减法运算。同时，补码也解决了原码表示法的“正零”和“负零”问题，即+0和-0的二进制表示是相同的，都是00000000，而在补码中只有一个零，即00000000表示+0，而10000000表示-128，不存在“负零”的概念。
+
+5.有符号整数二进制规律
+
+When we want to determine the decimal value of a binary number, we can follow different methods depending on whether the number is unsigned (positive) or signed (positive or negative).
+
+For unsigned binary numbers, we can simply calculate the decimal value of the binary number by using the positional notation system, where each digit in the binary number represents a power of 2. For example, the binary number 1011 represents the decimal value 11, because 1x2^3 + 0x2^2 + 1x2^1 + 1x2^0 = 8 + 0 + 2 + 1 = 11.
+
+For signed binary numbers, on the other hand, we need to use the two's complement representation to determine their decimal value. To convert a negative binary number to its decimal value, we need to first take the two's complement of the number by inverting all the bits and adding 1, and then interpret the resulting binary number as a negative decimal value. For example, the two's complement of 1001 is 0111, which represents the decimal value -7.
+
+So, in summary, if a binary number starts with 0, we can calculate its decimal value directly using the positional notation system. If a binary number starts with 1, we need to first convert it to its two's complement and then interpret the resulting binary number as a negative decimal value.
+
+2位【-2^3,2^3-1】
+8位【-2^7,2^7-1】
+32位【-2^31,2^32-1】
+
+
+
+
