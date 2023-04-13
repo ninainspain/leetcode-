@@ -23,3 +23,21 @@ class Solution:
  2         00000000000000000000000000000010    2个1   3-2（1）个0  2（2个1）*（3-2）（几个数-几个1）
  
  考虑数组中每个数二进制的第i位，假设一共有t个1和n-t个0，那么显然在第i位的汉明距离的总和为t*（n-t）
+ 
+ class Solution:
+    def totalHammingDistance(self, nums: List[int]) -> int:
+        n=len(nums)
+        #存储所有位对应位的1的个数
+        cnt = [0]*32
+        for num in nums:
+            i=0
+            while num>0:
+                #检查每一位是否为1，并累加
+                cnt[i] += num & 1
+                num>>=1
+                i+=1
+        res=0
+        for k in cnt:
+            res+= k * (n-k)
+        return res
+
