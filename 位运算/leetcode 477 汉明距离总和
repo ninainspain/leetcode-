@@ -30,12 +30,11 @@ class Solution:
         #存储所有位对应位的1的个数
         cnt = [0]*32
         for num in nums:
-            i=0
-            while num>0:
-                #检查每一位是否为1，并累加
-                cnt[i] += num & 1
+            
+            for i in range(33):
+                if num&1!=0:
+                    cnt[i]+=1
                 num>>=1
-                i+=1
         res=0
         for k in cnt:
             res+= k * (n-k)
