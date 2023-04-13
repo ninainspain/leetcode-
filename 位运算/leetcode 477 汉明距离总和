@@ -1,0 +1,25 @@
+⭕️暴力解法
+class Solution:
+    def totalHammingDistance(self, nums: List[int]) -> int:
+        res = 0
+        for i in range(len(nums)):
+            for j in range(i+1, len(nums)):
+                res += self.hammingDistance(nums[i], nums[j])
+        return res
+
+    def hammingDistance(self, x, y):
+        diff = x ^ y
+        res = 0
+        while diff:
+            diff = diff & (diff-1)
+            res+=1
+        return res
+       
+ ⭕️
+ 不同位的汉明距离是相互独立的
+ 
+ 4         00000000000000000000000000000100
+ 14        00000000000000000000000000001110
+ 2         00000000000000000000000000000010    2个1   3-2（1）个0  2（2个1）*（3-2）（几个数-几个1）
+ 
+ 
