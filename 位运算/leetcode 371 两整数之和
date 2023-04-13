@@ -35,5 +35,18 @@ class Solution:
             a=(a^b)&mask
             b=carry
         #如果a>MAX的话，那么将a的补码转成负数
+        class Solution:
+    def getSum(self, a: int, b: int) -> int:
+        MAX = 0x7FFFFFFF
+        mask = 0xFFFFFFFF
+        while b!=0:
+            #计算进位
+            carry = ((a&b)<<1)&mask
+            #计算无进位
+            a=(a^b)&mask
+            b=carry
+        #如果a>MAX的话，那么将a的补码转成负数的原码
+        #将 a 与掩码 mask（0xFFFFFFFF，即 32 位全 1）进行异或运算，得到 a 的反码表示。对 a 的反码表示进行按位取反操作，即可得到 a 的原码表示
+ 
         return a if a<=MAX else ~(a^mask)
  
