@@ -1,0 +1,54 @@
+⭕️哈希
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        #创建两个set，set1存储第一次出现的数字，set2存储第二次出现的数字
+        #最终set1中会留下只出现一次的次数
+        set1=set()
+        set2=set()
+        for num in nums:
+            if num in set1:
+                set1.remove(num)
+            elif num not in set2:
+                set1.add(num)
+            if num in set2:
+                set2.remove(num)
+            elif num not in set1:
+                set2.add(num)
+        return list(set1)[0]
+        
+        
+⭕️异或
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        once = 0
+        twice =0
+        for num in nums:
+            once = (once ^ num) & ~twice
+            twice = (twice ^ num) & ~once
+        return once
+
+⭕️统计每个数字指定位置上的1的个数
+3  0011
+6  0110
+3  0011
+3  0011
+
+   0143   => 0110 =>6
+   
+如果1的个数不是3的倍数
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        res=0
+        #int类型有32位，统计每一位1的个数
+        for i in range(32):
+            #统计第i位中1的个数
+            oneCount=0
+            for num in nums:
+                oneCount+=(num>>i)&1
+            #如果1的个数不是3的倍数，说明那个只出现1次的数字在该位是1
+            if oneCount%3==1:
+                res|=1<<i
+        return res
+
+
