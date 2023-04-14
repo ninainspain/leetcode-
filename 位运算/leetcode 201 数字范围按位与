@@ -1,0 +1,38 @@
+⭕️思路一：直接模拟
+class Solution:
+    def rangeBitwiseAnd(self, left: int, right: int) -> int:
+        ans=left
+        for i in range(left+1,right+1):
+            ans&=i
+        return ans
+        
+⭕️思路二：规律
+9-12
+9  000000000000000000000000000000000000001001
+10 000000000000000000000000000000000000001010
+11 000000000000000000000000000000000000001011
+12 000000000000000000000000000000000000001100
+&  000000000000000000000000000000000000001000
+
+找到相等的部分，即000000000000000000000000000000000000001
+left=left>>1    000000000000000000000000000000000000000100
+right=right>>1  000000000000000000000000000000000000000110
+...移动了3次
+直到left==right
+right<<3
+
+class Solution:
+    def rangeBitwiseAnd(self, left: int, right: int) -> int:
+        shift=0
+        while left<right:
+            left>>=1
+            right>>=1
+            shift+=1
+        return left<<shift
+⭕️思路三：不断抹掉right的最后一个1，一直到right<left为止
+class Solution:
+    def rangeBitwiseAnd(self, left: int, right: int) -> int:
+        while right>left:
+            #抹掉最后一个0
+            right = right & (right-1)
+        return right
