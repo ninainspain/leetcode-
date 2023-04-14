@@ -1,0 +1,21 @@
+⭕️使用异或
+
+异或的三个性质
+1.a^a=0
+2.a^0=a
+3.a^b^c=a^c^b
+
+[4,1,2,1,2]
+    4^1^2^1^2
+=   1^1^2^2^4
+=   0^2^2^4
+=.  2^2^4
+=   0^4
+=.  4
+
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        base = 0
+        for num in nums:
+            base = base^num
+        return base
