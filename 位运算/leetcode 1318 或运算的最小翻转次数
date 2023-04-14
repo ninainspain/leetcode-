@@ -14,3 +14,19 @@ c 1 0 0 0
 
 只有当对应的位置是两个1，需要反转成0，才需要反转2次；其余只需要反转1次
 
+class Solution:
+    def minFlips(self, a: int, b: int, c: int) -> int:
+        aORb = a|b
+        #异或
+        diff = aORb ^c
+        if diff==0: return 0
+        ans=0
+        for i in range(31):
+            #取得某一位上是否不同
+            if (diff&(1<<i))!=0:
+                #a和b的第i位是1，c的第i位是0
+                if c&(1<<i)==0 and (a&(1<<i)==b&(1<<i)):
+                    ans+=2
+                else:
+                    ans+=1
+        return ans
