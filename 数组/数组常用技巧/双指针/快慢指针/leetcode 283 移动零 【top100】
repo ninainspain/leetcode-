@@ -1,6 +1,22 @@
-1.将非0元素拷贝到0元素的位置=>i指针遍历每一个元素，j指针负责指向0元素
+🔑将非0元素拷贝到0元素的位置=>i指针遍历每一个元素，j指针负责指向0元素
+
+⭕️快慢指针
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        if len(nums)==0:return 
+        slow=0
+        for fast in range(len(nums)):
+            if nums[fast]!=0:
+                #交换fast和slow交换的元素
+                nums[slow],nums[fast]=nums[fast],nums[slow]
+                slow+=1
 
 
+
+⭕️优化：在fast和slow相同的情况下，不需要交换
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         """
@@ -12,12 +28,7 @@ class Solution:
             if nums[i]!=0:
                 #减少交换的次数
                 if j!=i:
-                    nums[j]=nums[i]
+                    nums[j],nums[i]=nums[i],nums[j]
                     j+=1
-        
-        while j<len(nums):
-            nums[j]=0
-            j+=1
-        
         
 ▶️时间复杂度O(n) 空间复杂度O(1)      
