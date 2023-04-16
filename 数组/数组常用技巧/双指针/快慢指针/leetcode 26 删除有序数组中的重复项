@@ -2,8 +2,9 @@
     def removeDuplicates(self, nums: List[int]) -> int:
         #慢指针
         j=0
-        #快指针
+        #快指针,从第二个元素开始，因为要判断重复元素
         for i in range(1,len(nums)):
+            #当不重复的时候，应该把fast指针指向的值赋值给slow指向的下一个元素
             if nums[i]!=nums[j]:
                 j+=1
                 nums[j]=nums[i]
