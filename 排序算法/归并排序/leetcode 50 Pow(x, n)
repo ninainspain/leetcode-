@@ -1,0 +1,21 @@
+⭕️暴力解法
+
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n<0:
+            x = 1//x
+            n=-n
+        res=1
+        for i in range(n):
+            res*=x
+        return res
+        
+ ⭕️快速幂的递归方式
+ x^64 = x^32 * x^32
+ x^32 = x^16 * x^16
+ x^16 = x^8 * x^8
+ x^8 = x^4 * x^4
+ ...
+ x^2 = x*x
+ 先分解再合并，类似于归并
+ 
