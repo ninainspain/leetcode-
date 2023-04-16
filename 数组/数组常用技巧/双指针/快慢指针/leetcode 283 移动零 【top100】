@@ -1,3 +1,6 @@
+1.将非0元素拷贝到0元素的位置=>i指针遍历每一个元素，j指针负责指向0元素
+
+
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         """
