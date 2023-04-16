@@ -11,6 +11,7 @@ class Solution:
             freq = [0]*26
             for char in words[i]:
                 freq[ord(char)-ord('a')]+=1
+            #求共同出现的值
             #计算每个字符出现的最小值
             for i in range(26):
                 minFreq[i]=min(minFreq[i],freq[i])
