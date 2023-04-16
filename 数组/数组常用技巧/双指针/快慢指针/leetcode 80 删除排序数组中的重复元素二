@@ -1,9 +1,12 @@
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
-        #已经处理区域的下一个位置
+        #从需要处理的数字开始
         i=2
         for j in range(2,len(nums)):
+            #此处是i-2
             if nums[j]!=nums[i-2]:
+                #第二位还没进行处理，所以先处理再+1
                 nums[i]=nums[j]
                 i+=1
+        #i此时指向的是已处理过的数据的下一位
         return i
