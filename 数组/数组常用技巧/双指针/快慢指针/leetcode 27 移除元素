@@ -16,10 +16,12 @@ class Solution:
  class Solution:
     def removeElement(self, nums: List[int], val: int) -> int:
         left,right=0,len(nums)-1
+        #不可以是<，这样会导致left=right这个数字没有被处理到
         while left<=right:
             if nums[left]==val:
                 nums[left],nums[right]=nums[right],nums[left]
                 right-=1
             else:
                 left+=1
+        #left指向的是处理完数据的下一个数字
         return left
