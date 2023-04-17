@@ -4,11 +4,15 @@ class Solution:
     def reverseWords(self, s: str) -> str:
         s=list(s)
         n=len(s)
+        #左边界，右边界
         left,right=0,0
         while right<n:
+            #右边界更新
             while right<n and s[right]!=" ":
                 right+=1
+            #字符转换
             self.reverse(s,left,right-1)
+            #左边界更新
             while right<n and s[right]==" ":
                 right+=1
             left=right
