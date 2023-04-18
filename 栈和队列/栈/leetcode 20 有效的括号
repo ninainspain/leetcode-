@@ -1,1 +1,67 @@
 ⭕️问题简化：假设只有一种括号
+from collections import deque
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+        # 边界条件 1
+        if len(s) % 2 == 1:
+            return False
+        
+        stack = deque()
+        for c in s:
+            if c == '(':
+                stack.append(c)
+            else:
+                # 当栈是空的，push进来右括号
+                if not stack:
+                    return False
+                stack.pop()
+        
+        return not stack
+
+
+⭕️问题优化：
+class Solution:
+    def isValid(self, s: str) -> bool:
+        # 使用一个变量来取代栈
+        if len(s) % 2 == 1:
+            return False
+        
+        leftBraceCnt = 0
+        for c in s:
+            if c == '(':
+                leftBraceCnt += 1
+            else:
+                if leftBraceCnt == 0:
+                    return False
+                leftBraceCnt -= 1
+        
+        return leftBraceCnt == 0
+
+⭕️面对三种括号的情况下：
+from collections import deque
+
+class Solution:
+    def isValid(self, s: str) -> bool:
+        if len(s) % 2 == 1:
+            return False
+        
+        mapping = {
+            '(': ')',
+            '[': ']',
+            '{': '}'
+        }
+        
+        stack = deque()
+        for c in s:
+            if c in mapping:
+                stack.append(c)
+            else:
+                if not stack:
+                    return False
+                top = stack.pop()
+                if c != mapping[top]:
+                    return False
+        
+        return not stack
+
