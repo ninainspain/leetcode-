@@ -1,0 +1,60 @@
+⭕️没有括号的情况
+
+class Solution:
+    def calculate(self, s: str) -> int:
+        #存储符号
+        preSign=1
+        #存储数字
+        num=0
+        #存储结果
+        res=0
+        for char in s:
+            if char.isdigit():
+                num = num * 10 + ord(char) - ord('0')
+            elif char=='+':
+                res += (preSign * num)
+                preSign = 1
+                num = 0
+            elif char=='-':
+                res += (preSign * num)
+                preSign = -1
+                num = 0
+        return res+preSign*num
+        
+        
+⭕️有括号的情况
+class Solution:
+    def calculate(self, s: str) -> int:
+        #存储符号
+        preSign=1
+        #存储数字
+        num=0
+        #存储结果
+        res=0
+        stack = deque()
+        for char in s:
+            if char.isdigit():
+                num = num * 10 + ord(char) - ord('0')
+            elif char=='+':
+                res += (preSign * num)
+                preSign = 1
+                num = 0
+            elif char=='-':
+                res += (preSign * num)
+                preSign = -1
+                num = 0
+            elif char=='(':
+                stack.append(res)
+                stack.append(preSign)
+                preSign=1
+                res=0
+            elif char==')':
+                res += preSign * num
+                #加符号
+                res *= stack.pop()
+                #加数字
+                res += stack.pop()
+                num=0
+                
+
+        return res+preSign*num
