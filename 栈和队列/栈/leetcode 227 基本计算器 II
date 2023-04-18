@@ -1,0 +1,31 @@
+from collections import deque
+
+class Solution:
+    def calculate(self, s: str) -> int:
+        stack = deque()
+        preSign = '+'
+        i = 0
+        num = 0
+
+        while i < len(s):
+            if s[i].isdigit():
+                num = num * 10 + ord(s[i]) - ord('0')
+            if s[i] in ('+', '-', '*', '/') or i == len(s) - 1:
+                if preSign == '+':
+                    stack.append(num)
+                elif preSign == '-':
+                    stack.append(-num)
+                elif preSign == '*':
+                    temp = stack.pop()
+                    stack.append(temp * num)
+                elif preSign == '/':
+                    temp = stack.pop()
+                    stack.append(int(temp / num))  # Use int() instead of //
+                preSign = s[i]
+                num = 0
+            i += 1
+
+        res = 0
+        while stack:
+            res += stack.pop()
+        return res
