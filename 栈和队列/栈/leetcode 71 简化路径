@@ -1,0 +1,28 @@
+⭕️
+1.按照斜杆切分->得到数组
+/a/./b/../../../c/
+a . b .. .. .. c      先压栈，遇到'.' or '..'，再处理
+
+/c
+
+from collections import deque
+
+class Solution:
+    def simplifyPath(self, path: str) -> str:
+        dirs = path.split("/")
+        # 遇到字母或者数字，入栈，遇到..出栈
+        stack = deque()
+        for dir in dirs:
+            if dir == "" or dir == ".":
+                continue
+            elif dir == ".." and not stack:
+                continue
+            elif dir == ".." and stack:
+                stack.pop()
+            else:
+                stack.append(dir)
+        if not stack:
+            return "/"
+        sb = "/"
+        sb += "/".join(stack)
+        return sb
