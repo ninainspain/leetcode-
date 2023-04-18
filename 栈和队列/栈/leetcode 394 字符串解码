@@ -1,0 +1,35 @@
+2 [ a 2 [ b 2 [ m ] d ] ]
+
+2 m
+2 b
+2 a
+
+
+在遇到右括号之前，所有字符先入栈
+
+bmmd bmmd
+
+from collections import deque
+
+class Solution:
+    def decodeString(self, s: str) -> str:
+        num = 0
+        res = ""
+        numStack = deque()
+        strStack = deque()
+        for c in s:
+            if c.isdigit():
+                num = num*10 + int(c)
+            elif c == '[':
+                numStack.append(num)
+                strStack.append(res)
+                res = ""
+                num = 0
+            elif c == ']':
+                item = res
+                for i in range(numStack.pop()-1):
+                    res += item
+                res = strStack.pop() + res
+            else:
+                res += c
+        return res
