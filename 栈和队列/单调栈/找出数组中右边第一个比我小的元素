@@ -1,1 +1,28 @@
+找出数组中右边第一个比我小的元素
 
+0 1 2 3 4 5 6
+1 2 3 9 5 0 6
+5 5 5 4 5 -1 -1
+
+
+def find_right_small(nums):
+    #初始化一个结果数组
+    #对于升序的数组压栈，此时栈被称为单调栈，碰到一个比栈顶的元素要小的值，就去更新栈顶元素对应的数组的索引更新；
+    ans = [0] * len(nums)
+    stack = deque()
+    #遍历一遍数组
+    for i in range(len(nums)):
+        curr_value = nums[i]
+        #单调递增栈，最多往回再遍历一遍数组
+        while stack and curr_value < nums[stack[-1]]:
+            ans[stack[-1]] = curr_value
+            stack.pop()
+        #栈里面存储的是索引
+        stack.append(i)
+    #栈里剩下的索引，右边没有比它小的值
+    while stack:
+        ans[stack[-1]] = -1
+        stack.pop()
+    return ans
+
+▶️时间复杂度 O（2*n）
