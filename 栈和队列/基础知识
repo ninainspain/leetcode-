@@ -1,1 +1,29 @@
+1.双端队列：
+A deque, short for "double-ended queue", is a data structure that allows you to insert and remove elements from both ends with O(1) time complexity. This means that adding or removing elements from the front or back of the deque takes constant time, regardless of the size of the deque.
+
+A deque can be thought of as a combination of a stack and a queue. Like a stack, it allows you to add and remove elements from one end (called the "top" or "head") in a last-in, first-out (LIFO) manner. Like a queue, it also allows you to add and remove elements from the other end (called the "tail") in a first-in, first-out (FIFO) manner.
+
+
+2.Python中的栈
+▶️Python 没有原生的栈数据类型，但是可以使用列表（list）实现栈的操作。具体来说，可以通过列表的 append() 和 pop() 方法实现栈的 push 和 pop 操作。其中，append() 方法可以在列表的末尾添加一个元素，pop() 方法可以从列表的末尾弹出一个元素。这样，栈顶的元素就位于列表的末尾。
+
+stack = []
+
+# 入栈操作
+stack.append(1)
+stack.append(2)
+stack.append(3)
+
+# 出栈操作
+top_element = stack.pop()
+print(top_element)  # 输出 3
+
+top_element = stack.pop()
+print(top_element)  # 输出 2
+
+top_element = stack.pop()
+print(top_element)  # 输出 1
+
+# 栈是否有元素
+is_empty = not stack
 
