@@ -25,73 +25,74 @@ class Solution:
 
 
 ⭕️常量空间 使用第一行和第一列来记录每行每列是否包含0
+
+from typing import List
+
 class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:
         """
         Do not return anything, modify matrix in-place instead.
         """
-
-        m = len(matrix)
-        n = len(matrix[0])
-
-        #先计算第一行第一列是否包含0
-        flagRow1=False
-        for i in range(n):
-            if matrix[0][i]==0:
-                flagRow1=True
+        m, n = len(matrix), len(matrix[0])
+        first_row_zero, first_col_zero = self.check_first_row_col(matrix, m, n)
         
-        flagCol1 = False
+        self.mark_zero_rows_and_columns(matrix, m, n)
+        self.set_zeroes_in_marked_rows_and_columns(matrix, m, n)
+
+        if first_row_zero:
+            self.set_zeroes_in_first_row(matrix, n)
+        if first_col_zero:
+            self.set_zeroes_in_first_column(matrix, m)
+
+    def check_first_row_col(self, matrix: List[List[int]], m: int, n: int) -> (bool, bool):
+        first_row_zero = any(matrix[0][j] == 0 for j in range(n))
+        first_col_zero = any(matrix[i][0] == 0 for i in range(m))
+        return first_row_zero, first_col_zero
+
+    def mark_zero_rows_and_columns(self, matrix: List[List[int]], m: int, n: int) -> None:
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][j] == 0:
+                    matrix[i][0] = 0
+                    matrix[0][j] = 0
+
+    def set_zeroes_in_marked_rows_and_columns(self, matrix: List[List[int]], m: int, n: int) -> None:
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][0] == 0 or matrix[0][j] == 0:
+                    matrix[i][j] = 0
+
+    def set_zeroes_in_first_row(self, matrix: List[List[int]], n: int) -> None:
+        for j in range(n):
+            matrix[0][j] = 0
+
+    def set_zeroes_in_first_column(self, matrix: List[List[int]], m: int) -> None:
+        for i in range(m):
+            matrix[i][0] = 0
+
+                      
+⭕️第三种方法
+def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        m,n=len(matrix),len(matrix[0])
+        flagCol = False
         for i in range(m):
             if matrix[i][0]==0:
-                flagCol1=True
+                flagCol = True
 
-        #使用第一行和第一列来记录是否有0
-        for row in range(m):
-            for col in range(n):
-                if matrix[row][col]==0:
-                    matrix[0][col]=0
-                    matrix[row][0]=0
-
-        for row in range(1,m):
-            for col in range(1,n):
-                if matrix[0][col]==0 or matrix[row][0]==0:
-                    matrix[row][col]=0
-
+        for i in range(m):
+            for j in range(1,n):
+                if matrix[i][j]==0:
+                    matrix[i][0]=0
+                    matrix[0][j]=0
         
-        if flagRow1:
-            for i in range(n):
-                matrix[0][i]=0
-        
-        if flagCol1:
-            for i in range(m):
-                matrix[i][0]=0
-                      
-⭕️
+        for i in range(m-1,-1,-1):
+            for j in range(1,n):
+                if matrix[i][0]==0 or matrix[0][j]==0:
+                    matrix[i][j]=0
 
-class Solution:
-    def setZeroes(self, matrix: List[List[int]]) -> None:
-        """
-        Do not return anything, modify matrix in-place instead.
-        """
-        m=len(matrix)
-        n=len(matrix[0])
-        #为了防止每一列的第一个元素被提前更新，需要从最后一行，倒序处理矩阵元素
-        flagCol1=False
-        for i in range(0,m):
-            if matrix[i][0]==0:
-                flagCol1=True
-
-        for row in range(0,m):
-            for col in range(1,n):
-                if matrix[row][col]==0:
-                    matrix[0][col]=0
-                    matrix[row][0]=0
-
-        for row in range(m-1,-1,-1):
-            for col in range(1,n):
-                if matrix[0][col]==0 or matrix[row][0]==0:
-                    matrix[row][col]=0
-                
-        if flagCol1:
+        if flagCol:
             for i in range(m):
                 matrix[i][0]=0
