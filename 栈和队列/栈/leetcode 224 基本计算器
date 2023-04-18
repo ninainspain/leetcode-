@@ -37,10 +37,12 @@ class Solution:
                 num = num * 10 + ord(char) - ord('0')
             elif char=='+':
                 res += (preSign * num)
+                #数字后面的符号
                 preSign = 1
                 num = 0
             elif char=='-':
                 res += (preSign * num)
+                #数字后面的符号
                 preSign = -1
                 num = 0
             elif char=='(':
