@@ -27,3 +27,33 @@ print(top_element)  # 输出 1
 # 栈是否有元素
 is_empty = not stack
 
+
+▶️在 Python 中，可以使用 collections 模块中的 deque 类来实现双端队列（deque），它提供了高效的在队列的两端添加或删除元素的操作。
+from collections import deque
+
+# 创建一个空的双端队列
+d = deque()
+
+# 在队列的左侧添加元素
+d.appendleft(1)
+d.appendleft(2)
+d.appendleft(3)
+
+# 在队列的右侧添加元素
+d.append(4)
+d.append(5)
+d.append(6)
+
+# 从队列的左侧删除元素
+left_element = d.popleft()
+print(left_element)  # 输出 3
+
+left_element = d.popleft()
+print(left_element)  # 输出 2
+
+# 从队列的右侧删除元素
+right_element = d.pop()
+print(right_element)  # 输出 6
+
+right_element = d.pop()
+print(right_element)  # 输出 5
