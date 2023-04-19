@@ -1,28 +1,40 @@
+⭕️递归
 class Solution:
     def countAndSay(self, n: int) -> str:
-        curr = "1"
-        i = 1
-
-        while i < n:
-            prev = curr
-            curr = ""
-            say = prev[0]
+        if n == 1:
+            return "1"
+        prev = self.countAndSay(n-1)
+        result = ""
+        i = 0
+        while i < len(prev):
             count = 1
-            j = 1
+            while i < len(prev)-1 and prev[i] == prev[i+1]:
+                count += 1
+                i += 1
+            result += str(count) + prev[i]
+            i += 1
+        return result
 
-            while j < len(prev):
-                if prev[j] == say:
+⭕️迭代
+class Solution:
+    def countAndSay(self, n: int) -> str:
+        if n == 1:
+            return "1"
+        result = "1"
+        for _ in range(n-1):
+            count = 1
+            digit = result[0]
+            next_result = ""
+            for i in range(1, len(result)):
+                if result[i] == digit:
                     count += 1
                 else:
-                    curr += str(count) + say
-                    say = prev[j]
+                    next_result += str(count) + digit
                     count = 1
-                j += 1
-
-            curr += str(count) + say
-            i += 1
-
-        return curr
+                    digit = result[i]
+            next_result += str(count) + digit
+            result = next_result
+        return result
 
 
 n=4
