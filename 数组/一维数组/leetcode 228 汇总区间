@@ -1,3 +1,5 @@
+⭕️写法一：
+
 class Solution:
     def summaryRanges(self, nums: List[int]) -> List[str]:
         if not nums:
@@ -21,4 +23,36 @@ class Solution:
             else:
                 res.append(str(nums[low]) + "->" + str(nums[high]))
         
+        return res
+
+⭕️写法二：
+class Solution:
+    def summaryRanges(self, nums: List[int]) -> List[str]:
+        # Initialize the result list, pointer i, and the lower bound of the range
+        res = []
+        i = 0
+        n = len(nums)
+
+        # Iterate through the list
+        while i < n:
+            # Set the lower bound of the range
+            lo = i
+            
+            # Iterate through the list while the difference between consecutive elements is 1
+            while i < n - 1 and nums[i + 1] - nums[i] == 1:
+                i += 1
+            
+            # The range ends at the current index, i
+            hi = i
+            
+            # If the lower and upper bounds are the same, append only the number
+            if lo == hi:
+                res.append(str(nums[lo]))
+            # Otherwise, append the range as a string
+            else:
+                res.append(str(nums[lo]) + '->' + str(nums[hi]))
+            
+            # Move to the next element to continue the search
+            i += 1
+
         return res
