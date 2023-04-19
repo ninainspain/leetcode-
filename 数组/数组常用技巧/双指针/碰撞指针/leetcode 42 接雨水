@@ -83,3 +83,31 @@ class Solution:
                 ans += rightMax - height[right]
                 right-=1
         return ans
+
+
+⭕️单调栈
+
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        #当柱子是单调递减（单调栈）的时候，装不了水；
+        #只有遇到第一个比前面大的栈的时候，才可以装水，此时返回去计算每一根柱子可以装的水
+        n=len(height)
+        if n<=2: return 0
+        stack = deque()
+        ans=0
+        for i in range(n):
+            #找到最近的右边的第一个更大的值
+            while stack and height[i]>height[stack[-1]]:
+                #计算面积，preIndex就是中间凹陷处，要求面积的地方
+                preIndex = stack[-1]
+                stack.pop()
+                if not stack : break
+                #找到左边的值
+                leftIndex = stack[-1]
+                #i就是右边的值
+                currWidth = i-leftIndex-1
+                currHeight = min(height[leftIndex],height[i]) - height[preIndex]
+                ans+=currWidth*currHeight           
+            stack.append(i)
+        return ans
+
