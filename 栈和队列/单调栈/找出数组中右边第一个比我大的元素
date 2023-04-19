@@ -7,7 +7,7 @@ def find_right_large(nums):
         curr_value = nums[i]
         #单调递减栈
         while stack and curr_value > nums[stack[-1]]:
-            ans[stack[-1]] = curr_value
+            ans[stack[-1]] = i
             stack.pop()
         #栈里面存储的是索引
         stack.append(i)
