@@ -40,3 +40,7 @@ class Solution:
 n=4
 solution = Solution()
 print(solution.countAndSay(n))
+
+This solution iterates n-1 times to generate the nth string in the count-and-say sequence, starting from the base case countAndSay(1) = "1". For each iteration, it initializes count and digit to the first character of the previous string, and iterates through the remaining characters. If the current character is the same as digit, it increments count. Otherwise, it appends the count and digit to the next result string, resets count to 1, and updates digit to the current character. Finally, it appends the count and digit for the last substring to the next result string, and sets the result to the next result string. At the end of the iterations, it returns the final result string as the answer for countAndSay(n).
+
+
