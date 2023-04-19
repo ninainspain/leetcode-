@@ -15,7 +15,7 @@ def find_right_small(nums):
         curr_value = nums[i]
         #单调递增栈，最多往回再遍历一遍数组
         while stack and curr_value < nums[stack[-1]]:
-            ans[stack[-1]] = curr_value
+            ans[stack[-1]] = i
             stack.pop()
         #栈里面存储的是索引
         stack.append(i)
