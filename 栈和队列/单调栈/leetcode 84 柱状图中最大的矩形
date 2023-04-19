@@ -1,0 +1,38 @@
+▶️要求最大的面积的话，影响变量主要有两个：宽和高；可以固定其中一个变量，然后再变化另外一个变量
+
+⭕️枚举宽
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        ans=0
+        n = len(heights)
+        #固定宽，变化高
+        for left in range(n):
+            minHeight = heights[left]
+            for right in range(left,n):
+                currWidth = right-left+1
+                minHeight = min(minHeight,heights[right])
+                ans = max(ans,minHeight*currWidth)
+        return ans
+                
+
+⭕️枚举高
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        #固定高，变化宽
+        #此时找到左右两边，离高的index最近的比它矮的index的值
+        ans = 0
+        n = len(heights)
+        for i in range(n):
+            #每根柱子的高
+            height = heights[i]
+            #求该柱子最大的宽
+            #左边界和右边界
+            left,right = i,i
+            while left>=0 and heights[left]>= height: left-=1
+            while right<n and heights[right]>= height: right+=1
+            ans = max(ans,height * (right-left-1))
+        return ans
+
+⭕️枚举高，单调栈优化
+#找到左边的离我最近的比我小的值，单调栈
+#找到右边的离我最近的比我小的值，单调栈
