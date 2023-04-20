@@ -4,7 +4,7 @@
 1 2 3 9 5 0 6
 5 5 5 4 5 -1 -1
 
-
+⭕️方法一：更新栈顶元素的边界
 def find_right_small(nums):
     #初始化一个结果数组
     #对于升序的数组压栈，此时栈被称为单调栈，碰到一个比栈顶的元素要小的值，就去更新栈顶元素对应的数组的索引更新；
@@ -26,3 +26,29 @@ def find_right_small(nums):
     return ans
 
 ▶️时间复杂度 O（2*n）
+
+⭕️方法二：更新索引为i的边界
+from collections import deque
+
+def find_right_small(nums):
+    ans = [-1] * len(nums)  # Initialize the result array with -1s
+    stack = deque()
+
+    for i in range(len(nums)-1, -1, -1):  # Iterate through the array from right to left
+        curr_value = nums[i]
+
+        # Pop elements from the stack if the current value is less than or equal to the stack's top value
+        while stack and curr_value <= nums[stack[-1]]:
+            stack.pop()
+
+        # Update the result array with the stack's top index, if the stack is not empty
+        if stack:
+            ans[i] = stack[-1]
+
+        stack.append(i)
+
+    return ans
+
+# Example usage:
+nums = [3, 2, 1, 5, 6, 2]
+print(find_right_small(nums))  # Output: [1, 2, -1, 5, 5, -1]
