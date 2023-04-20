@@ -1,0 +1,66 @@
+1.添加新元素
+
+在大顶堆中添加新元素的过程如下：
+
+将新元素添加到堆的末尾。
+从新元素所在的位置开始，向上调整堆的结构，直到新元素被移到一个合适的位置，使得该节点满足大顶堆的性质，即该节点的值不小于其父节点的值。
+具体地，向上调整堆的过程可以通过不断比较新元素和其父节点的值来进行，如果新元素的值大于其父节点的值，则交换两个节点的值，并继续向上比较，直到新元素不再大于其父节点的值或到达根节点位置。
+
+def insert_element(heap, element):
+    heap.append(element)             # Add the element to the end of the heap
+    current_index = len(heap) - 1    # The index of the new element
+    parent_index = (current_index - 1) // 2  # The index of the new element's parent
+
+    # Heapify up the new element until it reaches the correct position
+    while current_index > 0 and heap[current_index] > heap[parent_index]:
+        heap[current_index], heap[parent_index] = heap[parent_index], heap[current_index]
+        current_index = parent_index
+        parent_index = (current_index - 1) // 2
+
+
+2.删除堆顶元素
+
+在大顶堆中删除堆顶元素的过程如下：
+
+将堆顶元素移除，并将堆中最后一个元素移到堆顶。
+从堆顶开始向下调整堆的结构，直到堆满足大顶堆的性质，即该节点的值不小于其子节点的值。
+具体地，向下调整堆的过程可以通过不断比较堆顶元素和其子节点的值来进行，如果堆顶元素的值小于其子节点的值，则交换两个节点的值，并继续向下比较，直到堆顶元素不再小于其子节点的值或到达叶子节点位置。
+
+function removeMax(heap):
+    if heap.length == 0:
+        return None
+
+    maxElement = heap[0]
+    heap[0] = heap.pop()  // 将堆中最后一个元素移到堆顶
+    currentIndex = 0      // 堆顶的位置
+
+    // 向下调整堆的结构，直到堆满足大顶堆的性质
+    while True:
+        leftIndex = currentIndex * 2 + 1
+        rightIndex = currentIndex * 2 + 2
+        largestIndex = currentIndex
+
+        if leftIndex < len(heap) and heap[leftIndex] > heap[largestIndex]:
+            largestIndex = leftIndex
+
+        if rightIndex < len(heap) and heap[rightIndex] > heap[largestIndex]:
+            largestIndex = rightIndex
+
+        if largestIndex != currentIndex:
+            swap(heap[currentIndex], heap[largestIndex])
+            currentIndex = largestIndex
+        else:
+            break
+
+    return maxElement
+
+3.堆化
+
+堆化（heapify）是指将一个无序数组转化为堆的过程，或者在插入或删除元素后，将堆恢复为满足堆属性的状态的过程。
+
+对于一个无序数组，可以使用堆化算法将其转化为堆。堆化算法通常采用自底向上的方式，从最后一个非叶子节点开始，依次向上调整堆的结构，使得每个节点都满足堆属性。这样可以保证在堆化完成后，数组中的元素按照堆的规律排列，即每个节点的值不小于其子节点的值（大顶堆）或不大于其子节点的值（小顶堆）。
+
+在插入或删除元素后，堆的结构可能被破坏，不再满足堆属性。此时，可以使用堆化算法将堆恢复为满足堆属性的状态。具体地，插入元素后，可以使用向上调整堆的方法进行堆化；删除堆顶元素后，可以使用向下调整堆的方法进行堆化。
+
+堆化是一种重要的算法，它被广泛应用于堆排序、优先队列、图算法等领域。堆化算法的时间复杂度为 O(n)，其中 n 是数组中的元素个数。
+
