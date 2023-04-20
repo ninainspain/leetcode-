@@ -82,4 +82,34 @@ class Solution:
 
 ⭕️单调栈一次遍历：
 
+from typing import List
+
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        ans = 0
+        n = len(heights)
+        left, right = self.find_left_and_right_small(heights)
+        for i in range(n):
+            height = heights[i]
+            ans = max(ans, height * (right[i] - left[i] - 1))
+        return ans
+
+    def find_left_and_right_small(self, nums):
+        n = len(nums)
+        left = [0] * n
+        right = [n] * n
+        stack = []
+
+        for i in range(n):
+            curr_value = nums[i]
+            #'<'or'<='都可以，因为计算出来的面积是一样的
+            while stack and curr_value <= nums[stack[-1]]:
+                #求右边界
+                right[stack[-1]] = i
+                stack.pop()
+            #求左边界    
+            left[i] = stack[-1] if stack else -1
+            stack.append(i)
+        
+        return left, right
 
