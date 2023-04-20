@@ -1,0 +1,80 @@
+⭕️排序解法
+▶️每次都进行比较，然后将最大和第二大进行粉碎
+时间复杂度 O（n^2logn）
+class Solution:
+    def lastStoneWeight(self, stones: List[int]) -> int:
+        #排序解法，最多的时候要比较len(stones)-1次
+        n = len(stones)
+        for i in range(n-1):
+            stones.sort()
+            #最大值
+            y = stones[n-1]
+            #倒二大值
+            x = stones[n-2]
+            #只剩下一块石头
+            if x == 0: break
+            stones[n-1] = y-x
+            stones[n-2] = 0
+        return stones[n-1]
+        
+        
+ ⭕️大顶堆
+ ▶️性能瓶颈在于找到最大和第二大的值
+ ▶️时间复杂度：O（nlogn）
+ #将粉碎的值重新放到大顶堆中，进行比较
+import heapq
+from typing import List  # import List from typing module
+
+class Solution:
+    def lastStoneWeight(self, stones: List[int]) -> int:
+        n = len(stones)
+        if n == 1: return stones[0]
+
+        pq = []
+        # Create a max heap (use negative values to simulate max heap since Python heapq only supports min heap)
+        for stone in stones:
+            heapq.heappush(pq, -stone)  # Negate the stone value before pushing it to the heap
+
+        while len(pq) > 1:
+            y = -heapq.heappop(pq)  # Negate the value back to positive after popping it from the heap
+            x = -heapq.heappop(pq)  # Negate the value back to positive after popping it from the heap
+            diff = y - x
+            if diff > 0:
+                heapq.heappush(pq, -diff)  # Negate the diff value before pushing it to the heap
+
+        return 0 if len(pq) == 0 else -pq[0]  # Negate the value back to positive before returning
+
+⭕️另外一种实现大顶堆的方式
+
+import heapq
+from typing import List
+
+# Custom wrapper class to reverse comparison operators
+class MaxHeapElement:
+    def __init__(self, value):
+        self.value = value
+
+    def __lt__(self, other):
+        return self.value > other.value
+
+    def __eq__(self, other):
+        return self.value == other.value
+
+class Solution:
+    def lastStoneWeight(self, stones: List[int]) -> int:
+        n = len(stones)
+        if n == 1: return stones[0]
+
+        pq = []
+        # Create a max heap using the custom MaxHeapElement wrapper
+        for stone in stones:
+            heapq.heappush(pq, MaxHeapElement(stone))
+
+        while len(pq) > 1:
+            y = heapq.heappop(pq).value
+            x = heapq.heappop(pq).value
+            diff = y - x
+            if diff > 0:
+                heapq.heappush(pq, MaxHeapElement(diff))
+
+        return 0 if len(pq) == 0 else pq[0].value
