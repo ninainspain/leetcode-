@@ -1,0 +1,53 @@
+Python中可以使用内置的 heapq 模块来实现堆。heapq 模块提供了一些函数，可以在普通的 list 上实现堆的操作，包括堆化、插入元素、弹出堆顶元素等。
+
+以下是一些常用的 heapq 模块函数及其功能：
+
+heapq.heapify(list)：将普通的 list 转化为堆。
+
+heapq.heappush(heap, item)：将元素 item 插入到堆中。
+
+heapq.heappop(heap)：弹出堆顶元素，并返回该元素。
+
+heapq.heappushpop(heap, item)：将元素 item 插入到堆中，然后弹出堆顶元素，并返回该元素。
+
+heapq.heapreplace(heap, item)：弹出堆顶元素，并将元素 item 插入到堆中，然后返回该元素。
+
+import heapq
+
+# 定义一个列表
+lst = [4, 1, 7, 3, 8, 5]
+
+# 将列表转化为大顶堆
+heapq.heapify(lst)
+
+# 向堆中插入元素
+heapq.heappush(lst, 9)
+
+# 弹出堆顶元素
+max_element = heapq.heappop(lst)
+print("堆顶元素是：", max_element)
+
+# 获取堆中的所有元素
+while lst:
+    print(heapq.heappop(lst), end=" ")
+
+
+
+def find_kth_largest_value(self,nums,k):
+    n = len(nums)
+    if k<n-k:
+        #小顶堆
+        pq = nums[:k]
+        heapq.heapify(pq)
+        for x in nums[k:]:
+            heapq.heappush(pq,x)
+            heapq.heappop(pq)
+        return pq[0]
+    else:
+        #大顶堆
+        tmp = [-x for x in nums]
+        pq = tmp[:n-k+1]
+        for x in tmp[n-k+1]:
+            heapq.heappush(pq,x)
+            heapq.heappop(pq)
+        return -pq[0]
