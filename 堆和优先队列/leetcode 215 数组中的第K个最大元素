@@ -1,0 +1,67 @@
+⭕️排序解法
+▶️时间复杂度 O(nlogn)
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        return nums[len(nums)-k]
+        
+⭕️小顶堆
+▶️时间复杂度O（nlogn）
+from typing import List
+import heapq
+
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        # 将k个最大元素存储在某一种数据结构中，在此数据结构中找到最小值
+        # 为了能够快速地拿到最小值，使用小顶堆
+        pq = nums[:k]
+        heapq.heapify(pq)
+
+        for i in range(k, len(nums)):
+            if nums[i] > pq[0]:
+                heapq.heappop(pq)
+                heapq.heappush(pq, nums[i])
+
+        return pq[0]
+
+⭕️另外一种小顶堆的方式
+from typing import List
+import heapq
+
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        #每次都将数字push进小顶堆
+        #当小顶堆的size大于k，删除最小值
+        pq = []
+        for i in range(len(nums)):
+            heapq.heappush(pq,nums[i])
+            if len(pq)>k:
+                heapq.heappop(pq)
+        return pq[0]
+
+⭕️对k值过大的优化
+from typing import List
+import heapq
+
+class Solution:
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        #使用小顶堆，当k比较小的时候
+        if k < n-k:
+            pq = []
+            for i in range(n):
+                heapq.heappush(pq,nums[i])
+                if len(pq)>k:
+                    heapq.heappop(pq)
+            return pq[0]
+        #当题目是在100000个数字里面，找到k=999996的数字，将问题转换成找到第n-k+1（5）小的元素
+        #使用大顶堆
+        else:
+            capacity = n-k+1
+            pq = []
+            for i in range(n):
+                heapq.heappush(pq,-nums[i])
+                if len(pq)>capacity:
+                    heapq.heappop(pq)
+            return -pq[0]
+            
