@@ -29,7 +29,10 @@ print(solution.convert(s,numRows))
 ⭕️改变方向
 class Solution:
     def convert(self, s: str, numRows: int) -> str:
-        sbs = ["" for _ in range(numRows)]
+        if numRows == 1 or numRows >= len(s):
+            return s
+        
+        sbs = ['' for _ in range(numRows)]
         currRow = 0
         goingDown = False
         for c in s:
@@ -37,8 +40,10 @@ class Solution:
             if currRow == 0 or currRow == numRows - 1:
                 goingDown = not goingDown
             currRow += 1 if goingDown else -1
-        res = ""
-        for j in range(numRows):
-            res += sbs[j]
+
+        res = ''
+        for i in range(numRows):
+            res += sbs[i]
         return res
+
 
