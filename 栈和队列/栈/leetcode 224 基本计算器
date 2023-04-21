@@ -26,37 +26,32 @@ class Solution:
 class Solution:
     def calculate(self, s: str) -> int:
         stack = []
-        res = 0
         num = 0
+        res = 0
         sign = 1
-
         for char in s:
             if char.isdigit():
-                num = num * 10 + int(char)
-            
-            elif char == "+":
-                res += sign * num
+                num = num * 10 + ord(char) - ord('0')
+            elif char == '+':
+                res += num * sign  # Add the product to the result
+                num = 0
                 sign = 1
+            elif char == '-':
+                res += num * sign  # Add the product to the result
                 num = 0
-
-            elif char == "-":
-                res += sign * num
                 sign = -1
-                num = 0
-
-            elif char == "(":
+            elif char == '(':
                 stack.append(res)
                 stack.append(sign)
-                res = 0
                 sign = 1
-
-            elif char == ")":
-                res += sign * num
+                res = 0
+            elif char == ')':
+                res += num * sign
+                res *= stack.pop()
+                res += stack.pop()
                 num = 0
-                res *= stack.pop()  # sign
-                res += stack.pop()  # previous result
+                sign = 1
 
         if num != 0:
             res += sign * num
-        
         return res
