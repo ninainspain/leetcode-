@@ -6,10 +6,13 @@ class Solution:
         ans=0
         n = len(heights)
         #固定宽，变化高
+        #用left,right来代表宽
         for left in range(n):
+        #初始化最高度
             minHeight = heights[left]
             for right in range(left,n):
                 currWidth = right-left+1
+                #高度就是最小值
                 minHeight = min(minHeight,heights[right])
                 ans = max(ans,minHeight*currWidth)
         return ans
