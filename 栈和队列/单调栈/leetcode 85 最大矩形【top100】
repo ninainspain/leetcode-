@@ -1,2 +1,49 @@
+from typing import List, Tuple
+from collections import deque
+
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        
+        m, n = len(matrix), len(matrix[0])
+        left = self.compute_left(matrix, m, n)
+        ans = 0
+
+        for col in range(n):
+            up, down = self.compute_up_down(left, m, col)
+            ans = max(ans, self.calculate_max_area(left, up, down, m, col))
+
+        return ans
+
+    def compute_left(self, matrix: List[List[str]], m: int, n: int) -> List[List[int]]:
+        left = [[0 for _ in range(n)] for _ in range(m)]
+        for row in range(m):
+            for col in range(n):
+                if matrix[row][col] == '1':
+                    left[row][col] = (0 if col == 0 else left[row][col - 1]) + 1
+        return left
+
+    def compute_up_down(self, left: List[List[int]], m: int, col: int) -> Tuple[List[int], List[int]]:
+        up = [0] * m
+        down = [m] * m
+        stack = deque()
+
+        for row in range(m):
+            while stack and left[row][col] <= left[stack[-1]][col]:
+                down[stack[-1]] = row
+                stack.pop()
+            up[row] = -1 if not stack else stack[-1]
+            stack.append(row)
+
+        return up, down
+
+    def calculate_max_area(self, left: List[List[int]], up: List[int], down: List[int], m: int, col: int) -> int:
+        max_area = 0
+        for row in range(m):
+            height = left[row][col]
+            width = down[row] - up[row] - 1
+            max_area = max(max_area, height * width)
+        return max_area
 
 
