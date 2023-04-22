@@ -90,7 +90,7 @@ class Solution:
 class Solution:
     def trap(self, height: List[int]) -> int:
         #当柱子是单调递减（单调栈）的时候，装不了水；
-        #只有遇到第一个比前面大的栈的时候，才可以装水，此时返回去计算每一根柱子可以装的水
+        #只有遇到第一个比前面大的栈的时候，才可以装水，此时返回去计算每一根柱子可以装的水，
         n=len(height)
         if n<=2: return 0
         stack = deque()
