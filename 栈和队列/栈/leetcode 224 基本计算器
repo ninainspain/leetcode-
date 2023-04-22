@@ -32,6 +32,7 @@ class Solution:
         for char in s:
             if char.isdigit():
                 num = num * 10 + ord(char) - ord('0')
+                #当遇到加号或者减号的时候，先把前面的值放到res中
             elif char == '+':
                 res += num * sign  # Add the product to the result
                 num = 0
@@ -41,6 +42,7 @@ class Solution:
                 num = 0
                 sign = -1
             elif char == '(':
+            #左括号前面有值，和符号
                 stack.append(res)
                 stack.append(sign)
                 sign = 1
@@ -49,7 +51,6 @@ class Solution:
                 res += num * sign
                 res *= stack.pop()
                 res += stack.pop()
-                num = 0
                 sign = 1
 
         if num != 0:
