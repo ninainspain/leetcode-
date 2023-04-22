@@ -52,6 +52,7 @@ class Solution:
                 res *= stack.pop()
                 res += stack.pop()
                 sign = 1
+                num=0
 
         if num != 0:
             res += sign * num
