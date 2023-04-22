@@ -99,7 +99,7 @@ class Solution:
 
     def find_left_and_right_small(self, nums):
         n = len(nums)
-        left = [0] * n
+        left = [-1] * n
         right = [n] * n
         stack = []
 
