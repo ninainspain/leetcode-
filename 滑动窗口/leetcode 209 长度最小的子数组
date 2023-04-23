@@ -1,0 +1,31 @@
+⭕️暴力解法
+
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        ans = float('inf')
+        for i in range(len(nums)):
+            sum = 0
+            for j in range(i,len(nums)):
+                sum+=nums[j]
+                if sum>=target:
+                    ans = min(ans,j-i+1)
+        return 0 if ans== float('inf')  else ans
+        
+ ⭕️滑动窗口
+ ▶️当窗口不固定时，先移动窗口右边，知道满足条件为止，然后再不停变动left，缩小窗口
+ class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        left,right=0,0
+        sum=0
+        ans=float('inf')
+        while right<len(nums):
+            sum+=nums[right]
+            #此时不一定是最短的，所以要缩短窗口
+            while sum>=target: 
+                #找到符合要求的，更新ans
+                ans=min(ans,right-left+1)             
+                sum -= nums[left]
+                left+=1               
+            right+=1
+        return 0 if ans==float('inf') else ans
+ 
