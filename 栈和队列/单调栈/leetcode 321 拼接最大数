@@ -1,0 +1,96 @@
+▶️组合情况：从第一个数组拿出m个数，从第二个数组拿出n个数 m+n=5
+m  k-n=2    3
+n  n=3      2
+
+m能取得的最小值为max（0，k-n）
+m能取得的最大值为min（m，k）
+
+class Solution:
+    def maxNumber(self, nums1: List[int], nums2: List[int], k: int) -> List[int]:
+        # initialize the result list with k zeros
+        maxSubSeq = [0]*k
+        
+        # determine the length of nums1 and nums2
+        m = len(nums1)
+        n = len(nums2)
+        
+        # determine the range of possible values for the first array's length
+        start = max(0,k-n)
+        end = min(m,k)
+        
+        # iterate over all possible values of the first array's length
+        for i in range(start,end+1):
+            # get the i-largest subsequence from the first array
+            subSeq1 = self.maxSubSequence(nums1,i)
+            
+            # get the (k-i)-largest subsequence from the second array
+            subSeq2 = self.maxSubSequence(nums2,k-i)
+            
+            # merge the two subsequences to create a candidate result
+            currMaxSubSeq = self.merge(subSeq1,subSeq2)
+            
+            # update the result list if the candidate is larger
+            if self.compare(currMaxSubSeq,maxSubSeq,0,0)>0:
+                maxSubSeq[:k] = currMaxSubSeq[:k]
+
+        return maxSubSeq
+
+    # get the k-largest subsequence of nums
+    def maxSubSequence(self,nums,k):
+        stack = [0]*k
+        top = -1
+        remain = len(nums)-k
+        
+        # iterate over all elements in nums
+        for i in range(len(nums)):
+            curr_value = nums[i]
+            
+            # pop elements from the stack if they are smaller than the current element
+            while top>=0 and curr_value > stack[top] and remain>0:
+                top-=1
+                remain-=1
+            
+            # add the current element to the stack if there is room
+            if top<k-1:
+                top+=1
+                stack[top]=curr_value
+            else:
+                remain-=1
+
+        return stack
+
+    # merge two subsequences into one
+    def merge(self,subSeq1,subSeq2):
+        x = len(subSeq1)
+        y = len(subSeq2)
+        if x==0: return subSeq2
+        if y==0: return subSeq1
+        merged = [0]*(x+y)
+        index1,index2=0,0
+        
+        # iterate over all elements in the merged sequence
+        for i in range(len(merged)):
+            # compare the next elements from each subsequence and add the larger one to the merged sequence
+            if self.compare(subSeq1,subSeq2,index1,index2)>0:
+                merged[i] = subSeq1[index1]
+                index1+=1
+            else:
+                merged[i] = subSeq2[index2]
+                index2+=1
+        
+        return merged            
+
+    # compare two subsequences
+    def compare(self,subSeq1,subSeq2,index1,index2):
+        x = len(subSeq1)
+        y = len(subSeq2)
+        
+        # iterate over all elements in both subsequences
+        while index1<x and index2<y:
+            diff = subSeq1[index1] - subSeq2[index2]
+            if diff!=0: return diff
+            index1+=1
+            index2+=1
+        
+        # compare the remaining lengths of the subsequences
+        return x-index1-(y-index2)
