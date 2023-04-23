@@ -1,1 +1,55 @@
+⭕️暴力解法
+
+不断枚举长度为4的数组
+
+class Solution:
+    def findMaxAverage(self, nums: List[int], k: int) -> float:
+        n = len(nums)
+        maxSum = float('-inf')
+        for i in range(n-k+1):
+            sum = 0 
+            for j in range(i,i+k):
+                sum+=nums[j]
+            maxSum = max(maxSum,sum)
+        return maxSum/k
+        
+        
+⭕️前缀和
+
+    1 12 -5 -6
+
+0   1 13 8  2
+class Solution:
+    def findMaxAverage(self, nums: List[int], k: int) -> float:
+        n = len(nums)
+        preSum = [0] * (n+1)
+        preSum[0] = 0
+        for i in range(1,n+1):
+            preSum[i]=preSum[i-1]+nums[i-1]
+
+        maxSum = float('-inf')
+        for i in range(n-k+1):
+            sum = 0 
+            #存在重复计算 
+            sum= preSum[i+k]-preSum[i]
+            maxSum = max(maxSum,sum)
+        return maxSum/k
+        
+        
+⭕️滑动窗口
+class Solution:
+    def findMaxAverage(self, nums: List[int], k: int) -> float:
+        left,right=0,0
+        sum=0
+        maxSum=float('-inf')
+        while right<len(nums):
+            sum+=nums[right]
+            #是否满足条件
+            if right-left+1==k:
+                maxSum=max(maxSum,sum)
+                sum-=nums[left]
+                left+=1
+            
+            right+=1
+        return maxSum/k
 
