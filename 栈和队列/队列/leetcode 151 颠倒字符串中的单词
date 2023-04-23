@@ -1,0 +1,107 @@
+⭕️方法一：使用内置API
+
+1.trim前面和后面的空格
+2.按照空格进行切割
+3.将字符串进行反转
+4.用空格将字符串连接起来
+
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        s = s.strip()
+        list = s.split()
+        list.reverse()
+        return ' '.join(list)
+
+⭕️方法二：不使用内置API
+
+1.去掉里面所有的空格
+2.将字符串按照字符反转
+3.字符内部进行反转
+
+
+
+s=' Bob Loves Alice      '
+1.'Bob Loves Alice'
+2.'ecilA sevoL boB'
+3.‘Alice Loves Bob’
+
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        s = self.trimSpaces(s)
+        s = list(s)
+        self.reverse(s, 0, len(s) - 1)
+        s = ''.join(s)
+        s = self.reverseEachWords(s)
+        return s
+        
+    def trimSpaces(self, s: str) -> str:
+        left, right = 0, len(s) - 1
+        while left <= right and s[left] == ' ':
+            left += 1
+        while left <= right and s[right] == ' ':
+            right -= 1
+        newS = []
+        while left <= right:
+            char = s[left]
+            if char != ' ':
+                newS.append(char)
+            elif newS and newS[-1] != ' ':
+                newS.append(' ')
+            left += 1
+        return ''.join(newS)
+
+    def reverse(self, s: List[str], start: int, end: int) -> None:
+        while start < end:
+            s[start], s[end] = s[end], s[start]
+            start += 1
+            end -= 1
+
+    def reverseEachWords(self, s: str) -> str:
+        s = list(s)
+        n = len(s)
+        left = 0
+        while left < n:
+            if s[left] != ' ':
+                right = left
+                while right < n - 1 and s[right + 1] != ' ':
+                    right += 1
+                self.reverse(s, left, right)
+                left = right + 1
+            else:
+                left += 1
+        return ''.join(s)
+
+⭕️双端队列
+
+1.去掉前后的空格
+2.从头到尾遍历，拿到一个单词，然后入队，
+3.字符内部进行反转
+
+
+
+s=' Bob Loves Alice      '
+1.'Bob Loves Alice'
+2. Alice Loves Bob
+3.‘Alice Loves Bob'
+
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        # trim所有前面和后面的空格
+        left, right = 0, len(s) - 1
+        while left <= right and s[left] == ' ': left += 1
+        while left <= right and s[right] == ' ': right -= 1
+        # 将每个单词入队
+        dq = deque()
+        word = []
+        while left <= right:
+            char = s[left]
+            if char != ' ':
+                word.append(char)
+            elif word:
+                dq.appendleft(''.join(word))
+                word = []
+            left += 1
+        # 处理最后一个单词
+        dq.appendleft(''.join(word))
+        # 将每个单词出队
+        return ' '.join(dq)
