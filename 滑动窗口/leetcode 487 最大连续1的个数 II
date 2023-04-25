@@ -1,0 +1,39 @@
+⭕️滑动窗口
+
+class Solution:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+        #右边边界一直走，知道找到第二个0，此时左边边界一直走，走到第一个0后面
+        ans=0
+        left,right=0,0
+        windowZeroCnt=0
+        while right<len(nums):
+            if nums[right]==0:
+                windowZeroCnt+=1
+                if windowZeroCnt==2:
+                    ans = max(ans,right-left)
+
+            while windowZeroCnt==2:
+                if nums[left]==0:
+                    windowZeroCnt-=1
+                left+=1
+            
+            right+=1
+
+            
+        return max(ans,right-left)
+ 
+ ⭕️优化
+ class Solution:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+        ans = 0
+        left,right=0,0
+        zeroIndex = -1
+        while right<len(nums):
+            if nums[right]==0:
+                #说明当前窗口已经出现过0
+                if zeroIndex>=0:
+                    ans = max(ans,right-left)
+                    left = zeroIndex + 1
+                zeroIndex=right
+            right+=1
+        return max(ans,right-left)
