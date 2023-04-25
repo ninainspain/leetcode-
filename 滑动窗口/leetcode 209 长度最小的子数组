@@ -45,7 +45,7 @@ class Solution:
         # 固定指针 i，在某个有序数组中，找到大于等于某个数的第一个位置
         ans = float('inf')
         for i in range(1, n+1):
-            t = target + preSum[i-1]
+            t = target + preSum[i-1] #preSum长度比nums长度大1，如果用i，有可能超过界限
             j = self.firstGETargetElement(preSum, t)
             if j < 0:
                 continue
