@@ -1,1 +1,40 @@
+⭕️线性遍历
 
+class Solution:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+        ones = 0
+        ans = 0
+        for num in nums:
+            if num == 1:
+                ones += 1
+            else:
+                ans = max(ans, ones)
+                ones = 0
+        ans = max(ans, ones)
+        return ans
+        
+  ⭕️滑动窗口
+  
+class Solution:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+        ans=0
+        left,right=0,0
+        while right<len(nums):
+            if nums[right]==0:
+                ans = max(ans,right-left)
+                left = right + 1
+            right +=1
+        return max(ans,right-left)
+        
+        
+  class Solution:
+    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
+        ans=0
+        left,right=0,0
+        while right<len(nums):
+            if nums[right]==1:
+                ans = max(ans,right-left-1)
+            else:
+                left = right + 1
+            right +=1
+        return ans
