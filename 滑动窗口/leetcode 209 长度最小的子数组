@@ -56,14 +56,14 @@ class Solution:
     def firstGETargetElement(self, nums, target):
         if nums is None or len(nums) == 0:
             return -1
-        left, right = 0, len(nums) - 1
-        while left <= right:
-            mid = left + (right - left) // 2
-            if target <= nums[mid]:
-                if mid == 0 or nums[mid-1] < target:
+        left,right=0,len(nums)-1
+        while left<=right:
+            mid=left+(right-left)//2
+            if nums[mid]>=target:
+                if mid==0 or nums[mid-1]<target:
                     return mid
                 else:
-                    right = mid - 1
+                    right=mid-1
             else:
-                left = mid + 1
-        return -1  
+                left=mid+1
+        return -1
