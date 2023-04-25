@@ -1,0 +1,90 @@
+⭕️暴力解法
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        ans = 0
+        for i in range(len(s)):
+            for j in range(i,len(s)):
+                if self.all_unique(s,i,j):
+                    ans = max(ans,j-i+1)
+        return ans
+
+    def all_unique(self, s, start, end):
+        char_set = set()
+        for i in range(start, end+1):
+            if s[i] in char_set:
+                return False
+            char_set.add(s[i])
+        return True
+
+⭕️滑动窗口
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        if len(s)<=1: return len(s)
+        #如果s[i,j)子串美元重复字符的话，要判断s[i,j]是否有重复字符，只要判断s[i,j)当中是否包含s[j]
+        left,right=0,0
+        ans=float('-inf')
+        length = 0
+        while right<len(s):
+            #移动左边界，从而达到祛除重复字符的目的
+            while not self.all_unique(s, left, right):
+                left+=1
+            #left移动完，此时是最大值
+            ans = max(ans,right-left+1)
+            right+=1
+        return ans
+
+    def all_unique(self,s,start,end):
+        char_set = set()
+        for i in range(start,end+1):
+            if s[i] in char_set:
+                return False
+            char_set.add(s[i])
+        return True
+        
+⭕️滑动窗口优化
+ 
+▶️在原本的滑动窗口中，遇到重复元素时候，要一步一步移动left指针。
+▶️为了优化这个步骤，要记住是哪一个重复元素，然后直接使left指针跳到重复元素的下一步
+▶️使用哈希表记住每个字符和它的索引
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        n = len(s)
+        maxLen = 0
+        left, right = 0, 0
+        window = {}
+        while right < n:
+            rightChar = s[right]
+            #如果不是-1，说明出现重复元素
+            rightCharIndex = window.get(rightChar, -1)
+            #如果出现重复元素，left直接跳到重复元素的后面一个位置
+            if rightCharIndex >= left:
+                left = rightCharIndex + 1
+            #记住重复元素的索引位置
+            window[rightChar] = right
+            #存储结果
+            maxLen = max(maxLen, right - left + 1)
+            right += 1
+        return maxLen
+
+⭕️用数组优化
+▶️用数组来代替map
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        n = len(s)
+        maxLen = 0
+        left, right = 0, 0
+        window = [-1]*128 #128个字符
+        while right < n:
+            rightChar = ord(s[right])-ord('a')
+            rightCharIndex = window[rightChar]
+            if rightCharIndex >= left:
+                left = rightCharIndex + 1
+            window[rightChar] = right
+            maxLen = max(maxLen, right - left + 1)
+            right += 1
+        return maxLen
+
+ 
