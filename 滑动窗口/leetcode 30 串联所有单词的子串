@@ -24,24 +24,33 @@ class Solution:
         return ans
 
 ⭕️滑动窗口
+from typing import List
+
 class Solution:
     def findSubstring(self, s: str, words: List[str]) -> List[int]:
         word_map = {}
         for word in words:
             word_map[word] = word_map.get(word, 0) + 1
-        word_len = len(words[0])
-        total_len = word_len * len(words)
+
+        one_len = len(words[0])
+        total_len = one_len * len(words)
+
         res = []
-        for i in range(len(s) - total_len + 1):
+        for i in range(one_len):
+            left, right = i,i
+            count = 0
             window_map = {}
-            for j in range(i, i + total_len, word_len):
-                curr_word = s[j:j + word_len]
-                if curr_word not in word_map:
-                    break
+            while right <= len(s) - one_len:
+                curr_word = s[right:right + one_len]
                 window_map[curr_word] = window_map.get(curr_word, 0) + 1
-                if window_map[curr_word] > word_map[curr_word]:
-                    break
-            else:
-                if all(window_map.get(word, 0) == word_map[word] for word in word_map):
-                    res.append(i)
+                count += 1
+                while window_map.get(curr_word, 0) > word_map.get(curr_word, 0):
+                    left_word = s[left:left + one_len]
+                    window_map[left_word] = window_map.get(left_word, 0) - 1
+                    left += one_len
+                    count -= 1
+                if count == len(words):
+                    res.append(left)
+                right += one_len
+
         return res
