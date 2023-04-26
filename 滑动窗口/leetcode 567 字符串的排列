@@ -1,2 +1,70 @@
 ⭕️计数方案
 
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        # Initialize the lengths of s1 and s2
+        n, m = len(s1), len(s2)
+        
+        # If s1 is longer than s2, s2 cannot contain a permutation of s1
+        if n > m:
+            return False
+        
+        # Initialize the frequency count arrays for s1 and the first window of s2
+        cnt1 = [0] * 26
+        cnt2 = [0] * 26
+        for i in range(n):
+            cnt1[ord(s1[i]) - ord('a')] += 1
+            cnt2[ord(s2[i]) - ord('a')] += 1
+        
+        # Check if s1 and the first window of s2 have the same frequency count
+        if cnt1 == cnt2:
+            return True
+            
+        # Slide the window of length n over s2 and check if any window contains a permutation of s1
+        for i in range(n, m):
+            cnt2[ord(s2[i]) - ord('a')] += 1
+            cnt2[ord(s2[i-n]) - ord('a')] -= 1
+
+            # If s1 and the current window of s2 have the same frequency count, s2 contains a permutation of s1
+            if cnt1 == cnt2:
+                return True
+        
+        # If no window of s2 contains a permutation of s1, return False
+        return False
+
+⭕️滑动窗口
+
+def checkInclusion(s1: str, s2: str) -> bool:
+    # Create a frequency map of characters in s1
+    freq_map = {}
+    for ch in s1:
+        freq_map[ch] = freq_map.get(ch, 0) + 1
+    
+    # Initialize window start and end
+    start, end = 0, 0
+    
+    # Initialize frequency map of characters in the current window
+    cur_freq_map = {}
+    
+    # Slide the window over s2
+    while end < len(s2):
+        # Add the current character to the frequency map of the current window
+        cur_freq_map[s2[end]] = cur_freq_map.get(s2[end], 0) + 1
+        
+        # If the current window size is greater than s1, slide the window to the right
+        if end - start + 1 > len(s1):
+            cur_freq_map[s2[start]] -= 1
+            if cur_freq_map[s2[start]] == 0:
+                del cur_freq_map[s2[start]]
+            start += 1
+        
+        # If the frequency map of the characters in the current window is equal to the frequency map of the characters in s1, return True
+        if cur_freq_map == freq_map:
+            return True
+        
+        end += 1
+    
+    # If no permutation is found, return False
+    return False
+
+
