@@ -1,1 +1,47 @@
+⭕️哈希查找
 
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        ans = []
+        #统计每个单词出现的次数
+        word_count = {}
+        for word in words:
+            word_count[word] = word_count.get(word, 0) + 1
+        #每次窗口的大小都固定是words当中单词长度的累加
+        word_length = len(words[0])
+        window_length = word_length * len(words)
+        for i in range(len(s) - window_length + 1):
+            #拿到等于所有单词长度之和的子串
+            window = s[i:i+window_length]
+            #统计子串中单词出现的次数
+            temp_map = {}
+            for j in range(0, window_length, word_length):
+                word = window[j:j+word_length]
+                temp_map[word] = temp_map.get(word, 0) + 1
+            #如果单词出现的次数和words中单词出现的次数相同，则符合条件
+            if word_count == temp_map:
+                ans.append(i)
+        return ans
+
+⭕️滑动窗口
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        word_map = {}
+        for word in words:
+            word_map[word] = word_map.get(word, 0) + 1
+        word_len = len(words[0])
+        total_len = word_len * len(words)
+        res = []
+        for i in range(len(s) - total_len + 1):
+            window_map = {}
+            for j in range(i, i + total_len, word_len):
+                curr_word = s[j:j + word_len]
+                if curr_word not in word_map:
+                    break
+                window_map[curr_word] = window_map.get(curr_word, 0) + 1
+                if window_map[curr_word] > word_map[curr_word]:
+                    break
+            else:
+                if all(window_map.get(word, 0) == word_map[word] for word in word_map):
+                    res.append(i)
+        return res
