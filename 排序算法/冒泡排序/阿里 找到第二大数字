@@ -1,14 +1,21 @@
 #在一个很长很长的数组中，如何快速找到第二大的元素
-def secondMaxNumber(self,nums):
-    first = float('-inf')
-    second = float('-inf')
+def find_second_largest(nums):
+    # Initialize the largest and second largest variables
+    largest = float('-inf')
+    second_largest = float('-inf')
+    
+    # Loop through the array
     for num in nums:
-        if num > first:
-            second = first
-            first = num
-        else:
-            if num > second:
-                second = num
-    return second
+        # If the current number is larger than the largest, update the largest and second largest
+        if num > largest:
+            second_largest = largest
+            largest = num
+        # If the current number is between the largest and second largest, update the second largest
+        elif num > second_largest:
+            second_largest = num
+    
+    # Return the second largest number
+    return second_largest
+
 
 #时间复杂度为O(n)，空间复杂度为O(1)
