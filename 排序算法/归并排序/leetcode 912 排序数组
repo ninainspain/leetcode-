@@ -51,39 +51,40 @@ class Solution:
 
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
-        
-        def merge_sort(nums):
-            if len(nums) > 1:
-                mid = len(nums) // 2
-                left_half = nums[:mid]
-                right_half = nums[mid:]
-
-                merge_sort(left_half)
-                merge_sort(right_half)
-
-                i = j = k = 0
-
-                while i < len(left_half) and j < len(right_half):
-                    if left_half[i] < right_half[j]:
-                        nums[k] = left_half[i]
-                        i += 1
-                    else:
-                        nums[k] = right_half[j]
-                        j += 1
-                    k += 1
-
-                while i < len(left_half):
-                    nums[k] = left_half[i]
-                    i += 1
-                    k += 1
-
-                while j < len(right_half):
-                    nums[k] = right_half[j]
-                    j += 1
-                    k += 1
-        
-        merge_sort(nums)
+        self.merge_sort(nums)
         return nums
+
+    def merge_sort(self,nums):
+        if len(nums)>1:
+            mid = len(nums)//2
+            left_half = nums[:mid]
+            right_half = nums[mid:]
+
+            self.merge_sort(left_half)
+            self.merge_sort(right_half)
+            
+            self.merge(nums,left_half,right_half)
+
+    def merge(self,nums,left_half,right_half):
+        i=j=k=0
+        while i<len(left_half) and j<len(right_half):
+            if left_half[i] < right_half[j]:
+                nums[k] = left_half[i]
+                i+=1
+            else:
+                nums[k] = right_half[j]
+                j+=1
+            k+=1
+        while i<len(left_half):
+            nums[k] = left_half[i]
+            i+=1
+            k+=1
+        while j<len(right_half):
+            nums[k] = right_half[j]
+            j+=1
+            k+=1
+
+
 
 ⭕️快速排序
 ▶️快速排序的主要思想是通过一趟排序将待排序序列分成独立的两部分，其中一部分的元素均比另一部分的元素小，然后再按照同样的方式对这两部分元素继续进行排序，直到整个序列有序为止。具体地，快速排序可以分为三个步骤：选取基准元素、划分操作和递归排序。选取基准元素可以随机选择待排序序列中的一个元素，也可以选择待排序序列的第一个元素或最后一个元素；划分操作是将待排序序列中小于基准元素的元素放到基准元素的左边，大于基准元素的元素放到基准元素的右边，最后返回基准元素的位置；递归排序是对基准元素左边和右边的子序列分别进行快速排序。
@@ -102,20 +103,20 @@ class Solution:
     def quickSort(self, nums: List[int], lo: int, hi: int) -> None:
         if lo >= hi:
             return
-        index = self.partition(nums, lo, hi)
-        self.quickSort(nums, lo, index - 1)
-        self.quickSort(nums, index + 1, hi)
+        pivot = self.partition(nums, lo, hi)
+        self.quickSort(nums, lo, pivot - 1)
+        self.quickSort(nums, pivot + 1, hi)
 
     def partition(self, nums: List[int], lo: int, hi: int) -> int:
         i = random.randint(lo, hi) # 随机选一个作为pivot
         nums[i], nums[hi] = nums[hi], nums[i]
         pivot = nums[hi]
-        less = lo
-        for great in range(lo, hi):
-            if nums[great] < pivot:
-                nums[less], nums[great] = nums[great], nums[less]
-                less += 1
-        nums[less], nums[hi] = nums[hi], nums[less]
-        return less
+        i = lo
+        for j in range(lo, hi):
+            if nums[j] < pivot:
+                nums[i], nums[j] = nums[j], nums[i]
+                i += 1
+        nums[i], nums[hi] = nums[hi], nums[i]
+        return i
 
 
