@@ -10,36 +10,42 @@
 ▶️原地排序，稳定排序
 class Solution:
     def sortArray(self, nums: List[int]) -> List[int]:
-        temp = [0] * len(nums)
-        self.mergeSort(nums, 0, len(nums) - 1, temp)
+        self.merge_sort(nums, 0, len(nums) - 1)
         return nums
 
-    def mergeSort(self, nums, lo, hi, temp):
-        if lo >= hi:
+    def merge_sort(self, nums, left, right):
+        if left >= right:
             return
-        mid = lo + (hi - lo) // 2
-        self.mergeSort(nums, lo, mid, temp)
-        self.mergeSort(nums, mid + 1, hi, temp)
-        self.merge(nums, lo, mid, hi, temp)
+            
+        mid = (left + right) // 2
 
-    def merge(self, nums, lo, mid, hi, temp):
-        for i in range(lo, hi + 1):
-            temp[i] = nums[i]
-        i = lo
+        self.merge_sort(nums, left, mid)
+        self.merge_sort(nums, mid + 1, right)
+        self.merge(nums, left, mid, right)
+
+    def merge(self, nums, left, mid, right):
+        i = left
         j = mid + 1
-        for k in range(lo, hi + 1):
-            if i > mid:
-                nums[k] = temp[j]
-                j += 1
-            elif j > hi:
-                nums[k] = temp[i]
-                i += 1
-            elif temp[i] <= temp[j]:
-                nums[k] = temp[i]
+        temp = []
+
+        while i <= mid and j <= right:
+            if nums[i] < nums[j]:
+                temp.append(nums[i])
                 i += 1
             else:
-                nums[k] = temp[j]
+                temp.append(nums[j])
                 j += 1
+
+        while i <= mid:
+            temp.append(nums[i])
+            i += 1
+
+        while j <= right:
+            temp.append(nums[j])
+            j += 1
+
+        for k in range(left, right + 1):
+            nums[k] = temp[k - left]
 
                 
 ⭕️快速排序
