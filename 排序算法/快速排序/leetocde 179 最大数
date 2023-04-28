@@ -3,6 +3,7 @@
 3 30
 330>303 ->把3放在30前面
 
+⭕️第一种解法
 class Solution:
     def largestNumber(self, nums: List[int]) -> str:
         self.quick_sort(nums, 0, len(nums) - 1)
@@ -31,3 +32,34 @@ class Solution:
         self.quick_sort(nums, lo, less - 1)
         self.quick_sort(nums, great + 1, hi)
 
+⭕️第二种解法
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+        # Define the custom comparison function
+        def compare(a, b):
+            return int(str(b) + str(a)) - int(str(a) + str(b))
+        
+        # Define the quicksort function
+        def quicksort(nums, start, end):
+            if start >= end:
+                return
+            pivot = nums[start]
+            left, right = start + 1, end
+            while left <= right:
+                if compare(nums[left], pivot) > 0 and compare(nums[right], pivot) <= 0:
+                    nums[left], nums[right] = nums[right], nums[left]
+                if compare(nums[left], pivot) <= 0:
+                    left += 1
+                if compare(nums[right], pivot) > 0:
+                    right -= 1
+            nums[start], nums[right] = nums[right], nums[start]
+            quicksort(nums, start, right - 1)
+            quicksort(nums, right + 1, end)
+        
+        # Convert the input array to a list of strings and quicksort it using the comparison function
+        nums_str = [str(num) for num in nums]
+        quicksort(nums_str, 0, len(nums_str) - 1)
+        
+        # Concatenate the sorted strings and return the result
+        result = ''.join(nums_str)
+        return str(int(result))  # Remove leading zeros, if any
