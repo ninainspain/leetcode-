@@ -1,13 +1,13 @@
 ⭕️暴力解法
-
 class Solution:
     def myPow(self, x: float, n: int) -> float:
+        #2**(-2)=(0.5)*2
         if n<0:
-            x = 1//x
-            n=-n
-        res=1
+            x = 1/x
+            n = -n
+        res = 1
         for i in range(n):
-            res*=x
+            res *= x
         return res
         
  ⭕️快速幂的递归方式
@@ -19,3 +19,19 @@ class Solution:
  x^2 = x*x
  先分解再合并，类似于归并
  
+ class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n < 0:
+            x = 1 / x
+            n = -n
+        return self.merge_pow(x, n)
+
+    def merge_pow(self, x: float, n: int) -> float:
+        if n == 0:
+            return 1.0
+        half = self.merge_pow(x, n // 2)
+        if n % 2 == 0:
+            return half * half
+        else:
+            return half * half * x
+
