@@ -1,1 +1,65 @@
+⭕️第一种写法
 
+import random
+
+def quicksort(nums, start=None, end=None):
+    if start is None and end is None:
+        start, end = 0, len(nums) - 1
+
+    if start >= end:
+        return
+
+    pivot_index = random.randint(start, end)
+    pivot = nums[pivot_index]
+    nums[pivot_index], nums[end] = nums[end], nums[pivot_index]
+
+    left_pointer, right_pointer = start, end - 1
+
+    while left_pointer <= right_pointer:
+        if nums[left_pointer] <= pivot:
+            left_pointer += 1
+        elif nums[right_pointer] > pivot:
+            right_pointer -= 1
+        else:
+            nums[left_pointer], nums[right_pointer] = nums[right_pointer], nums[left_pointer]
+            left_pointer += 1
+            right_pointer -= 1
+
+    nums[left_pointer], nums[end] = nums[end], nums[left_pointer]
+
+    quicksort(nums, start, left_pointer - 1)
+    quicksort(nums, left_pointer + 1, end)
+
+
+
+⭕️第二种写法
+
+import random
+
+def quicksort(nums, start=None, end=None):
+    if start is None and end is None:
+        start, end = 0, len(nums) - 1
+
+    if start >= end:
+        return
+
+    pivot_index = random.randint(start, end)
+    pivot = nums[pivot_index]
+    nums[pivot_index], nums[end] = nums[end], nums[pivot_index]
+
+    left_pointer, right_pointer = start, end - 1
+
+    while left_pointer <= right_pointer:
+        if nums[left_pointer] <= pivot:
+            left_pointer += 1
+        elif nums[right_pointer] > pivot:
+            right_pointer -= 1
+        else:
+            nums[left_pointer], nums[right_pointer] = nums[right_pointer], nums[left_pointer]
+            left_pointer += 1
+            right_pointer -= 1
+
+    nums[left_pointer], nums[end] = nums[end], nums[left_pointer]
+
+    quicksort(nums, start, left_pointer - 1)
+    quicksort(nums, left_pointer + 1, end)
