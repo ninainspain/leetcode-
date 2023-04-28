@@ -1,1 +1,22 @@
+⭕️计数排序
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        #计数
+        counts = [0] * 3
+        
+        for num in nums:
+            counts[num] += 1
+        
+        #因为counts数组只有3个数组，所以不用计数累加，也不要output数组
+        #排序
+        index = 0
+        for i in range(3):
+            for j in range(counts[i]):
+                nums[index] = i
+                index += 1
 
+
+⭕️快速排序
