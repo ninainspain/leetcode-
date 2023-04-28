@@ -33,26 +33,32 @@ class Solution:
  ▶️查找【i，j】使prefixSum[j]-prefixSum[i]属于【lower,upper】
  其中i < j
  
+from typing import List
+
 class Solution:
     def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
-        n = len(nums)
-        prefix_sum = [0] * (n + 1)
-        for i in range(n):
-            prefix_sum[i+1] = prefix_sum[i] + nums[i]
-        return self.merge_sort(prefix_sum, 0, n, lower, upper)
-    
-    def merge_sort(self, prefix_sum, left, right, lower, upper):
-        if left >= right:
+        sums = [0] * (len(nums) + 1)
+        for i, num in enumerate(nums):
+            sums[i + 1] = sums[i] + num
+        
+        return self.merge_sort(sums, lower, upper, 0, len(sums))
+
+    def merge_sort(self, sums: List[int], lower: int, upper: int, lo: int, hi: int) -> int:
+        if hi - lo <= 1:
             return 0
-        mid = (left + right) // 2
-        count = self.merge_sort(prefix_sum, left, mid, lower, upper) + self.merge_sort(prefix_sum, mid+1, right, lower, upper)
-        p = q = mid + 1
-        for i in range(left, mid+1):
-            while p <= right and prefix_sum[p] - prefix_sum[i] < lower:
-                p += 1
-            while q <= right and prefix_sum[q] - prefix_sum[i] <= upper:
-                q += 1
-            count += q - p
-        prefix_sum[left:right+1] = sorted(prefix_sum[left:right+1])
+        
+        mid = (lo + hi) // 2
+        count = self.merge_sort(sums, lower, upper, lo, mid) + self.merge_sort(sums, lower, upper, mid, hi)
+        i, j = mid, mid
+        
+        for left in range(lo, mid):
+            while i < hi and sums[i] - sums[left] < lower:
+                i += 1
+            while j < hi and sums[j] - sums[left] <= upper:
+                j += 1
+            count += j - i
+        
+        sums[lo:hi] = sorted(sums[lo:hi])
         return count
+
 
