@@ -1,0 +1,16 @@
+▶️基本逻辑
+1.按照第一个值，先将interval进行升序排列
+
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        #按照区间左边的值进行升序排序
+        intervals.sort(key=lambda x: x[0]) 
+        #存储结果集
+        merged = []
+        for interval in intervals:
+            # if the current interval overlaps with the previous one, merge them
+            if merged and interval[0] <= merged[-1][1]:
+                merged[-1][1] = max(merged[-1][1], interval[1])
+            else:
+                merged.append(interval)
+        return merged
