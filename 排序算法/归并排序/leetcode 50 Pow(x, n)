@@ -11,6 +11,8 @@ class Solution:
         return res
         
  ⭕️快速幂的递归方式
+ 时间 O（logn）
+ 空间 O（logn）
  x^64 = x^32 * x^32
  x^32 = x^16 * x^16
  x^16 = x^8 * x^8
@@ -35,3 +37,35 @@ class Solution:
         else:
             return half * half * x
 
+⭕️位运算
+
+n = 9， 求x**9
+
+▶️9转化为二进制 1001
+
+9 = 1*2**0 + 0 * 2**1 + 0*2**2 + 1*2**3
+
+x^9 = x^(1*2**0) + x^(0 * 2**1) + x^(0*2**2) + x^(1*2**3)
+
+x^15 = y1 * y2 * y3 * y4
+
+15 = 1111
+
+y1 = x^(1*2^0) = x
+y2 = x^(1*2^1) = y1*y1
+y3 = x^(1*2^2) = y2*y2
+y4 = x^(1*2^3) = y3*y3
+
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n < 0:
+            x = 1 / x
+            n = -n
+        result = 1
+        while n > 0:
+            if n & 1:
+                result *= x
+            x *= x
+            n >>= 1
+        return result
+       
