@@ -1,28 +1,27 @@
 class Solution:
     def countSmaller(self, nums: List[int]) -> List[int]:
         smaller = [0] * len(nums)
-        self.merge_sort(list(enumerate(nums)), smaller)
+        self.merge_sort(list(enumerate(nums)),smaller)
         return smaller
-        
-    def merge_sort(self, enum, smaller):
-        if len(enum) <= 1:  # Base case
+
+    def merge_sort(self,enum,smaller):
+        if len(enum)<=1:
             return enum
+        
+        mid = len(enum)//2
+        left = self.merge_sort(enum[:mid],smaller)
+        right = self.merge_sort(enum[mid:],smaller)
 
-        half = len(enum) // 2
-        left = self.merge_sort(enum[:half], smaller)
-        right = self.merge_sort(enum[half:], smaller)
+        m,n = len(left),len(right)
 
-        m, n = len(left), len(right)
         i = j = 0
-        while i < m or j < n:
-            if j == n or (i < m and left[i][1] <= right[j][1]):
+        while i<m or j<n:
+            if j==n or (i<m and left[i][1]<=right[j][1]):
                 enum[i+j] = left[i]
                 smaller[left[i][0]] += j
                 i += 1
             else:
                 enum[i+j] = right[j]
-                j += 1
-
-        return enum
-
-
+                j +=1
+                
+         return enum
