@@ -16,8 +16,8 @@ class Solution:
         self.merge_sort(left_half,smaller)
         self.merge_sort(right_half,smaller)
 
-        enum[:] = self.merge(enum,left_half,right_half,smaller)
-        return enum
+        self.merge(enum,left_half,right_half,smaller)
+        
 
     def merge(self,enum,left_half,right_half,smaller):
         i = j = k = 0
