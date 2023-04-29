@@ -1,1 +1,40 @@
+digit represents the position (or index) of the digit that we are currently sorting by, 
+
+where the rightmost (i.e., least significant) digit has position 0, the second rightmost digit has position 1, and so on.
+
+
+def radix_sort(arr):
+    max_digit = get_max_digit(arr)
+    for i in range(max_digit):
+        arr = counting_sort(arr, i)
+    return arr
+
+
+def counting_sort(arr, digit):
+    k = 10  # 因为每个数字只有0~9这10个可能，所以k取10
+    counts = [0] * k  # 初始化计数数组
+    for num in arr:
+        digit_num = get_digit(num, digit)
+        counts[digit_num] += 1
+    for i in range(1, k):
+        counts[i] += counts[i - 1]
+    res = [0] * len(arr)
+    for i in range(len(arr) - 1, -1, -1):
+        digit_num = get_digit(arr[i], digit)
+        res[counts[digit_num] - 1] = arr[i]
+        counts[digit_num] -= 1
+    return res
+
+
+def get_digit(num, digit):
+    return num // 10**digit % 10
+
+
+def get_max_digit(arr):
+    max_digit = 1
+    for num in arr:
+        digit = len(str(num))
+        if digit > max_digit:
+            max_digit = digit
+    return max_digit
 
