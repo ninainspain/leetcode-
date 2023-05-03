@@ -1,0 +1,72 @@
+⭕️第一种解法：找到不重复的元素为止
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        # Create a dummy node to handle the case where the first node needs to be removed.
+        dummy = ListNode(-1)
+        dummy.next = head
+        
+        # Initialize the pointers.
+        prev = dummy
+        curr = head
+        
+        while curr:
+            # Check for duplicates.
+            while curr.next and curr.val == curr.next.val:
+                curr = curr.next
+            
+            # Update the pointers.
+            if prev.next == curr:
+                prev = prev.next
+            else:
+                prev.next = curr.next
+            
+            curr = curr.next
+        
+        # Return the head of the updated linked list.
+        return dummy.next
+
+⭕️第二种解法：标记重复元素
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        # Check for the base case.
+        if not head:
+            return head
+        
+        # Initialize the pointers and the flag.
+        dummy = ListNode(-1, head)
+        prev = dummy
+        curr = head
+        is_duplicate = False
+        
+        while curr and curr.next:
+            if curr.val == curr.next.val:
+                # Mark the current node as duplicate.
+                is_duplicate = True
+                curr.next = curr.next.next
+            elif is_duplicate:
+                # Remove the duplicate nodes.
+                prev.next = curr.next
+                curr = prev.next
+                is_duplicate = False
+            else:
+                # Update the pointers.
+                prev = curr
+                curr = curr.next
+        
+        # Handle the case where the last node is a duplicate.
+        if is_duplicate:
+            prev.next = curr.next
+        
+        return dummy.next
