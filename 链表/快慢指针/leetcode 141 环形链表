@@ -1,0 +1,39 @@
+⭕️快慢指针
+
+class Solution:
+    def hasCycle(self, head: ListNode) -> bool:
+        # Initialize the pointers.
+        slow = fast = head
+        
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            
+            # Check if the two pointers have met.
+            if slow == fast:
+                return True
+        
+        return False
+
+
+⭕️哈希查找
+class Solution:
+    def hasCycle(self, head: ListNode) -> bool:
+        # Initialize the hash map and the current node.
+        hashmap = {}
+        curr = head
+        
+        # Traverse the linked list.
+        while curr:
+            # Check if the current node is already in the hash map.
+            if curr in hashmap:
+                return True
+            
+            # Add the current node to the hash map.
+            hashmap[curr] = True
+            
+            # Move to the next node.
+            curr = curr.next
+        
+        # If we have reached the end of the linked list without finding a cycle, then return False.
+        return False
