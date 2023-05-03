@@ -1,1 +1,58 @@
 
+⭕️分头节点和非头节点讨论
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:
+        # Delete head node
+        while head is not None and head.val == val:
+            head = head.next
+
+        if head is None:
+            return None
+
+        # Delete non-head nodes
+        prev = head
+        cur = head.next
+        while cur:
+            if cur.val == val:
+                prev.next = cur.next
+                cur = cur.next
+            else:
+                prev = cur
+                cur = cur.next
+
+        return head
+
+
+⭕️虚拟头节点
+class Solution:
+    def removeElements(self, head: ListNode, val: int) -> ListNode:
+        # Create a dummy node to handle the case where the first node needs to be removed.
+        dummy = ListNode(-1)
+        dummy.next = head
+        
+        # Initialize two pointers to traverse the linked list.
+        prev = dummy
+        curr = head
+        
+        while curr:
+            if curr.val == val:
+                # Remove the current node.
+                prev.next = curr.next
+                
+                # Update the current pointer.
+                curr = curr.next
+            else:
+                # Update the pointers.
+                prev = curr
+                curr = curr.next
+    
+        
+        # Return the head of the updated linked list.
+        return dummy.next
