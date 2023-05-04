@@ -1,3 +1,5 @@
+⭕️迭代
+
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -19,3 +21,24 @@ class Solution:
                 current = node.right
         return inorder
 
+⭕️递归
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def inorderTraversal(self, root):
+        res = []
+        self.traverse(root, res)
+        return res
+        
+    def traverse(self, node, res):
+        if not node:
+            return
+        self.traverse(node.left, res)  # First, traverse the left subtree
+        res.append(node.val)  # Then, visit the current node (root)
+        self.traverse(node.right, res)  # Finally, traverse the right subtree
