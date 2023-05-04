@@ -35,52 +35,60 @@ class Solution:
  
 from typing import List
 
+from typing import List
+
 class Solution:
     def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
-        sums = [0] * (len(nums) + 1)
+        sums = [0] * (len(nums)+1)
         for i, num in enumerate(nums):
-            sums[i + 1] = sums[i] + num
+            sums[i+1] = sums[i] + num
 
-        return self.merge_sort(sums, lower, upper, 0, len(sums) - 1)
+        return self.merge_sort(sums, lower, upper)
 
-    def merge_sort(self, sums, lower, upper, lo, hi):
-        if hi <= lo:
+    def merge_sort(self, nums, lower, upper):
+        if len(nums) <= 1:
             return 0
-
-        mid = lo + (hi - lo) // 2
+        
+        mid = len(nums) // 2
+        left = nums[:mid]
+        right = nums[mid:]
         count = 0
-        count += self.merge_sort(sums, lower, upper, lo, mid)
-        count += self.merge_sort(sums, lower, upper, mid + 1, hi)
+        count += self.merge_sort(left, lower, upper)
+        count += self.merge_sort(right, lower, upper)
 
-        j = k = mid + 1
-        for left in range(lo, mid + 1):
-            while k <= hi and sums[k] - sums[left] < lower:
-                k += 1
-            while j <= hi and sums[j] - sums[left] <= upper:
+        # Count subarrays whose sum is within the given range.
+        i = j = 0
+        for left_idx in range(len(left)):
+            while i < len(right) and right[i] - left[left_idx] < lower:
+                i += 1
+            while j < len(right) and right[j] - left[left_idx] <= upper:
                 j += 1
-            count += j - k
+            count += j - i
 
-        i, j = lo, mid + 1
-        temp = []
-        while i <= mid and j <= hi:
-            if sums[i] < sums[j]:
-                temp.append(sums[i])
+        # Sort the merged subarrays.
+        sorted_nums = [0] * len(nums)
+        i = j = k = 0
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                sorted_nums[k] = left[i]
                 i += 1
             else:
-                temp.append(sums[j])
+                sorted_nums[k] = right[j]
                 j += 1
-
-        while i <= mid:
-            temp.append(sums[i])
+            k += 1
+        while i < len(left):
+            sorted_nums[k] = left[i]
             i += 1
-
-        while j <= hi:
-            temp.append(sums[j])
+            k += 1
+        while j < len(right):
+            sorted_nums[k] = right[j]
             j += 1
+            k += 1
 
-        for k in range(lo, hi + 1):
-            sums[k] = temp[k - lo]
+        # Copy the sorted subarrays back to the original list.
+        for i in range(len(nums)):
+            nums[i] = sorted_nums[i]
 
         return count
-     
+
 
