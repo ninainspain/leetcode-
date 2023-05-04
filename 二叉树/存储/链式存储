@@ -1,0 +1,27 @@
+二叉树的链式存储是指使用指针来表示二叉树的结构。在二叉树的链式存储中，每个节点包含三个部分：数据域、左子节点指针和右子节点指针。其中，左子节点指针和右子节点指针分别指向该节点的左子节点和右子节点，如果该节点没有子节点，则相应的指针为NULL。
+
+二叉树的链式存储具有以下特点：
+
+节点之间通过指针相连，可以灵活地表示任意形状的二叉树。
+节点的存储空间是动态分配的，不会浪费空间。
+与顺序存储相比，链式存储可以更快地插入和删除节点，但访问节点时需要进行指针跳转，效率相对较低。
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+# 创建根节点
+root = TreeNode(1)
+
+# 创建左子节点和右子节点
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+
+# 创建左子节点的子节点
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+
