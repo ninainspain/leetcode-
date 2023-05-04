@@ -46,47 +46,46 @@ class Solution:
 
     def merge_sort(self, sums, lower, upper, lo, hi):
         if hi <= lo:
-            return 0
+                return 0
 
-        mid = lo + (hi - lo) // 2
+            mid = lo + (hi - lo) // 2
 
-        count = 0
-        count += self.merge_sort(sums, lower, upper, lo, mid)
-        count += self.merge_sort(sums, lower, upper, mid + 1, hi)
+            count = 0
+            count += self.merge_sort(sums, lower, upper, lo, mid)
+            count += self.merge_sort(sums, lower, upper, mid + 1, hi)
 
-        i, j, k = lo, mid + 1, 0
-        while i <= mid and j <= hi:
-            if sums[j] - sums[i] >= lower and sums[j] - sums[i] <= upper:
-                count += 1
-            if sums[j] - sums[i] <= upper:
-                j += 1
-            else:
-                i += 1
-                if j > mid + 1:
-                    j -= 1
+            # Count range sums that fall within the given bounds
+            i = lo
+            j = k = mid + 1
+            for left in range(lo, mid + 1):
+                while k <= hi and sums[k] - sums[left] < lower:
+                    k += 1
+                while j <= hi and sums[j] - sums[left] <= upper:
+                    j += 1
+                count += j - k
 
-        i, j = lo, mid + 1
-        temp = []
+            # Merge step
+            i, j = lo, mid + 1
+            temp = []
 
-        while i <= mid and j <= hi:
-            if sums[i] < sums[j]:
+            while i <= mid and j <= hi:
+                if sums[i] < sums[j]:
+                    temp.append(sums[i])
+                    i += 1
+                else:
+                    temp.append(sums[j])
+                    j += 1
+
+            while i <= mid:
                 temp.append(sums[i])
                 i += 1
-            else:
+
+            while j <= hi:
                 temp.append(sums[j])
                 j += 1
 
-        while i <= mid:
-            temp.append(sums[i])
-            i += 1
+            for k in range(lo, hi + 1):
+                sums[k] = temp[k - lo]
 
-        while j <= hi:
-            temp.append(sums[j])
-            j += 1
-
-        for k in range(lo, hi + 1):
-            sums[k] = temp[k - lo]
-
-        return count
-
+            return count           
 
