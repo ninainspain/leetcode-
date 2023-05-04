@@ -35,42 +35,15 @@ class Solution:
  
 from typing import List
 
+from typing import List
+
 class Solution:
     def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
         sums = [0] * (len(nums) + 1)
         for i, num in enumerate(nums):
             sums[i + 1] = sums[i] + num
-        
-        return self.merge_sort(sums, lower, upper, 0, len(sums))
 
-    def merge_sort(self, sums: List[int], lower: int, upper: int, lo: int, hi: int) -> int:
-        if hi - lo <= 1:
-            return 0
-        
-        mid = (lo + hi) // 2
-        count = self.merge_sort(sums, lower, upper, lo, mid) + self.merge_sort(sums, lower, upper, mid, hi)
-        i, j = mid, mid
-        
-        for left in range(lo, mid):
-            while i < hi and sums[i] - sums[left] < lower:
-                i += 1
-            while j < hi and sums[j] - sums[left] <= upper:
-                j += 1
-            count += j - i
-        
-        sums[lo:hi] = sorted(sums[lo:hi])
-        return count
-
-
----------完整版-------
-
-class Solution:
-    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:
-        sums = [0] * (len(nums) + 1)
-        for i, num in enumerate(nums):
-            sums[i+1] = sums[i] + num
-
-        return self.merge_sort(sums, lower, upper, 0, len(nums))
+        return self.merge_sort(sums, lower, upper, 0, len(sums) - 1)
 
     def merge_sort(self, sums, lower, upper, lo, hi):
         if hi <= lo:
@@ -78,43 +51,43 @@ class Solution:
 
         mid = lo + (hi - lo) // 2
 
-        count = self.merge_sort(sums, lower, upper, lo, mid) + self.merge_sort(sums, lower, upper, mid+1, hi)
+        count = 0
+        count += self.merge_sort(sums, lower, upper, lo, mid)
+        count += self.merge_sort(sums, lower, upper, mid + 1, hi)
 
-        left = sums[lo:mid+1]
-        right = sums[mid+1:hi+1]
-
-        i = j = 0
-        for val in left:
-            while i < len(right) and right[i] - val < lower:
-                i += 1
-
-            while j < len(right) and right[j] - val <= upper:
+        i, j, k = lo, mid + 1, 0
+        while i <= mid and j <= hi:
+            if sums[j] - sums[i] >= lower and sums[j] - sums[i] <= upper:
+                count += 1
+            if sums[j] - sums[i] <= upper:
                 j += 1
+            else:
+                i += 1
+                if j > mid + 1:
+                    j -= 1
 
-            count += j - i
+        i, j = lo, mid + 1
+        temp = []
 
-        i = j = 0
-        k = lo
-
-        while i < len(left) and j < len(right):
-            if left[i] <= right[j]:
-                sums[k] = left[i]
+        while i <= mid and j <= hi:
+            if sums[i] < sums[j]:
+                temp.append(sums[i])
                 i += 1
             else:
-                sums[k] = right[j]
+                temp.append(sums[j])
                 j += 1
 
-            k += 1
-
-        while i < len(left):
-            sums[k] = left[i]
+        while i <= mid:
+            temp.append(sums[i])
             i += 1
-            k += 1
 
-        while j < len(right):
-            sums[k] = right[j]
+        while j <= hi:
+            temp.append(sums[j])
             j += 1
-            k += 1
+
+        for k in range(lo, hi + 1):
+            sums[k] = temp[k - lo]
 
         return count
+
 
