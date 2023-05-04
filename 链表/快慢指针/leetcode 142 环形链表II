@@ -1,0 +1,54 @@
+⭕️哈希查找
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def detectCycle(self, head):
+        visited_nodes = {}  # Initialize an empty hashmap
+        
+        current_node = head
+        while current_node is not None:
+            if current_node in visited_nodes:
+                return current_node  # Return the starting point of the cycle
+            visited_nodes[current_node] = True
+            current_node = current_node.next
+        
+        return None  # If there's no cycle, return None
+
+
+⭕️快慢指针
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def detectCycle(self, head):
+        slow = head
+        fast = head
+        
+        # Find the meeting point (if there's a cycle)
+        while fast is not None and fast.next is not None:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                break
+                
+        # If there's no cycle, return None
+        if fast is None or fast.next is None:
+            return None
+        
+        # Move slow back to the head and find the cycle start
+        slow = head
+        while slow != fast:
+            slow = slow.next
+            fast = fast.next
+        
+        return slow
+
