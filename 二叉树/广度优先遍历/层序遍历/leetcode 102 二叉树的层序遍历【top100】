@@ -1,3 +1,4 @@
+⭕️使用队列实现
 class Solution:
     def levelOrder(self, root: TreeNode) -> List[List[int]]:
         if not root:
@@ -17,3 +18,69 @@ class Solution:
             result.append(level)
         return result
 
+⭕️使用前序遍历实现
+
+from typing import List
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+
+def createTree(nums):
+    if not nums:
+        return None
+    nodes = [TreeNode(val=num) if num is not None else None for num in nums]
+    n = len(nums)
+    for i, node in enumerate(nodes):
+        if node is not None:
+            left_idx = 2 * i + 1
+            right_idx = 2 * i + 2
+            if left_idx < n:
+                node.left = nodes[left_idx]
+            if right_idx < n:
+                node.right = nodes[right_idx]
+    return nodes[0]
+    
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        stack = [(root, 0)]
+        levels = [[]]
+        current_level = 0
+        while stack:
+            node, level = stack.pop()
+            if level > current_level:
+                levels.append([])
+                current_level += 1
+            levels[current_level].append(node.val)
+            if node.right:
+                stack.append((node.right, level + 1))
+            if node.left:
+                stack.append((node.left, level + 1))
+        return levels
+
+
+s = Solution()
+root = createTree([3,9,20,None,None,15,7])
+print(s.levelOrder(root))
+
+⭕️使用前序遍历迭代实现
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        levels = []
+        self.preorder(root, 0, levels)
+        return levels
+        
+    def preorder(self, node: TreeNode, level: int, levels: List[List[int]]) -> None:
+        if not node:
+            return
+        if len(levels) == level:
+            levels.append([])
+        levels[level].append(node.val)
+        self.preorder(node.left, level + 1, levels)
+        self.preorder(node.right, level + 1, levels)
