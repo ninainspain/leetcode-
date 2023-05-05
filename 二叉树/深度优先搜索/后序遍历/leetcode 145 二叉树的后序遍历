@@ -54,7 +54,7 @@ class Solution:
 
 ⭕️递归
 ▶️时间复杂度O（n）
-▶️空间复杂度O（n）
+▶️空间复杂度O（n）最差情况下
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
