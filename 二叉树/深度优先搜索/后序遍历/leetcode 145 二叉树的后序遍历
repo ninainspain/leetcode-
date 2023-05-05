@@ -32,6 +32,8 @@ class Solution:
         return output[::-1]
         
  ⭕️优化,用链表优化，减少最后反转的过程
+▶️时间复杂度O（n）
+▶️空间复杂度O（n）
  class Solution:
     def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         res = []
@@ -51,6 +53,8 @@ class Solution:
         return res
 
 ⭕️递归
+▶️时间复杂度O（n）
+▶️空间复杂度O（n）
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
