@@ -1,27 +1,41 @@
 class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
+    def __init__(self, key, left=None, right=None):
+        self.key = key
         self.left = left
         self.right = right
-        
-class Solution:
-    def removeMin(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        if not root:
-            return None
-        
-        # If the root has no left child, it is the minimum node
-        if not root.left:
-            return root.right
-        
-        # Otherwise, traverse down the left subtree to find the minimum node
-        parent = root
-        curr = root.left
-        while curr.left:
-            parent = curr
-            curr = curr.left
-        
-        # Update parent's left child to skip the minimum node
-        parent.left = curr.right
-        
-        # Return the minimum node
-        return curr
+
+
+⭕️迭代
+def remove_min_iterative(node):
+    if node is None:
+        return None, None
+
+    parent = None
+    current = node
+
+    # Traverse left to find the minimum value.
+    while current.left is not None:
+        parent = current
+        current = current.left
+
+    # Node with minimum value found (current).
+    if parent is None:
+        # The root is the minimum value.
+        return current.key, current.right
+    else:
+        parent.left = current.right
+        return current.key, node
+
+⭕️递归
+def remove_min(node):
+    if node is None:
+        return None, None
+
+    if node.left is None:
+        # Node with minimum value found.
+        return node.key, node.right
+
+    # Keep traversing left to find the minimum value.
+    min_value, new_left = remove_min(node.left)
+    node.left = new_left
+    return min_value, node
