@@ -1,1 +1,53 @@
+def remove_value_from_bst(node, value):
+    """
+    Remove the given value from the binary search tree rooted at the given node.
+    Returns the new root of the subtree.
+    """
+    if node is None:
+        return None
+
+    parent = None
+    current = node
+
+    # Find the node to remove.
+    while current is not None and current.key != value:
+        parent = current
+        if value < current.key:
+            current = current.left
+        else:
+            current = current.right
+
+    # Value not found.
+    if current is None:
+        return node
+
+    # Node found, remove it.
+    if current.left is None or current.right is None:
+        # Case 1: Node has no children or one child.
+        if parent is None:
+            return current.left or current.right
+        elif parent.left == current:
+            parent.left = current.left or current.right
+        else:
+            parent.right = current.left or current.right
+    else:
+        # Case 2: Node has two children.
+        successor = current.right
+        successor_parent = current
+
+        # Find the minimum value in the right subtree.
+        while successor.left is not None:
+            successor_parent = successor
+            successor = successor.left
+
+        # Replace the current node's value with the minimum value.
+        current.key = successor.key
+
+        # Remove the minimum value node from the right subtree.
+        if successor_parent.left == successor:
+            successor_parent.left = successor.right
+        else:
+            successor_parent.right = successor.right
+
+    return node
 
