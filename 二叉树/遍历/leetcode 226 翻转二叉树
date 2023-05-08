@@ -1,0 +1,69 @@
+⭕️DFS 迭代
+
+class Solution:
+    def invertTree(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return None
+        
+        stack = [root]
+        
+        while stack:
+            node = stack.pop()
+            
+            # Swap the left and right children of the current node
+            temp = node.left
+            node.left = node.right
+            node.right = temp
+            
+            # Add the left and right children to the stack for processing
+            if node.right:
+                stack.append(node.right)
+            if node.left:
+                stack.append(node.left)
+                
+        return root
+
+
+⭕️DFS 递归
+class Solution:
+    def invertTree(self, root: TreeNode) -> TreeNode:
+        if root is None:
+            return None
+        
+        # Swap the left and right subtrees of the current node
+        temp = root.left
+        root.left = root.right
+        root.right = temp
+        
+        # Recursively invert the left and right subtrees
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+        
+        return root
+
+⭕️BFS 迭代
+from collections import deque
+
+class Solution:
+    def invertTree(self, root: TreeNode) -> TreeNode:
+        if not root:
+            return None
+        
+        queue = deque([root])
+        
+        while queue:
+            node = queue.popleft()
+            
+            # Swap the left and right children of the current node
+            temp = node.left
+            node.left = node.right
+            node.right = temp
+            
+            # Add the left and right children to the queue for processing
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+                
+        return root
+
