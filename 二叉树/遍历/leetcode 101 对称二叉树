@@ -1,0 +1,39 @@
+⭕️DFS 递归
+class Solution:
+    def isSymmetric(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        return self.isMirror(root.left, root.right)
+        
+    def isMirror(self, node1: TreeNode, node2: TreeNode) -> bool:
+        if not node1 and not node2:
+            return True
+            
+        if not node1 or not node2 or node1.val != node2.val:
+            return False
+            
+        return self.isMirror(node1.left, node2.right) and self.isMirror(node1.right, node2.left)
+
+⭕️BFS 迭代
+from collections import deque
+
+class Solution:
+    def isSymmetric(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        
+        queue = deque([(root.left, root.right)])
+        
+        while queue:
+            node1, node2 = queue.popleft()
+            
+            if not node1 and not node2:
+                continue
+            
+            if not node1 or not node2 or node1.val != node2.val:
+                return False
+            
+            queue.append((node1.left, node2.right))
+            queue.append((node1.right, node2.left))
+        
+        return True
