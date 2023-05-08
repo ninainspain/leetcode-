@@ -1,1 +1,41 @@
+class TreeNode:
+    def __init__(self, key, left=None, right=None):
+        self.key = key
+        self.left = left
+        self.right = right
 
+
+⭕️迭代
+def remove_max_iterative(node):
+    if node is None:
+        return None, None
+
+    parent = None
+    current = node
+
+    # Traverse left to find the minimum value.
+    while current.right is not None:
+        parent = current
+        current = current.right
+
+    # Node with minimum value found (current).
+    if parent is None:
+        # The root is the minimum value.
+        return current.key, current.left
+    else:
+        parent.right = current.left
+        return current.key, node
+
+⭕️递归
+def remove_max(node):
+    if node is None:
+        return None, None
+
+    if node.right is None:
+        # Node with maximum value found.
+        return node.key, node.left
+
+    # Keep traversing right to find the maximum value.
+    max_value, new_right = remove_max(node.right)
+    node.right = new_right
+    return max_value, node
