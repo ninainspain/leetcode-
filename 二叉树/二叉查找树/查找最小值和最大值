@@ -1,0 +1,33 @@
+⭕️寻找最小值
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+        
+class Solution:
+    def minValue(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return None
+        
+        while root.left:
+            root = root.left
+            
+        return root.val
+ 
+ ⭕️寻找最大值
+ class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+        
+class Solution:
+    def maxValue(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return None
+        
+        while root.right:
+            root = root.right
+            
+        return root.val
