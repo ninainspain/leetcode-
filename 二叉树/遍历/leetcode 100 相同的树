@@ -1,0 +1,16 @@
+class Solution:
+    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+        # If both nodes are None, they are the same
+        if not p and not q:
+            return True
+        
+        # If one node is None and the other is not, they are different
+        if not p or not q:
+            return False
+        
+        # If the values of the nodes are not the same, they are different
+        if p.val != q.val:
+            return False
+        
+        # Recursively check if the left and right subtrees are the same
+        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
