@@ -1,0 +1,27 @@
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+        
+class Solution:
+    def removeMin(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return None
+        
+        # If the root has no left child, it is the minimum node
+        if not root.left:
+            return root.right
+        
+        # Otherwise, traverse down the left subtree to find the minimum node
+        parent = root
+        curr = root.left
+        while curr.left:
+            parent = curr
+            curr = curr.left
+        
+        # Update parent's left child to skip the minimum node
+        parent.left = curr.right
+        
+        # Return the minimum node
+        return curr
