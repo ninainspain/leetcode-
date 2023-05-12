@@ -65,5 +65,5 @@ class Solution:
                 next_node = curr.next
                 curr.next = None  # Disconnect the end of the current part
                 curr = next_node
-
+            longer_parts-=1
         return result
