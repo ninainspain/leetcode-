@@ -1,0 +1,27 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def swapPairs(head):
+    # Create a dummy node and set its next to the head
+    dummy = ListNode(0)
+    dummy.next = head
+    current = dummy
+
+    while current.next and current.next.next:
+        # Get the first node to be swapped
+        first = current.next
+        # Get the second node to be swapped
+        second = current.next.next
+
+        # Perform the swap
+        first.next = second.next
+        second.next = first
+        current.next = second
+
+        # Move the current pointer forward
+        current = current.next.next
+
+    # Return the modified list
+    return dummy.next
