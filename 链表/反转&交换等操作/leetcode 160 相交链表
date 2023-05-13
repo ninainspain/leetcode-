@@ -1,0 +1,33 @@
+⭕️哈希表
+def getIntersectionNode(headA, headB):
+    hashmap = {}
+
+    # Traverse list A and store references in the hashmap
+    ptrA = headA
+    while ptrA:
+        hashmap[ptrA] = True
+        ptrA = ptrA.next
+
+    # Traverse list B and check for intersection
+    ptrB = headB
+    while ptrB:
+        if ptrB in hashmap:
+            return ptrB
+        ptrB = ptrB.next
+
+    return None
+
+⭕️双指针
+def getIntersectionNode(headA, headB):
+    ptrA = headA
+    ptrB = headB
+
+    while ptrA != ptrB:
+        # Move ptrA to the head of listB when it reaches the end of listA
+        ptrA = ptrA.next if ptrA else headB
+
+        # Move ptrB to the head of listA when it reaches the end of listB
+        ptrB = ptrB.next if ptrB else headA
+
+    return ptrA
+
