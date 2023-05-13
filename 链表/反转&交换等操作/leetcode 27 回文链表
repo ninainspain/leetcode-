@@ -3,32 +3,36 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Solution:
-    def isPalindrome(self,head):
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
         if not head or not head.next:
             return True
 
         slow = fast = head
-
-        # Find the middle of the linked list
         while fast and fast.next:
-            slow = slow.next
             fast = fast.next.next
+            slow = slow.next
 
-        # Reverse the second half of the linked list
-        prev = None
-        while slow:
-            next_node = slow.next
-            slow.next = prev
-            prev = slow
-            slow = next_node
+        new_head = self.reverse(slow)
 
-        # Compare values of the first and second half of the linked list
         fast = head
-        while prev:
-            if fast.val != prev.val:
+        while new_head:
+            if fast.val != new_head.val:
                 return False
-            fast = fast.next
-            prev = prev.next
 
+            fast = fast.next
+            new_head = new_head.next
         return True
+    
+    def reverse(self, head):
+        if not head or not head.next:
+            return head  # Here is the correction
+        new_head = self.reverse(head.next)
+        head.next.next = head
+        head.next = None
+        return new_head
