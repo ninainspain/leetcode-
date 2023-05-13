@@ -40,30 +40,40 @@ class Solution:
 #         self.val = val
 #         self.next = next
 class Solution:
-    def splitListToParts(self, head: Optional[ListNode], k: int) -> List[Optional[ListNode]]:     
-        # Step 1: Find the length of the linked list
-        length = 0
+    def splitListToParts(self, head: Optional[ListNode], k: int) -> List[Optional[ListNode]]:
+    # Count the number of nodes in the linked list
+        node_count = 0
         curr = head
         while curr:
-            length += 1
+            node_count += 1
             curr = curr.next
-
-        # Step 2: Calculate the size of each part and the number of longer parts
-        part_size = length // k
-        longer_parts = length % k
-
-        # Step 3: Split the linked list into k parts
+        
+        # Calculate the size of each part and the number of remaining nodes
+        part_size = node_count // k
+        remaining_nodes = node_count % k
+        
+        # Initialize the result array
+        result = [None] * k
+        
+        # Split the linked list into parts
         curr = head
-        result = []
-        for _ in range(k):
-            result.append(curr)  # Add the current head of the part to the result
-            part_length = part_size + (1 if longer_parts > 0 else 0)
-            for _ in range(part_length - 1):
-                if curr:
-                    curr = curr.next
-            if curr:
-                next_node = curr.next
-                curr.next = None  # Disconnect the end of the current part
-                curr = next_node
-            longer_parts-=1
+        prev = None
+        for i in range(k):
+            result[i] = curr
+            
+            # Determine the size of the current part
+            size = part_size
+            if remaining_nodes > 0:
+                size += 1
+                remaining_nodes -= 1
+            
+            # Traverse the current part and detach it from the rest of the list
+            for j in range(size):
+                prev = curr
+                curr = curr.next
+            
+            if prev:
+                prev.next = None
+        
         return result
+
