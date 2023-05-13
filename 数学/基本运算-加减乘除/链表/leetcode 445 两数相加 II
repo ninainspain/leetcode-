@@ -1,0 +1,70 @@
+⭕️反转链表
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        reversed_l1 = self.reverse(l1)
+        reversed_l2 = self.reverse(l2)
+        dummy = ListNode(-1)
+        curr = dummy
+        carry = 0
+        while reversed_l1 or reversed_l2:
+            x = reversed_l1.val if reversed_l1 else 0
+            y = reversed_l2.val if reversed_l2 else 0
+            sum = x+y+carry
+            curr.next = ListNode(sum%10)
+            curr = curr.next
+            carry = sum//10
+            if reversed_l1:
+                reversed_l1 = reversed_l1.next
+            if reversed_l2:
+                reversed_l2 = reversed_l2.next
+        if carry:
+            curr.next = ListNode(carry)
+        return self.reverse(dummy.next)
+
+
+    def reverse(self,head):
+        prev = None
+        curr = head
+        while curr:
+            next_node = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next_node
+        return prev
+ ⭕️栈
+ class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        stack1 = []
+        stack2 = []
+        
+        while l1:
+            stack1.append(l1.val)
+            l1 = l1.next
+        
+        while l2:
+            stack2.append(l2.val)
+            l2 = l2.next
+        
+        carry = 0
+        curr = None
+        
+        while stack1 or stack2:
+            x = stack1.pop() if stack1 else 0
+            y = stack2.pop() if stack2 else 0
+            sum_val = x + y + carry
+            new_node = ListNode(sum_val % 10)
+            new_node.next = curr
+            curr = new_node
+            carry = sum_val // 10
+        
+        if carry:
+            new_node = ListNode(carry)
+            new_node.next = curr
+            curr = new_node
+        
+        return curr
