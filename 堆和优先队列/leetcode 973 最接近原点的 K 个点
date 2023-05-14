@@ -1,0 +1,78 @@
+⭕️排序
+
+import math
+from typing import List
+
+def kClosest(points: List[List[int]], k: int) -> List[List[int]]:
+    distances = []
+
+    for point in points:
+        x, y = point
+        distance = math.sqrt(x**2 + y**2)
+        distances.append((distance, point))
+
+    distances.sort(key=lambda x: x[0])
+
+    result = [point for _, point in distances[:k]]
+
+    return result
+
+⭕️大顶堆
+class Solution:
+
+    def kClosest(self,points, K):
+        # Create a max heap
+        heap = []
+        
+        # Iterate over all points
+        for point in points:
+            # Compute the negative of square of Euclidean distance
+            # We use a negative sign because Python's heapq library only creates min heaps
+            # Adding a negative sign effectively turns it into a max heap
+            distance = -(point[0]**2 + point[1]**2)
+            
+            # If we have not yet found K points, or the distance to the current point is smaller than the max distance in the heap
+            if len(heap) < K or distance > heap[0][0]:
+                # If the heap is full, remove the max distance
+                if len(heap) == K:
+                    heapq.heappop(heap)
+                # Add the new point
+                heapq.heappush(heap, (distance, point))
+        
+        # Extract the K closest points
+        return [point for (distance, point) in heap]
+        
+        
+⭕️快速排序
+    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+        distances = [(math.sqrt(x**2 + y**2), [x, y]) for x, y in points]
+
+        left = 0
+        right = len(distances) - 1
+
+        while True:
+            pivot_index = self.partition(distances, left, right)
+            if pivot_index == k - 1:
+                return [point for _, point in distances[:k]]
+            elif pivot_index > k - 1:
+                right = pivot_index - 1
+            else:
+                left = pivot_index + 1
+
+    def partition(self, distances: List[tuple], left: int, right: int) -> int:
+        pivot = distances[left][0]
+        low = left + 1
+        high = right
+
+        while True:
+            while low <= high and distances[low][0] <= pivot:
+                low += 1
+            while low <= high and distances[high][0] >= pivot:
+                high -= 1
+            if low <= high:
+                distances[low], distances[high] = distances[high], distances[low]
+            else:
+                break
+
+        distances[left], distances[high] = distances[high], distances[left]
+        return high
