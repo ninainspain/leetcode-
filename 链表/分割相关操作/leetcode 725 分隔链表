@@ -34,46 +34,28 @@ class Solution:
         return res
 
 ⭕️优化
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
 class Solution:
     def splitListToParts(self, head: Optional[ListNode], k: int) -> List[Optional[ListNode]]:
-    # Count the number of nodes in the linked list
-        node_count = 0
+        length = 0
         curr = head
         while curr:
-            node_count += 1
+            length += 1
             curr = curr.next
-        
-        # Calculate the size of each part and the number of remaining nodes
-        part_size = node_count // k
-        remaining_nodes = node_count % k
-        
-        # Initialize the result array
-        result = [None] * k
-        
-        # Split the linked list into parts
+
+        part_size = length // k
+        remaining_node = length % k
+
+        result = [None]*k
         curr = head
-        prev = None
         for i in range(k):
             result[i] = curr
-            
-            # Determine the size of the current part
-            size = part_size
-            if remaining_nodes > 0:
-                size += 1
-                remaining_nodes -= 1
-            
-            # Traverse the current part and detach it from the rest of the list
-            for j in range(size):
-                prev = curr
-                curr = curr.next
-            
-            if prev:
-                prev.next = None
-        
-        return result
 
+            real_size = part_size + (1 if i < remaining_node else 0)
+            for j in range(real_size):
+                if j == real_size - 1 and curr:
+                    next_node = curr.next
+                    curr.next = None
+                    curr = next_node
+                elif curr:
+                    curr = curr.next
+        return result
