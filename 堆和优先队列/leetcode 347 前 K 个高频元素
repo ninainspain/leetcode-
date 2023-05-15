@@ -18,14 +18,14 @@ class Solution:
         return result[::-1]
         
 ⭕️快速排序
-from typing import List
 from collections import Counter
+from typing import List
+import random
 
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         frequency_map = Counter(nums)
         freq_list = [(num, freq) for num, freq in frequency_map.items()]
-
         left = 0
         right = len(freq_list) - 1
 
@@ -38,15 +38,17 @@ class Solution:
             else:
                 left = pivot_index + 1
 
-    def partition(self, nums: List[tuple], left: int, right: int) -> int:
-        pivot = nums[left][1]
+    def partition(self, nums, left, right):
+        pivot_index = random.randint(left, right)
+        nums[left], nums[pivot_index] = nums[pivot_index], nums[left]
+        pivot = nums[left][1]  # Compare frequencies
         low = left + 1
         high = right
 
         while True:
-            while low <= high and nums[low][1] >= pivot:
+            while low <= high and nums[low][1] > pivot:  # Greater frequencies go left
                 low += 1
-            while low <= high and nums[high][1] <= pivot:
+            while low <= high and nums[high][1] < pivot:  # Lesser frequencies go right
                 high -= 1
             if low <= high:
                 nums[low], nums[high] = nums[high], nums[low]
@@ -55,3 +57,4 @@ class Solution:
 
         nums[left], nums[high] = nums[high], nums[left]
         return high
+
