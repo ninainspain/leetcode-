@@ -1,0 +1,67 @@
+⭕️暴力解法
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        n = len(nums)
+        ans = [None]*(n-k+1)
+        for i in range(n-k+1):
+            maxNum = float('-inf')
+            for j in range(i,i+k):
+                maxNum = max(maxNum,nums[j])
+        
+            ans[i] = maxNum
+        return ans
+        
+        
+⭕️大顶堆
+class Solution:
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+        if not nums or k == 0:
+            return []
+        
+        # Initialize the max heap with first k elements.
+        heap = [(-nums[i], i) for i in range(k)]
+        heapq.heapify(heap)
+
+        result = [-heap[0][0]]  # The largest element is at the root of the heap.
+
+        for i in range(k, len(nums)):
+            # Push the current element onto the heap.
+            heapq.heappush(heap, (-nums[i], i))
+            
+            # Pop the heap to get the current largest and check if it's within the window.
+            while heap[0][1] <= i - k:
+                heapq.heappop(heap)
+            
+            # The root of the heap is the maximum of the window.
+            result.append(-heap[0][0])
+        
+        return result
+
+⭕️最优解：双端队列
+#i<j，窗口向右移动时，如果i在窗口内，那么j肯定也在窗口内
+#nums[i]<nums[j]，nums[i]不可能成为窗口最大值
+
+from collections import deque
+
+def maxSlidingWindow(nums, k):
+    result = []
+    window = deque()
+
+    for i in range(len(nums)):
+        # Remove indices from the front that are outside the current window
+        if window and window[0] <= i - k:
+            window.popleft()
+
+        # Remove indices from the back that are smaller than or equal to the current element
+        while window and nums[window[-1]] <= nums[i]:
+            window.pop()
+
+        # Add the current element's index to the deque
+        window.append(i)
+
+        # If the current index is greater than or equal to the window size minus one, add the maximum element to the result array
+        if i >= k - 1:
+            result.append(nums[window[0]])
+
+    return result
+
