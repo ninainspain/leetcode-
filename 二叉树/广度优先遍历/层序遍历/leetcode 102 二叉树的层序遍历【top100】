@@ -1,22 +1,22 @@
 ⭕️使用队列实现
 class Solution:
-    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root:
             return []
-        queue = [root]
-        result = []
+        queue = deque([root])
+        output = []
         while queue:
             level_size = len(queue)
             level = []
             for _ in range(level_size):
-                node = queue.pop(0)
+                node = queue.popleft()
                 level.append(node.val)
                 if node.left:
                     queue.append(node.left)
                 if node.right:
                     queue.append(node.right)
-            result.append(level)
-        return result
+            output.append(level)
+        return output
 
 ⭕️使用前序遍历实现
 
