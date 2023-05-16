@@ -1,0 +1,65 @@
+完全二叉树是一种特殊的二叉树，它的定义如下：
+
+除了最后一层外，其它每一层都被完全填充，也就是说，在任意一层，所有的节点都连续地靠左排列。
+
+在最后一层，如果不是满的，那么所有的节点也必须连续地靠左排列。
+
+这是它和满二叉树的主要区别，满二叉树的每一层都是满的，而完全二叉树只要求最后一层（如果不是满的）的节点连续地靠左排列。
+
+完全二叉树的一个重要性质是它可以使用数组（或者其他顺序结构）来有效地表示和操作。对于数组中的任何一个元素，如果我们把它看成是一个节点，
+
+那么它的父节点和子节点的位置都可以通过计算得到。例如，如果一个节点在数组中的位置是 i，那么它的父节点就在位置 (i-1)/2，它的左子节点在位置 2i+1，右子节点在位置 2i+2。
+
+⭕️DFS
+
+class Solution:
+    def countNodes(self, root: Optional[TreeNode]) -> int:
+        if root is None:
+            return 0
+
+        left = self.countNodes(root.left)
+        right = self.countNodes(root.right)
+
+        return left + right + 1
+        
+        
+⭕️二分查找
+#完全二叉树最少的节点数
+low = 2**level
+#完全二叉树最多的节点数
+high = 2**（level+1）-1
+
+class Solution:
+    def countNodes(self, root: Optional[TreeNode]) -> int:
+        if root is None:
+            return 0
+
+        # 计算完全二叉树的最大层数
+        level = 0
+        node = root
+        while node.left:
+            level += 1
+            node = node.left
+
+        # 完全二叉树的范围 [2**level, 2**(level + 1) - 1]
+        low = 1 << level
+        high = (1 << (level + 1)) - 1
+        while low < high:
+            mid = low + (high - low + 1) // 2
+            if self.exists(root, level, mid):
+                low = mid 
+            else:
+                high = mid - 1
+
+        return low
+
+    def exists(self, root, level, mid):
+        mask = 1 << (level - 1)
+        node = root
+        while node and mask > 0:
+            if mask & mid == 0:
+                node = node.left
+            else:
+                node = node.right
+            mask >>= 1
+        return node is not None
