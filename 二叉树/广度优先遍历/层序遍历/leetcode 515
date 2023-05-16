@@ -1,0 +1,41 @@
+⭕️BFS
+class Solution:
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+
+        result = []
+        queue = deque([root])
+
+        while queue:
+            level_size = len(queue)
+            max_value = float('-inf')
+
+            for _ in range(level_size):
+                node = queue.popleft()
+                max_value = max(max_value, node.val)
+
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+
+            result.append(max_value)
+
+        return result
+
+⭕️DFS
+class Solution:
+    def largestValues(self, root: TreeNode) -> List[int]:
+        levels = []
+        self.preorder(root, 0, levels)
+        return [max(level) for level in levels]
+        
+    def preorder(self, node: TreeNode, level: int, levels: List[List[int]]) -> None:
+        if not node:
+            return
+        if len(levels) == level:
+            levels.append([])
+        levels[level].append(node.val)
+        self.preorder(node.left, level + 1, levels)
+        self.preorder(node.right, level + 1, levels)
