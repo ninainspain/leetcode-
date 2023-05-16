@@ -1,34 +1,29 @@
 ⭕️BFS
 class Solution:
-    def zigzagLevelOrder(self,root):
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root:
             return []
-
-        result = []
         queue = deque([root])
-        level = 0
-
+        output = []
+        #the depth of the current level
+        depth = 0
         while queue:
             level_size = len(queue)
-            level_nodes = deque()
-
+            level = deque()
+            #level_size checks the size of the current level
             for _ in range(level_size):
                 node = queue.popleft()
-
-                if level % 2 == 0:
-                    level_nodes.append(node.val)  # Append nodes in left-to-right order
+                if depth % 2 == 0:
+                    level.append(node.val)
                 else:
-                    level_nodes.appendleft(node.val)  # Append nodes in right-to-left order
-
+                    level.appendleft(node.val)
                 if node.left:
                     queue.append(node.left)
                 if node.right:
                     queue.append(node.right)
-
-            result.append(list(level_nodes))
-            level += 1
-
-        return result
+            output.append(list(level))
+            depth += 1
+        return output
  ⭕️DFS
  class Solution:
     def zigzagLevelOrder(self,root):
