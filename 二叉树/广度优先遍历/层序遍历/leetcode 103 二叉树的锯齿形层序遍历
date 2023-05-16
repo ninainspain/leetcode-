@@ -26,19 +26,20 @@ class Solution:
         return output
  ⭕️DFS
  class Solution:
-    def zigzagLevelOrder(self,root):
-        levels = []
-        self.preorder(root, 0, levels)
-        return levels
-        
-    def preorder(self, node: TreeNode, level: int, levels: List[List[int]]) -> None:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        output = []
+        self.preorder(root,0,output)
+        return output
+    
+    def preorder(self,node,level,output):
         if not node:
-            return
-        if len(levels) == level:
-            levels.append([])
-        if level % 2 == 0:
-            levels[level].append(node.val)
+            return 
+        if len(output)==level:
+            output.append([])
+        if level % 2==0:
+            output[level].append(node.val)
         else:
-            levels[level].insert(0, node.val)
-        self.preorder(node.left, level + 1, levels)
-        self.preorder(node.right, level + 1, levels)
+            output[level].insert(0,node.val)
+        self.preorder(node.left,level+1,output)
+        self.preorder(node.right,level+1,output)
+
