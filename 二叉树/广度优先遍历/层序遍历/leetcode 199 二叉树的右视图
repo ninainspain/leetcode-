@@ -24,18 +24,19 @@ class Solution:
         return result
  
  ⭕️DFS
- class Solution:
-    def rightSideView(self, root: TreeNode) -> List[int]:
-        result = []
-        self.dfs(root, 0, result)
-        return result
+class Solution:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        rightmost_values = []
+        self.preorder(root, 0, rightmost_values)
+        return rightmost_values
 
-    def dfs(self, node: TreeNode, depth: int, result: List[int]) -> None:
-        if not node:
+    def preorder(self, current_node, current_depth, rightmost_values):
+        if not current_node:
             return
 
-        if depth == len(result):
-            result.append(node.val)
+        if current_depth == len(rightmost_values):
+            rightmost_values.append(current_node.val)
 
-        self.dfs(node.right, depth + 1, result)
-        self.dfs(node.left, depth + 1, result)
+        self.preorder(current_node.right, current_depth + 1, rightmost_values)
+        self.preorder(current_node.left, current_depth + 1, rightmost_values)
+
