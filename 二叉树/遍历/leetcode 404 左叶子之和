@@ -1,0 +1,64 @@
+⭕️DFS前序遍历迭代
+class Solution:
+    def sumOfLeftLeaves(self,root):
+        if not root:
+            return 0
+
+        stack = [(root, False)]  # Stack to store nodes and a flag indicating if the node is a left child
+        total_sum = 0
+
+        while stack:
+            node, is_left = stack.pop()
+
+            if is_left and not node.left and not node.right:  # Check if the node is a left leaf
+                total_sum += node.val
+
+            if node.right:
+                stack.append((node.right, False))
+
+            if node.left:
+                stack.append((node.left, True))
+
+        return total_sum
+        
+⭕️DFS后序遍历递归
+class Solution:
+    def sumOfLeftLeaves(self,root):
+        def dfs(node):
+            if not node:
+                return 0
+
+            left_sum = dfs(node.left)  # Recursively calculate sum of left leaves in the left subtree
+            right_sum = dfs(node.right)  # Recursively calculate sum of left leaves in the right subtree
+
+            if node.left and not node.left.left and not node.left.right:  # Check if the current node is a left leaf
+                left_sum += node.left.val
+
+            return left_sum + right_sum
+
+        return dfs(root)
+ 
+        
+  ⭕️层序遍历
+  class Solution:
+    def sumOfLeftLeaves(self,root):
+        if not root:
+            return 0
+
+        queue = deque([(root, False)])  # Queue to store nodes and a flag indicating if the node is a left child
+        total_sum = 0
+
+        while queue:
+            node, is_left = queue.popleft()
+
+            if is_left and not node.left and not node.right:  # Check if the node is a left leaf
+                total_sum += node.val
+
+            if node.left:
+                queue.append((node.left, True))
+
+            if node.right:
+                queue.append((node.right, False))
+
+        return total_sum
+ 
