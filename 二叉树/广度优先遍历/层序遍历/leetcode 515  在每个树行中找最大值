@@ -26,16 +26,16 @@ class Solution:
 
 ⭕️DFS
 class Solution:
-    def largestValues(self, root: TreeNode) -> List[int]:
-        levels = []
-        self.preorder(root, 0, levels)
-        return [max(level) for level in levels]
-        
-    def preorder(self, node: TreeNode, level: int, levels: List[List[int]]) -> None:
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+        output = []
+        self.preorder(root,0,output)
+        return [max(level) for level in output]
+    
+    def preorder(self,node,level,output):
         if not node:
-            return
-        if len(levels) == level:
-            levels.append([])
-        levels[level].append(node.val)
-        self.preorder(node.left, level + 1, levels)
-        self.preorder(node.right, level + 1, levels)
+            return 
+        if len(output)==level:
+            output.append([])
+        output[level].append(node.val)
+        self.preorder(node.left,level+1,output)
+        self.preorder(node.right,level+1,output)
