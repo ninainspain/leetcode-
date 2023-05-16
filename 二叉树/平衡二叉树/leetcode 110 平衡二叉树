@@ -1,0 +1,21 @@
+class Solution:
+    def isBalanced(self, root):
+    # 定义一个辅助函数，用于计算树的高度
+        def get_height(node):
+            if not node:
+                return 0
+            left_height = get_height(node.left)
+            right_height = get_height(node.right)
+            return max(left_height, right_height) + 1
+
+        # 判断当前节点及其子树是否平衡
+        def is_balanced_helper(node):
+            if not node:
+                return True
+            left_height = get_height(node.left)
+            right_height = get_height(node.right)
+            if abs(left_height - right_height) > 1:
+                return False
+            return is_balanced_helper(node.left) and is_balanced_helper(node.right)
+
+        return is_balanced_helper(root)
