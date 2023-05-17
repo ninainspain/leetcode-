@@ -1,78 +1,31 @@
-'''
-哈希表
-
-哈希表的做法很容易理解，我们只需通过一次循环即可，假如我们的 target 值为 9，当前指针指向的值为 2 ，
-
-我们只需从哈希表中查找是否含有 7，因为 9 - 2 =7 。如果含有 7 我们直接返回即可，
-
-如果不含有则将当前的 2 存入哈希表中，指针移动，指向下一元素。注： key 为元素值，value 为元素索引。
-
-'''
-
-# Import the List and Dict types from the typing module
-from typing import List, Dict
-
+⭕️线性查找
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        #创建空的字典
-        map = {}
-        #遍历循环数组
         for i in range(len(nums)):
-            #如果target-nums[i]在字典中
-            if target-nums[i] in map:
-                return [map[target-nums[i]],i]
-            #如果不在，创建key=数值，value=index
-            map[nums[i]]=i
-        return []
+            for j in range(i+1,len(nums)):
+                if nums[i]+nums[j]==target:
+                    return [i,j]
+            
+ ⭕️哈希表
+ def twoSum(nums, target):
+    # Create an empty dictionary to store the complement of each number
+    complement_dict = {}
 
-# Create an instance of the Solution class
-s = Solution()
+    # Iterate through the array
+    for i, num in enumerate(nums):
+        # Calculate the complement
+        complement = target - num
 
-# Call the twoSum function with nums=[2, 7, 11, 15] and target=9
-result = s.twoSum([2, 11, 7, 15], 9)
+        # Check if the complement exists in the dictionary
+        if complement in complement_dict:
+            # Return the indices of the two numbers
+            return [complement_dict[complement], i]
 
-# Print the result
-print(result)
+        # Store the current number and its index in the dictionary
+        complement_dict[num] = i
 
-'''
-双指针
-
-双指针（L,R）法的思路很简单，L 指针用来指向第一个值，R 指针用来从第 L 指针的后面查找数组中是否含有和 L 指针指向值和为目标值的数
-
-暴力解法
-
-两层循环: 一层用来遍历所有元素, 另一层用来寻找目标数
-
-'''
-
-# Import the List and Dict types from the typing module
-from typing import List, Dict
-
-class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        if len(nums) < 2:
-            return []
-        rearr = [0,0]
-        #一个指针遍历循环
-        for i in range(len(nums)):
-            #一个指针遍历循环后面的
-            for j in range(i,len(nums)):
-                #找到满足条件的元素
-                if nums[i] + nums[j] == target:
-                    rearr[0] = i
-                    rearr[1] = j
-        return rearr
-
-
-# Create an instance of the Solution class
-s = Solution()
-
-# Call the twoSum function with nums=[2, 7, 11, 15] and target=9
-result = s.twoSum([2, 11, 7, 15], 9)
-
-# Print the result
-print(result)
-
+    # If no solution is found, return an empty list
+    return []
 
 
 
