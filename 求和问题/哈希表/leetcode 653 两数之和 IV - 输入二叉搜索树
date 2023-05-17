@@ -1,0 +1,45 @@
+⭕️二分查找
+
+class Solution:
+    def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
+        if root is None:
+            return False
+        
+        nums = []
+        self.inorder(root,nums)
+        left = 0
+        right = len(nums)-1
+        while left<right:
+            total = nums[left]+nums[right]
+            if total == k:
+                return True
+
+            elif total < k:
+                left += 1
+            
+            else:
+                right -=1
+
+        return False
+
+    def inorder(self,node,nums):
+        if node is None:
+            return 
+        self.inorder(node.left,nums)
+        nums.append(node.val)
+        self.inorder(node.right,nums)
+       
+ ⭕️哈希查找
+ class Solution:
+    def findTarget(self, root, k):
+        seen = set()  # Set to store the values seen so far
+        return self.dfs(root, k, seen)
+    
+    def dfs(self, node, k, seen):
+        if not node:
+            return False
+        complement = k - node.val
+        if complement in seen:
+            return True
+        seen.add(node.val)
+        return self.dfs(node.left, k, seen) or self.dfs(node.right, k, seen)
