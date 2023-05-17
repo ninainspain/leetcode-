@@ -1,0 +1,36 @@
+class TwoSum:
+
+    def __init__(self):
+        self.numbers = []
+        self.sum_map = {}
+
+    def add(self, number):
+        # Add the number to the list of numbers
+        self.numbers.append(number)
+        
+        # Update the frequency count in the sum map
+        if number in self.sum_map:
+            self.sum_map[number] += 1
+        else:
+            self.sum_map[number] = 1
+
+    def find(self, value):
+        for num in self.numbers:
+            complement = value - num
+
+            # Check if the complement exists in the sum map
+            if complement in self.sum_map:
+                # If the complement is the same number, check if it occurs more than once
+                if complement == num and self.sum_map[complement] > 1:
+                    return True
+                # If the complement is a different number, a valid pair exists
+                elif complement != num:
+                    return True
+        
+        # No valid pair found
+        return False
+
+# Your TwoSum object will be instantiated and called as such:
+# obj = TwoSum()
+# obj.add(number)
+# param_2 = obj.find(value)
