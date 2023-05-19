@@ -1,0 +1,42 @@
+⭕️哈希查找 O（m）
+def intersect(nums1, nums2):
+    map1 = {}
+    map2 = {}
+    
+    # Populate map1 with elements and their frequencies from nums1
+    for num in nums1:
+        map1[num] = map1.get(num, 0) + 1
+    
+    # Find intersection elements and update frequencies
+    for num in nums2:
+        if num in map1 and map1[num] > 0:
+            map2[num] = map2.get(num, 0) + 1
+            map1[num] -= 1
+    
+    # Build the result list based on intersection and frequencies
+    result = []
+    for num, freq in map2.items():
+        result.extend([num] * freq)
+    
+    return result
+
+⭕️双指针
+class Solution:
+    def intersect(self, nums1, nums2):
+        nums1.sort()
+        nums2.sort()
+
+        intersection = []
+
+        i, j = 0, 0
+        while i < len(nums1) and j < len(nums2):
+            if nums1[i] == nums2[j]:
+                intersection.append(nums1[i])
+                i += 1
+                j += 1
+            elif nums1[i] < nums2[j]:
+                i += 1
+            else:
+                j += 1
+
+        return intersection
