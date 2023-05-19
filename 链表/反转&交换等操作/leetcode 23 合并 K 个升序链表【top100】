@@ -65,21 +65,26 @@ from typing import List, Optional
 import heapq
 
 class Solution:
-    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        min_heap = []
-        for i, node in enumerate(lists):
-            if node:
-                heapq.heappush(min_heap, (node.val, i, node))
-
-        dummy = ListNode()
-        curr = dummy
-
-        while min_heap:
-            _, index, node = heapq.heappop(min_heap)
-            curr.next = node
-            curr = curr.next
-
-            if node.next:
-                heapq.heappush(min_heap, (node.next.val, index, node.next))
-
+    def mergeKLists(self, lists):
+        heap = []
+        
+        # Push the first node of each list into the heap
+        for i in range(len(lists)):
+            if lists[i]:
+                heapq.heappush(heap, (lists[i].val, i))
+                lists[i] = lists[i].next
+        
+        dummy = ListNode(-1)
+        current = dummy
+        
+        # Pop the smallest node from the heap and append it to the result
+        while heap:
+            val, i = heapq.heappop(heap)
+            current.next = ListNode(val)
+            current = current.next
+            
+            if lists[i]:
+                heapq.heappush(heap, (lists[i].val, i))
+                lists[i] = lists[i].next
+        
         return dummy.next
