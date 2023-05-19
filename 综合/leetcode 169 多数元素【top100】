@@ -1,0 +1,111 @@
+⭕️哈希查找
+def majorityElement(nums):
+    counts = {}
+
+    for num in nums:
+        counts[num] = counts.get(num, 0) + 1
+        if counts[num] > len(nums) // 2:
+            return num
+
+    return None
+
+⭕️大顶堆
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        #查找第k小的元素
+        #大顶堆
+        k = len(nums) // 2 + 1
+        pq = []
+        for num in nums:
+            heapq.heappush(pq, -num)
+            if len(pq) > k:
+                heapq.heappop(pq)
+        return -pq[0]
+
+⭕️快速排序
+import random
+
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        # Find kth smallest element using QuickSort partition
+        k = len(nums) // 2 + 1
+        left = 0
+        right = len(nums) - 1
+        target = len(nums) - k
+
+        while True:
+            pivot_index = random.randint(left, right)
+
+            pivot_index = self.partition(nums, left, right, pivot_index)
+
+            if pivot_index == target:
+                return nums[pivot_index]
+            elif pivot_index < target:
+                left = pivot_index + 1
+            else:
+                right = pivot_index - 1
+    
+    def partition(self, nums, left, right, pivot_index):
+        pivot = nums[pivot_index]
+        nums[pivot_index], nums[right] = nums[right], nums[pivot_index]
+        store_index = left
+
+        for i in range(left, right):
+            if nums[i] < pivot:
+                nums[i], nums[store_index] = nums[store_index], nums[i]
+                store_index += 1
+        
+        nums[store_index], nums[right] = nums[right], nums[store_index]
+        return store_index
+
+⭕️分治思想
+#如果数a是数组nums的众数，当我们将nums分成两部分，那么a必定是至少一部分的众数
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        return self.findMajority(nums, 0, len(nums) - 1)
+    
+    def findMajority(self, nums, left, right):
+        # Base case: Only one element in the subarray
+        if left == right:
+            return nums[left]
+        
+        # Divide the array into two halves
+        mid = (left + right) // 2
+        
+        # Recursively find the majority element in each half
+        left_majority = self.findMajority(nums, left, mid)
+        right_majority = self.findMajority(nums, mid + 1, right)
+        
+        # Combine the results
+        if left_majority == right_majority:
+            return left_majority
+        
+        left_count = self.countOccurrence(nums, left, right, left_majority)
+        right_count = self.countOccurrence(nums, left, right, right_majority)
+        
+        return left_majority if left_count > right_count else right_majority
+    
+    def countOccurrence(self, nums, left, right, num):
+        count = 0
+        for i in range(left, right + 1):
+            if nums[i] == num:
+                count += 1
+        return count
+
+⭕️摩尔算法
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        # Find majority element (appearing more than n/2 times)
+        candidate = None
+        count = 0
+        
+        for num in nums:
+            if count == 0:
+                candidate = num
+                count = 1
+            elif num == candidate:
+                count += 1
+            else:
+                count -= 1
+        
+        return candidate
