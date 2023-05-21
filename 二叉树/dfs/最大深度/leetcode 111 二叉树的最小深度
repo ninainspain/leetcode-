@@ -1,4 +1,4 @@
-⭕️BFS递归
+⭕️BFS
 class Solution:
     def minDepth(self, root: Optional[TreeNode]) -> int:
         #当遇到第一个叶子结点，就是最小深度
@@ -20,31 +20,8 @@ class Solution:
             if node.right:
                 queue.append((node.right, level + 1))
 
-⭕️BFS迭代
-class Solution:
-    def minDepth(self, root: Optional[TreeNode]) -> int:
-        #当遇到第一个叶子结点，就是最小深度
-        if root is None:
-            return 0
-        queue = deque([root])  
-        level = 0
-        while queue:
-            size = len(queue)
-            level+=1
-            for _ in range(size):
-                node = queue.popleft()
-                
-               # Check if the current node is a leaf node
-                if not node.left and not node.right:
-                    return level
-                
-                # Add the left and right children to the queue
-                if node.left:
-                    queue.append(node.left)
-                if node.right:
-                    queue.append(node.right)
                     
-⭕️DFS迭代
+⭕️前序遍历-迭代
 class Solution:
     def minDepth(self, root: Optional[TreeNode]) -> int:
         if not root:
@@ -60,6 +37,23 @@ class Solution:
             if node.left:
                 stack.append((node.left,depth+1))
         return min_depth
+
+⭕️前序遍历-递归
+class Solution:
+    def minDepth(self, root: Optional[TreeNode]) -> int:
+        self.minDepth = float('inf')
+        self.dfs(root,1)
+        return self.minDepth
+
+    def dfs(self, node, depth):
+        if not node:
+            return 
+        if not node.left and not node.right:
+            self.minDepth = min(self.minDepth, depth)
+        self.dfs(node.left, depth+1)
+        self.dfs(node.right,depth+1)
+
+
 
 ⭕️DFS 后序-递归
 def minDepth(root):
