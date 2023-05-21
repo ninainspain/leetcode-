@@ -23,20 +23,21 @@ class Solution:
         
 ⭕️DFS后序遍历递归
 class Solution:
-    def sumOfLeftLeaves(self,root):
-        def dfs(node):
-            if not node:
-                return 0
+    def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
+        return self.postorder(root, root)
 
-            left_sum = dfs(node.left)  # Recursively calculate sum of left leaves in the left subtree
-            right_sum = dfs(node.right)  # Recursively calculate sum of left leaves in the right subtree
+    def postorder(self, node, parent):
+        if node is None:
+            return 0
 
-            if node.left and not node.left.left and not node.left.right:  # Check if the current node is a left leaf
-                left_sum += node.left.val
+        if node.left is None and node.right is None and parent.left is node:
+            return node.val
 
-            return left_sum + right_sum
+        left_sum = self.postorder(node.left, node)
+        right_sum = self.postorder(node.right, node)
 
-        return dfs(root)
+        return left_sum + right_sum
+
  
         
   ⭕️层序遍历
