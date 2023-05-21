@@ -1,0 +1,70 @@
+⭕️使用BFS 迭代
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from collections import deque
+
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        queue = deque([root])
+        level = 0
+        while queue:
+            level_size = len(queue)
+            for _ in range(level_size):
+                node = queue.popleft()
+                if node.left:
+                    queue.append((node.left))
+                if node.right:
+                    queue.append((node.right))
+            level+=1
+        return level
+⭕️使用BFS 递归
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        self.res = 0
+        self.dfs(root,1)
+        return self.res
+    
+    def dfs(self, node, depth):
+        if node is None:
+            return 
+        self.res = max(self.res,depth)
+        self.dfs(node.left,depth+1)
+        self.dfs(node.right,depth+1)
+        
+        
+⭕️使用DFS
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        stack = [(root, 1)]
+        max_depth = 0
+        while stack:
+            node, depth = stack.pop()
+            if not node.left and not node.right:
+                max_depth = max(max_depth, depth)
+            if node.right:
+                stack.append((node.right, depth+1))
+            if node.left:
+                stack.append((node.left, depth+1))
+        return max_depth
+
+
+
+ ⭕后序遍历，自下而上
+ 
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+
+        left_depth = self.maxDepth(root.left)
+        right_depth = self.maxDepth(root.right)
+
+        return max(left_depth, right_depth) + 1
