@@ -24,16 +24,25 @@ class Solution:
         return max_width
  
  ⭕️DFS
- class Solution(object):
-    def widthOfBinaryTree(self, root):
-        self.ans = 0
-        left = {}
-        def dfs(node, depth = 0, pos = 0):
-            if node:
-                left.setdefault(depth, pos)
-                self.ans = max(self.ans, pos - left[depth] + 1)
-                dfs(node.left, depth + 1, pos * 2)
-                dfs(node.right, depth + 1, pos * 2 + 1)
+class Solution:
+    def widthOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        start = []
+        end = []
+        return self.dfs(root, 0, 1, start, end)
 
-        dfs(root)
-        return self.ans
+    def dfs(self, node, level, seqNo, start, end):
+        if not node:
+            return 0
+
+        if level == len(start):
+            start.append(seqNo)
+            end.append(seqNo)
+        else:
+            end[level] = seqNo
+
+        leftMaxWidth = self.dfs(node.left, level + 1, seqNo * 2, start, end)
+        rightMaxWidth = self.dfs(node.right, level + 1, seqNo * 2 + 1, start, end)
+
+        currWidth = end[level] - start[level] + 1
+        return max(currWidth, max(leftMaxWidth, rightMaxWidth))
+
