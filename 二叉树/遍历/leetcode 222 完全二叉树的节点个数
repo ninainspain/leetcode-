@@ -10,8 +10,7 @@
 
 那么它的父节点和子节点的位置都可以通过计算得到。例如，如果一个节点在数组中的位置是 i，那么它的父节点就在位置 (i-1)/2，它的左子节点在位置 2i+1，右子节点在位置 2i+2。
 
-⭕️DFS
-
+⭕️后序遍历
 class Solution:
     def countNodes(self, root: Optional[TreeNode]) -> int:
         if root is None:
