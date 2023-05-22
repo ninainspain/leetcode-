@@ -1,0 +1,51 @@
+⭕️哈希表
+
+#遍历一个节点，记住它所有的祖先
+#前序遍历，维护父节点和子节点的关系；再从p点开始，依次访问它的祖先
+
+class Solution:
+    def lowestCommonAncestor(self, root, p, q):
+        parent = {root: None}  # Hashmap to store parent pointers
+        
+        # Perform a depth-first search to populate the hashmap
+        stack = [root]
+        while p not in parent or q not in parent:
+            node = stack.pop()
+            if node.left:
+                parent[node.left] = node
+                stack.append(node.left)
+            if node.right:
+                parent[node.right] = node
+                stack.append(node.right)
+        
+        # Create a set to track ancestors of p
+        ancestors = set()
+        
+        # Traverse from p to root and add all ancestors to the set
+        while p:
+            ancestors.add(p)
+            p = parent[p]
+        
+        # Traverse from q to root and return the first common ancestor
+        while q not in ancestors:
+            q = parent[q]
+        
+        return q
+
+⭕️后序遍历
+class Solution:
+    def lowestCommonAncestor(self, root, p, q):
+        # Base case: If the root is None or matches either p or q, it is the LCA
+        if root is None or root == p or root == q:
+            return root
+        
+        # Recursively search the left and right subtrees for the LCA
+        left_lca = self.lowestCommonAncestor(root.left, p, q)
+        right_lca = self.lowestCommonAncestor(root.right, p, q)
+        
+        # If both left and right LCA are found, root is the LCA
+        if left_lca and right_lca:
+            return root
+        
+        # Otherwise, return the non-None LCA (if any)
+        return left_lca if left_lca else right_lca
