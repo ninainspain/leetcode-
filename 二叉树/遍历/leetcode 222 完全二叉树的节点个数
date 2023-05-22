@@ -20,7 +20,34 @@ class Solution:
         right = self.countNodes(root.right)
 
         return left + right + 1
-        
+
+⭕️后序遍历2
+def countNodes(root):
+    if not root:
+        return 0
+
+    left_height = getLeftHeight(root)
+    right_height = getRightHeight(root)
+
+    if left_height == right_height:
+        return 2**left_height - 1
+    else:
+        return countNodes(root.left) + countNodes(root.right) + 1
+
+def getLeftHeight(node):
+    height = 0
+    while node:
+        height += 1
+        node = node.left
+    return height
+
+def getRightHeight(node):
+    height = 0
+    while node:
+        height += 1
+        node = node.right
+    return height
+
         
 ⭕️二分查找
 #完全二叉树最少的节点数
@@ -52,6 +79,7 @@ class Solution:
 
         return low
 
+    #0表示在左边，1表示在右边
     def exists(self, root, level, mid):
         mask = 1 << (level - 1)
         node = root
