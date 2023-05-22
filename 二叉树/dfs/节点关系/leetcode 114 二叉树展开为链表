@@ -18,8 +18,6 @@ class Solution:
             prev.left = None
             prev.right = curr
 
-        root = res[0]  # Update the root to the flattened tree
-
     def dfs(self, node, res):
         if node is None:
             return
