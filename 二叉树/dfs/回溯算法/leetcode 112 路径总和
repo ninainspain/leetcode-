@@ -1,0 +1,57 @@
+路径之和
+
+⭕️解法一
+
+class Solution:
+    def hasPathSum(self, root, targetSum):
+        res = []
+        self.dfs(root, 0, res)
+        return targetSum in res
+
+    def dfs(self, node, parentNodePathSum, res):
+        if node is None:
+            return
+        currNodePathSum = parentNodePathSum + node.val
+        if node.left is None and node.right is None:
+            # This is a leaf node, add the path sum to the result list
+            res.append(currNodePathSum)
+        else:
+            self.dfs(node.left, currNodePathSum, res)
+            self.dfs(node.right, currNodePathSum, res)
+
+⭕️解法二
+
+class Solution:
+    def hasPathSum(self, root, targetSum):
+        if not root:
+            return False
+        
+        if not root.left and not root.right and root.val == targetSum:
+            return True
+        
+        targetSum -= root.val
+        
+        return self.hasPathSum(root.left, targetSum) or self.hasPathSum(root.right, targetSum)
+
+⭕️解法三
+
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        if root is None:
+            return False
+        else:
+            return self.dfs(root, targetSum)
+
+    def dfs(self, node: Optional[TreeNode], parentNodeTarget: int) -> bool:
+        if node is None:
+            return False
+
+        currNodeTarget = parentNodeTarget - node.val
+
+        if node.left is None and node.right is None:
+            # if this is a leaf node
+            return currNodeTarget == 0
+
+        # else, check the left and right subtrees
+        return self.dfs(node.left, currNodeTarget) or self.dfs(node.right, currNodeTarget)
+
