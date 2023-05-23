@@ -1,1 +1,18 @@
+⭕️前序遍历+回溯
+class Solution:
+    def binaryTreePaths(self, root):
+        if not root:
+            return []
+        res = []
+        self.dfs(root, "", res)
+        return res
 
+    def dfs(self, node, path, res):
+        if node:
+            path += str(node.val)
+            if not node.left and not node.right:  # if leaf
+                res.append(path)  # add path to result list
+            else:
+                path += "->"  # extend path
+                self.dfs(node.left, path, res)
+                self.dfs(node.right, path, res)
