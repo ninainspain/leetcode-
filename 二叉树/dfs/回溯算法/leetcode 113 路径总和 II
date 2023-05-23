@@ -61,3 +61,10 @@ class Solution:
             self.dfs(node.right, currentSum, targetSum, path, result)
         path.pop()  # backtrack to the previous state
 
+#In this specific method, we don't need to pop anything because we aren't modifying any global or non-primitive local state that needs to be cleaned up after each recursive call.
+
+In many backtracking problems, you might add to a data structure such as a list or a string before making a recursive call, and then need to undo that addition after the recursive call finishes (before the next recursive call or before returning to the previous level). This is often done with a "pop" operation.
+
+However, in this specific problem, the "path" from the root to each node is represented by the currentSum variable, which is a local variable in the dfs function. Each time dfs is called, a new currentSum variable is created and used within that function call. Changes to currentSum in one call of dfs do not affect currentSum in any other calls of dfs because currentSum is a primitive type (integer) in Python and is passed by value.
+
+In other words, backtracking is happening in this code, but it's implicit: when each call to dfs finishes and the function returns, any changes that were made to currentSum in that call are automatically undone. The backtracking is handled by the call stack and the fact that currentSum is a local variable.
