@@ -10,4 +10,54 @@ Condition Check: Check if the current node/path meets the required conditions. F
 
 Backtrack: After visiting a node and its subtrees, you need to revert the change you made to the current path so that you can explore other paths. In Python, this often involves using list.pop() to remove the last node/value added to the path.
 
+⭕️解法一：减法
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def pathSum(self, root, targetSum):
+        result = []
+        self.dfs(root, targetSum, [], result)
+        return result
+
+    def dfs(self, node, remainingSum, path, result):
+        if node is None:
+            return
+        path.append(node.val)
+        if remainingSum == node.val and not node.left and not node.right:
+            result.append(list(path))
+        else:
+            self.dfs(node.left, remainingSum - node.val, path, result)
+            self.dfs(node.right, remainingSum - node.val, path, result)
+        path.pop()  # backtrack to the previous state
+
+⭕️解法二：加法
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def pathSum(self, root, targetSum):
+        result = []
+        self.dfs(root, 0, targetSum, [], result)
+        return result
+
+    def dfs(self, node, currentSum, targetSum, path, result):
+        if node is None:
+            return
+        currentSum += node.val
+        path.append(node.val)
+        if currentSum == targetSum and not node.left and not node.right:
+            result.append(list(path))
+        else:
+            self.dfs(node.left, currentSum, targetSum, path, result)
+            self.dfs(node.right, currentSum, targetSum, path, result)
+        path.pop()  # backtrack to the previous state
 
