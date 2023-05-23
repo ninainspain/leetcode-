@@ -1,0 +1,13 @@
+Here is a generalized way to solve tree path problems using backtracking:
+
+Initialize your data structures: Usually, you need a list or other data structure to store the final result, and another data structure (often a list) to store the current path.
+
+Depth-First Search: Starting from the root, perform a depth-first search (DFS) on the tree. This involves recursive calls to traverse the left and right subtrees.
+
+Path Update: For each node visited, update the current path. This could involve adding the node's value to the current sum for a path sum problem, or adding the node itself (or its value) to the current path for a path list problem.
+
+Condition Check: Check if the current node/path meets the required conditions. For example, in a path sum problem, check if the path's sum equals the target sum. In a path list problem, you might just check if the current node is a leaf node. If the condition is met, add the current path to your result list.
+
+Backtrack: After visiting a node and its subtrees, you need to revert the change you made to the current path so that you can explore other paths. In Python, this often involves using list.pop() to remove the last node/value added to the path.
+
+
