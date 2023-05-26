@@ -1,0 +1,36 @@
+class Solution:
+    def pathSum(self, nums: List[int]) -> int:
+        # Create a dictionary to store the node values
+        tree = {}
+        
+        # Fill the tree dictionary with node values
+        for num in nums:
+            depth, pos, value = num // 100, (num // 10) % 10, num % 10
+            tree[(depth, pos)] = value
+        return self.calculate_path_sum(1, 1, 0, tree)
+
+    def calculate_path_sum(self, depth, pos, running_sum, tree):
+        # Base case: check if the current node exists in the tree
+        if (depth, pos) not in tree:
+            return 0
+        
+        # Get the node's value
+        value = tree[(depth, pos)]
+        
+        # Add the current value to the running sum
+        running_sum += value
+        
+        # Calculate the left and right child positions in the next depth level
+        left_pos = pos * 2 - 1
+        right_pos = pos * 2
+        
+        # Check if the current node is a leaf node
+        if (depth + 1, left_pos) not in tree and (depth + 1, right_pos) not in tree:
+            return running_sum
+        
+        # Recursively calculate the path sums for the left and right subtrees
+        left_sum = self.calculate_path_sum(depth + 1, left_pos, running_sum, tree)
+        right_sum = self.calculate_path_sum(depth + 1, right_pos, running_sum, tree)
+        
+        # Return the sum of the current node value and the sum of the maximum path sums from its children
+        return left_sum + right_sum
