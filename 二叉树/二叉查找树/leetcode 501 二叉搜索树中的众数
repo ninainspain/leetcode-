@@ -1,0 +1,47 @@
+⭕️中序遍历
+class Solution:
+    def findMode(self, root):
+        if not root:
+            return []
+
+        self.count = collections.Counter()
+
+        self.inorder(root)
+        max_freq = max(self.count.values())
+        return [k for k, v in self.count.items() if v == max_freq] 
+
+    def inorder(self, node):
+        if node:
+            self.inorder(node.left)
+            self.count[node.val] += 1
+            self.inorder(node.right)
+            
+ ⭕️不用额外空间
+ class Solution:
+    def findMode(self, root):
+        self.max_count = 0
+        self.current_count = 0
+        self.current_value = None
+        self.modes = []
+        
+        def inorder(node):
+            if node is None:
+                return
+            inorder(node.left)
+            
+            if node.val != self.current_value:
+                self.current_count = 0
+                self.current_value = node.val
+                
+            self.current_count += 1
+            
+            if self.current_count == self.max_count:
+                self.modes.append(self.current_value)
+            elif self.current_count > self.max_count:
+                self.max_count = self.current_count
+                self.modes = [self.current_value]
+                
+            inorder(node.right)
+            
+        inorder(root)
+        return self.modes
