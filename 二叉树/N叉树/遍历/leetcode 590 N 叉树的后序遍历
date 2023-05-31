@@ -1,0 +1,28 @@
+⭕️迭代
+class Solution:
+    def postorder(self, root: 'Node') -> List[int]:
+        if not root:
+            return []
+        res = []
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            res.append(node.val)
+            children = node.children
+            for i in range(0, len(children)):
+                stack.append(children[i])
+        return res[::-1]
+        
+  ⭕️递归
+  class Solution:
+    def postorder(self, root: 'Node') -> List[int]:
+        res = []
+        self.dfs(root, res)
+        return res
+
+    def dfs(self, node, res):
+        if not node:
+            return
+        for child in node.children:
+            self.dfs(child, res)
+        res.append(node.val)
