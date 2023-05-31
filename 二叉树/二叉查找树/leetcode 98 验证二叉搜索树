@@ -1,0 +1,56 @@
+⭕️中序遍历
+class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        res = []
+        self.dfs(root, res)
+        for i in range(1,len(res)):
+            if res[i]<=res[i-1]:
+                return False
+
+        return True
+
+
+    def dfs(self, node, res):
+        if not node:
+            return 
+        self.dfs(node.left, res)
+        res.append(node.val)
+        self.dfs(node.right, res)
+        
+        
+ ⭕️优化
+ class Solution:
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        self.prev = None
+        self.isBST = True
+        self.dfs(root)
+        return self.isBST
+
+    def dfs(self, node):
+        if not node:
+            return 
+        self.dfs(node.left)
+        if self.prev is not None and node.val <= self.prev.val:
+            self.isBST = False
+            return 
+        self.prev = node
+        self.dfs(node.right)
+
+⭕️测试二叉搜索树性质
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        def helper(node, lower=float('-inf'), upper=float('inf')):
+            if not node:
+                return True
+            
+            if node.val <= lower or node.val >= upper:
+                return False
+
+            if not helper(node.right, node.val, upper):
+                return False
+            if not helper(node.left, lower, node.val):
+                return False
+
+            return True
+
+        return helper(root)
