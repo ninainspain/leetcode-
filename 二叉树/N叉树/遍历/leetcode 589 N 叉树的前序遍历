@@ -1,0 +1,29 @@
+⭕️迭代
+class Solution:
+    def preorder(self, root: 'Node') -> List[int]:
+        if root is None:
+            return []
+        res = []
+        stack = [root]
+        while stack:
+            curr = stack.pop()
+            res.append(curr.val)
+            children = curr.children
+            for i in range(len(children)-1,-1,-1):
+                stack.append(children[i])
+        return res
+        
+  ⭕️递归
+  class Solution:
+    def preorder(self, root: 'Node') -> List[int]:
+        res = []
+        self.dfs(root, res)
+        return res
+
+    def dfs(self, node, res):
+        if not node:
+            return 
+
+        res.append(node.val)
+        for child in node.children:
+            self.dfs(child, res)
