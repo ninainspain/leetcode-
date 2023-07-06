@@ -1,10 +1,10 @@
-从右向左遍历数组，找到第一个不满足递增顺序的元素，记为索引 i。如果整个数组都是递增顺序的，则说明该数组已经是字典序最大的排列，需要将其反转为升序排列作为下一个排列。
+从数组的右侧开始，找到第一个满足 nums[i] < nums[i + 1] 的索引 i。这样的 i 可以保证 nums[i + 1] 到 nums[nums.length - 1] 是非增序的。
 
-如果找到了索引 i，再次从右向左遍历数组，找到第一个大于 nums[i] 的元素，记为索引 j。
+如果找到了这样的 i，我们再从 nums[i + 1] 到 nums[nums.length - 1] 中找到最小的 j，使得 nums[j] > nums[i]。
 
-交换索引 i 和索引 j 处的元素。
+然后我们交换 nums[i] 和 nums[j]。
 
-将索引 i 之后的所有元素进行反转，使其变为升序。
+最后，我们需要将 nums[i + 1] 到 nums[nums.length - 1] 反转，以使其变为升序。
 
 class Solution:
     def nextPermutation(self, nums: List[int]) -> None:
