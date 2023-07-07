@@ -24,9 +24,13 @@ class Solution:
 ▶️时间复杂度 O（m*n） 空间复杂度 O（m*n）
 
 
-⭕️常量空间 使用第一行和第一列来记录每行每列是否包含0
+⭕️首先，我们需要检查第一行和第一列是否有0，因为后续的算法会改变这两个地方的信息。我们创建两个布尔值，firstRowZero和firstColZero，初始化为False，然后扫描第一行和第一列，如果有0就将相应的布尔值置为True。
 
-from typing import List
+然后，我们扫描矩阵的剩余部分（除第一行和第一列以外），如果我们遇到0，我们就把这个0的行和列的第一个元素置为0。
+
+接着，我们再次扫描矩阵的剩余部分，这次如果我们看到行或列的第一个元素是0，我们就把整个行或列置为0。
+
+最后，我们根据firstRowZero和firstColZero的值来决定是否需要将第一行和第一列置为0。
 
 class Solution:
     def setZeroes(self, matrix: List[List[int]]) -> None:
@@ -34,65 +38,30 @@ class Solution:
         Do not return anything, modify matrix in-place instead.
         """
         m, n = len(matrix), len(matrix[0])
-        first_row_zero, first_col_zero = self.check_first_row_col(matrix, m, n)
-        
-        self.mark_zero_rows_and_columns(matrix, m, n)
-        self.set_zeroes_in_marked_rows_and_columns(matrix, m, n)
+        firstRowZero = False
+        firstColZero = False
 
-        if first_row_zero:
-            self.set_zeroes_in_first_row(matrix, n)
-        if first_col_zero:
-            self.set_zeroes_in_first_column(matrix, m)
-
-    def check_first_row_col(self, matrix: List[List[int]], m: int, n: int) -> (bool, bool):
-        first_row_zero = any(matrix[0][j] == 0 for j in range(n))
-        first_col_zero = any(matrix[i][0] == 0 for i in range(m))
-        return first_row_zero, first_col_zero
-
-    def mark_zero_rows_and_columns(self, matrix: List[List[int]], m: int, n: int) -> None:
+        for i in range(m):
+            if matrix[i][0] == 0:
+                firstColZero = True
+        for j in range(n):
+            if matrix[0][j] == 0:
+                firstRowZero = True
+                
         for i in range(1, m):
             for j in range(1, n):
                 if matrix[i][j] == 0:
-                    matrix[i][0] = 0
-                    matrix[0][j] = 0
-
-    def set_zeroes_in_marked_rows_and_columns(self, matrix: List[List[int]], m: int, n: int) -> None:
+                    matrix[i][0] = matrix[0][j] = 0
+        
         for i in range(1, m):
             for j in range(1, n):
                 if matrix[i][0] == 0 or matrix[0][j] == 0:
                     matrix[i][j] = 0
-
-    def set_zeroes_in_first_row(self, matrix: List[List[int]], n: int) -> None:
-        for j in range(n):
-            matrix[0][j] = 0
-
-    def set_zeroes_in_first_column(self, matrix: List[List[int]], m: int) -> None:
-        for i in range(m):
-            matrix[i][0] = 0
-
-                      
-⭕️第三种方法
-def setZeroes(self, matrix: List[List[int]]) -> None:
-        """
-        Do not return anything, modify matrix in-place instead.
-        """
-        m,n=len(matrix),len(matrix[0])
-        flagCol = False
-        for i in range(m):
-            if matrix[i][0]==0:
-                flagCol = True
-
-        for i in range(m):
-            for j in range(1,n):
-                if matrix[i][j]==0:
-                    matrix[i][0]=0
-                    matrix[0][j]=0
         
-        for i in range(m-1,-1,-1):
-            for j in range(1,n):
-                if matrix[i][0]==0 or matrix[0][j]==0:
-                    matrix[i][j]=0
-
-        if flagCol:
+        if firstRowZero:
+            for j in range(n):
+                matrix[0][j] = 0
+                
+        if firstColZero:
             for i in range(m):
-                matrix[i][0]=0
+                matrix[i][0] = 0
