@@ -1,20 +1,32 @@
 ⭕️中序遍历
 class Solution:
     def findMode(self, root):
-        if not root:
-            return []
+        def dfs(node):
+            if node is None:
+                return
+            dfs(node.left) # 递归左子树
+            update(node.val) # 更新当前节点值的计数
+            dfs(node.right) # 递归右子树
 
-        self.count = collections.Counter()
+        def update(x):
+            if x == cur:
+                count += 1
+            else:
+                cur = x
+                count = 1
+            if count == maxCount:
+                ans.append(cur)
+            elif count > maxCount:
+                maxCount = count
+                ans = [cur]
 
-        self.inorder(root)
-        max_freq = max(self.count.values())
-        return [k for k, v in self.count.items() if v == max_freq] 
+        cur = 0 # 当前的数值
+        count = 0 # 当前数值出现的次数
+        maxCount = 0 # 目前出现最多的次数
+        ans = [] # 结果数组
+        dfs(root)
+        return ans
 
-    def inorder(self, node):
-        if node:
-            self.inorder(node.left)
-            self.count[node.val] += 1
-            self.inorder(node.right)
             
  ⭕️不用额外空间
  class Solution:
