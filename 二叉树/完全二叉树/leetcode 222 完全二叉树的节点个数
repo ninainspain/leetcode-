@@ -22,31 +22,25 @@ class Solution:
         return left + right + 1
 
 ⭕️后序遍历2
-def countNodes(root):
-    if not root:
-        return 0
+class Solution:
+    def countNodes(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
 
-    left_height = getLeftHeight(root)
-    right_height = getRightHeight(root)
+        d_left = self.depth(root.left)
+        d_right = self.depth(root.right)
 
-    if left_height == right_height:
-        return 2**left_height - 1
-    else:
-        return countNodes(root.left) + countNodes(root.right) + 1
+        if d_left == d_right:
+            return (2 ** d_left) + self.countNodes(root.right)
+        else:
+            return (2 ** d_right) + self.countNodes(root.left)
 
-def getLeftHeight(node):
-    height = 0
-    while node:
-        height += 1
-        node = node.left
-    return height
-
-def getRightHeight(node):
-    height = 0
-    while node:
-        height += 1
-        node = node.right
-    return height
+    def depth(self, node: Optional[TreeNode]) -> int:
+        d = 0
+        while node:
+            node = node.left
+            d += 1
+        return d
 
         
 ⭕️二分查找
