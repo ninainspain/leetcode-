@@ -71,3 +71,18 @@ def minDepth(root):
 
     # 左右子树都不为空，返回左右子树最小深度的较小值加1
     return min(minDepth(root.left), minDepth(root.right)) + 1
+
+
+⭕️逻辑上等于上面一个答案，要考虑只有一个子结点和有两个子结点的情况
+class Solution:
+    def minDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+
+        left_depth = self.minDepth(root.left)
+        right_depth = self.minDepth(root.right)
+
+        if root.left is None or root.right is None: # if node has only one child
+            return max(left_depth, right_depth) + 1
+        else:
+            return min(left_depth, right_depth) + 1
