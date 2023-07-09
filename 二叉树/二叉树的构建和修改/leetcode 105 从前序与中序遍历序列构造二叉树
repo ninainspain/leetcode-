@@ -59,28 +59,42 @@ class Solution:
 
         return root
 
+在解决这个问题之前，我们需要理解先序遍历和中序遍历的特性：
+
+先序遍历的顺序是：根节点 -> 左子树 -> 右子树
+中序遍历的顺序是：左子树 -> 根节点 -> 右子树
+那么，我们可以利用这些性质来解决这个问题：
+
+先序遍历的第一个元素是根节点
+在中序遍历序列中，根节点将序列分为两部分，左侧是左子树的节点，右侧是右子树的节点
+对于Python，我们可以通过下面的代码来实现：
+
+
 ⭕️递归
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
 class Solution:
-    def buildTree(self, preorder, inorder):
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
         if not preorder or not inorder:
             return None
-        return self.buildTreeHelper(preorder, inorder, 0, len(preorder) - 1, 0, len(inorder) - 1)
-
-    def buildTreeHelper(self, preorder, inorder, pre_start, pre_end, in_start, in_end):
-        if pre_start > pre_end or in_start > in_end:
-            return None
-        
-        root_val = preorder[pre_start]
+            
+        # The first node in preorder is the root node
+        root_val = preorder[0]
         root = TreeNode(root_val)
 
-        root_index = inorder.index(root_val)
-        left_size = root_index - in_start
-        
-        root.left = self.buildTreeHelper(preorder, inorder, pre_start + 1, pre_start + left_size, in_start, root_index - 1)
-        root.right = self.buildTreeHelper(preorder, inorder, pre_start + left_size + 1, pre_end, root_index + 1, in_end)
-        
-        return root
+        # The index of the root node in inorder
+        mid_idx = inorder.index(root_val)
 
+        # Recursively construct the left and right subtree
+        root.left = self.buildTree(preorder[1:mid_idx+1], inorder[:mid_idx])
+        root.right = self.buildTree(preorder[mid_idx+1:], inorder[mid_idx+1:])
+
+        return root
 
 
 
