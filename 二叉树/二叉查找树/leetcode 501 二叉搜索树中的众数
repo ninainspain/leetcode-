@@ -1,35 +1,31 @@
 ⭕️中序遍历
 class Solution:
-    def findMode(self, root):
-        cur = 0  # 当前的数值
-        count = 0  # 当前数值出现的次数
-        maxCount = 0  # 目前出现最多的次数
-        ans = []  # 结果数组
+    def findMode(self, root: Optional[TreeNode]) -> List[int]:
+        self.cur = 0  # 当前的数值
+        self.count = 0  # 当前数值出现的次数
+        self.maxCount = 0  # 目前出现最多的次数
+        self.ans = []  # 结果数组
+        self.dfs(root)
+        return self.ans
 
-        def dfs(node):
-            nonlocal cur, count, maxCount, ans
-            if node is None:
-                return
-            dfs(node.left)  # 递归左子树
-            update(node.val)  # 更新当前节点值的计数
-            dfs(node.right)  # 递归右子树
+    def dfs(self, node):
+        if node is None:
+            return
+        self.dfs(node.left)  # 递归左子树
+        self.update(node.val)  # 更新当前节点值的计数
+        self.dfs(node.right)  # 递归右子树
 
-        def update(x):
-            nonlocal cur, count, maxCount, ans
-            if x == cur:
-                count += 1
-            else:
-                cur = x
-                count = 1
-            if count == maxCount:
-                ans.append(cur)
-            elif count > maxCount:
-                maxCount = count
-                ans = [cur]
-
-        dfs(root)
-        return ans
-
+    def update(self, x):
+        if x == self.cur:
+            self.count += 1
+        else:
+            self.cur = x
+            self.count = 1
+        if self.count == self.maxCount:
+            self.ans.append(self.cur)
+        elif self.count > self.maxCount:
+            self.maxCount = self.count
+            self.ans = [self.cur]
             
  ⭕️不用额外空间
  class Solution:
