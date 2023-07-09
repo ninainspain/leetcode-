@@ -1,14 +1,21 @@
 ⭕️中序遍历
 class Solution:
     def findMode(self, root):
+        cur = 0  # 当前的数值
+        count = 0  # 当前数值出现的次数
+        maxCount = 0  # 目前出现最多的次数
+        ans = []  # 结果数组
+
         def dfs(node):
+            nonlocal cur, count, maxCount, ans
             if node is None:
                 return
-            dfs(node.left) # 递归左子树
-            update(node.val) # 更新当前节点值的计数
-            dfs(node.right) # 递归右子树
+            dfs(node.left)  # 递归左子树
+            update(node.val)  # 更新当前节点值的计数
+            dfs(node.right)  # 递归右子树
 
         def update(x):
+            nonlocal cur, count, maxCount, ans
             if x == cur:
                 count += 1
             else:
@@ -20,10 +27,6 @@ class Solution:
                 maxCount = count
                 ans = [cur]
 
-        cur = 0 # 当前的数值
-        count = 0 # 当前数值出现的次数
-        maxCount = 0 # 目前出现最多的次数
-        ans = [] # 结果数组
         dfs(root)
         return ans
 
