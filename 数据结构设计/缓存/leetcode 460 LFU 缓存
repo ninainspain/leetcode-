@@ -1,0 +1,130 @@
+LFU (Least Frequently Used) 是一种比较复杂的缓存策略。在实现LFU时，我们需要跟踪每个键的使用频率，同时还需要考虑在有相同使用频率的键时应选择最早的键进行淘汰。要满足题目要求的O(1)复杂度，我们需要同时使用哈希表和双向链表。
+
+下面是一个可能的Python实现。在这个实现中，我们使用两个字典，一个用来存储键值对，另一个用来存储键的频率。我们还用一个字典来存储每个频率对应的双向链表，以此来追踪使用频率。
+
+⭕️解法一：
+from collections import defaultdict
+
+class Node:
+    def __init__(self, key, value, count):
+        self.key = key
+        self.value = value
+        self.count = count
+        self.prev = self.next = None
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = Node(None, None, None)  # sentinel node as pseudo-head
+        self.tail = Node(None, None, None)  # sentinel node as pseudo-tail
+        self.head.next = self.tail
+        self.tail.prev = self.head
+    
+    def insert(self, node):
+        node.next = self.head.next
+        node.prev = self.head
+        self.head.next.prev = node
+        self.head.next = node
+    
+    def remove(self, node):
+        node.prev.next = node.next
+        node.next.prev = node.prev
+
+class LFUCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.keyNode = {}
+        self.freqList = defaultdict(DoublyLinkedList)
+        self.minFreq = 0
+        self.size = 0
+
+    def get(self, key):
+        if key not in self.keyNode:
+            return -1
+
+        node = self.keyNode[key]
+        self.update(node)
+        return node.value
+
+    def put(self, key, value):
+        if self.capacity == 0:
+            return
+        
+        if key in self.keyNode:
+            node = self.keyNode[key]
+            node.value = value
+            self.update(node)
+        else:
+            if self.size == self.capacity:
+                node = self.freqList[self.minFreq].tail.prev
+                self.freqList[self.minFreq].remove(node)
+                del self.keyNode[node.key]
+                self.size -= 1
+            
+            node = Node(key, value, 1)
+            self.keyNode[key] = node
+            self.freqList[1].insert(node)
+            self.minFreq = 1
+            self.size += 1
+
+    def update(self, node):
+        freq = node.count
+        self.freqList[freq].remove(node)
+        if self.minFreq == freq and not self.freqList[freq].head.next.key:
+            self.minFreq = freq + 1
+
+        node.count += 1
+        self.freqList[node.count].insert(node)
+
+
+⭕️解法二：
+from collections import OrderedDict
+
+class LFUCache:
+
+    def __init__(self, capacity: int):
+        self.size = 0
+        self.capacity = capacity
+        self.minFreq = 0
+        self.freqTable = {}  # frequency table
+        self.keyTable = {}  # key table
+        self.lfuKeys = OrderedDict()  # least frequently used keys
+
+    def get(self, key: int) -> int:
+        if key not in self.keyTable:
+            return -1
+        # Increase frequency
+        self.increaseFreq(key)
+        return self.keyTable[key]['value']
+
+    def put(self, key: int, value: int) -> None:
+        if self.capacity == 0:
+            return
+        
+        if key in self.keyTable:
+            # Key exists, update value and increase frequency
+            self.keyTable[key]['value'] = value
+            self.increaseFreq(key)
+        else:
+            # Key does not exist, add key
+            if self.size == self.capacity:
+                # Need to remove LFU key
+                removeKey, _ = self.lfuKeys.popitem(last=False)
+                self.freqTable[self.keyTable[removeKey]['freq']].remove(removeKey)
+                del self.keyTable[removeKey]
+                self.size -= 1
+            # Add new key
+            self.keyTable[key] = {'value': value, 'freq': 1}
+            self.freqTable[1] = self.freqTable.get(1, []) + [key]
+            self.lfuKeys[key] = None
+            self.minFreq = 1
+            self.size += 1
+
+    def increaseFreq(self, key: int) -> None:
+        freq = self.keyTable[key]['freq']
+        self.keyTable[key]['freq'] += 1
+        self.freqTable[freq].remove(key)
+        self.freqTable[freq + 1] = self.freqTable.get(freq + 1, []) + [key]
+        del self.lfuKeys[key]
+        self.lfuKeys[key] = None
+        if self.minFreq == freq and not self.freqTable[freq]:
+            self.minFreq += 1
