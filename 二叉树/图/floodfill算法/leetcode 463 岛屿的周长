@@ -7,10 +7,11 @@ class Solution:
         for i in range(rows):
             for j in range(cols):
                 if grid[i][j] == 1:
-                    perimeter += 4
                     for dir in dirs:
                         ni, nj = i + dir[0], j + dir[1]
-                        if 0 <= ni < rows and 0 <= nj < cols and grid[ni][nj] == 1:
-                            perimeter -= 2
+                        if ni < 0 or ni == rows or nj < 0 or nj == cols or grid[ni][nj] == 0:
+                            perimeter += 1
 
         return perimeter
+
+
