@@ -1,0 +1,43 @@
+⭕️dfs
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+        oldColor = image[sr][sc]
+        if oldColor == color: return image
+        
+        rows, cols = len(image), len(image[0])
+        dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+
+        def dfs(i, j):
+            if i < 0 or i >= rows or j < 0 or j >= cols or image[i][j] != oldColor:
+                return
+
+            image[i][j] = color
+            for dir in dirs:
+                dfs(i + dir[0], j + dir[1])
+
+        dfs(sr, sc)
+        return image
+
+
+⭕️bfs
+from collections import deque
+
+class Solution:
+    def floodFill(self, image, sr, sc, newColor):
+        oldColor = image[sr][sc]
+        if oldColor == newColor: return image
+        
+        rows, cols = len(image), len(image[0])
+        dirs = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+        queue = deque([(sr, sc)])
+
+        while queue:
+            i, j = queue.popleft()
+            image[i][j] = newColor
+
+            for dir in dirs:
+                ni, nj = i + dir[0], j + dir[1]
+                if 0 <= ni < rows and 0 <= nj < cols and image[ni][nj] == oldColor:
+                    queue.append((ni, nj))
+
+        return image
