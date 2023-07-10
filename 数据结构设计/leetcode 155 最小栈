@@ -1,0 +1,56 @@
+ ⭕️两个栈
+ class MinStack:
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.stack = []
+        self.min_stack = []
+
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        if not self.min_stack or val <= self.min_stack[-1]:
+            self.min_stack.append(val)
+
+    def pop(self) -> None:
+        if self.stack:
+            if self.stack[-1] == self.min_stack[-1]:
+                self.min_stack.pop()
+            self.stack.pop()
+
+    def top(self) -> int:
+        if self.stack:
+            return self.stack[-1]
+
+    def getMin(self) -> int:
+        if self.min_stack:
+            return self.min_stack[-1]
+
+
+⭕️一个栈
+class MinStack:
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.stack = []
+        self.min_value = float('inf')
+
+    def push(self, val: int) -> None:
+        if val <= self.min_value:
+            self.stack.append(self.min_value)  # Save the old minimum value
+            self.min_value = val
+        self.stack.append(val)
+
+    def pop(self) -> None:
+        if self.stack:
+            if self.stack.pop() == self.min_value:
+                self.min_value = self.stack.pop()  # Retrieve the old minimum value
+
+    def top(self) -> int:
+        if self.stack:
+            return self.stack[-1]
+
+    def getMin(self) -> int:
+        return self.min_value
