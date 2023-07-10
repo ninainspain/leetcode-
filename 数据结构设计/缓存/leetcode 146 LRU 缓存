@@ -1,3 +1,7 @@
+为了满足题目要求的O(1)复杂度，我们需要同时使用哈希表和双向链表。哈希表支持O(1)复杂度的查找，双向链表可以在O(1)复杂度内完成添加和删除操作。
+
+
+
 from collections import OrderedDict
 
 class LRUCache:
