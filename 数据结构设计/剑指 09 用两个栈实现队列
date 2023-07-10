@@ -1,0 +1,19 @@
+class CQueue:
+
+    def __init__(self):
+        self.insert_stack = []
+        self.delete_stack = []
+
+    def appendTail(self, value: int) -> None:
+        self.insert_stack.append(value)
+
+    def deleteHead(self) -> int:
+        # If delete_stack is empty, move all elements from insert_stack.
+        if not self.delete_stack:
+            while self.insert_stack:
+                self.delete_stack.append(self.insert_stack.pop())
+        # If delete_stack is still empty, return -1, else pop an element.
+        if not self.delete_stack:
+            return -1
+        else:
+            return self.delete_stack.pop()
