@@ -1,0 +1,38 @@
+在这个实现中，self.cache的确仅仅存储了键（key），这个队列（deque）的主要作用是记录键的插入顺序。当缓存满了需要淘汰数据时，我们就可以通过它找到最早插入的键，然后在哈希表（hashmap，也就是self.map）中删除对应的键值对。
+
+而self.map这个字典（dict）则存储了键（key）与值（value）之间的映射关系。使用字典的好处是它可以在常数时间（O(1)）内查找、插入和删除数据。
+
+所以，self.cache和self.map协同工作，共同实现了一个具有FIFO淘汰策略的缓存。这种方法结合了队列和哈希表的优点，达到了较好的性能。
+
+
+from collections import deque
+
+class FIFOCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.cache = deque()
+        self.map = {}
+
+    def put(self, key, value):
+        if key in self.map:
+            # 先删除旧的值
+            self.cache.remove(key)
+            del self.map[key]
+        elif len(self.cache) >= self.capacity:
+            # 缓存已满，淘汰最早进入的元素
+            oldest_key = self.cache.popleft()
+            del self.map[oldest_key]
+        # 添加新的值
+        self.cache.append(key)
+        self.map[key] = value
+
+    def get(self, key):
+        if key in self.map:
+            return self.map[key]
+        else:
+            return None
+
+    def display(self):
+        for key in self.cache:
+            print(f"{key}:{self.map[key]}", end=" ")
+        print()
