@@ -4,3 +4,22 @@
 
 
 
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        res = []
+        if candidates is None or len(candidates)==0:
+            return res
+        self.dfs(0, target, candidates,[],res)
+        return res
+
+    def dfs(self, start, target, candidates, combination, res):
+        if target<0:
+            return 
+        if target==0:
+            res.append(list(combination))  # 注意这里
+            return
+        
+        for i in range(start,len(candidates)):
+            combination.append(candidates[i])
+            self.dfs(i, target-candidates[i], candidates, combination, res)    
+            combination.pop()
