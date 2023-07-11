@@ -43,6 +43,12 @@ class Solution:
         self.dfs(node.left, currNodeSum, res)  
         self.dfs(node.right, currNodeSum, res) 
 
+在这个问题中，我们是在每次递归调用的时候，都创建了一个新的变量 currNode，这个新的变量就相当于是在每次递归调用的时候对值进行了“保存”。我们并没有直接修改 parentNodeSum 的值，因此不需要“回溯”来恢复它的原始值。
+
+在其他的一些问题中，比如求解所有可能的路径，我们可能会在每次递归调用前后，对路径进行添加和删除元素的操作，这就需要使用到“回溯”的思想，因为我们需要在每次递归调用结束后，恢复路径到原始的状态，以便进行下一次的递归调用。
+
+然而，在这个问题中，由于我们在每次递归调用的时候，都创建了新的变量，我们并不需要在每次递归调用结束后恢复它们的原始值，因此并不需要使用到“回溯”的思想。这也是为什么我们不需要在最后进行 node.val 的减操作的原因。
+
 ⭕️不求路径和，求targetSum，减法
 class Solution:
     def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
