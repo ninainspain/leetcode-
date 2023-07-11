@@ -1,0 +1,17 @@
+⭕️剪枝策略
+▶️每个数字只能用一次，子节点的索引大于父节点的索引 -> 结果不能重复
+
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        if nums is None:
+            return res
+        self.dfs(0, nums, [], res)
+        return res
+
+    def dfs(self, start, nums, path, res):
+        res.append(list(path))  # 将当前 path 的拷贝加入结果集
+        for i in range(start, len(nums)):
+            path.append(nums[i])
+            self.dfs(i + 1, nums, path, res)
+            path.pop()
