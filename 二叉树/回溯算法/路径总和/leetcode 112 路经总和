@@ -14,13 +14,13 @@ class Solution:
 
     def dfs(self, node, path, res):
         if not node:
-            return 
-        path.append(node.val)
+            return  #终止条件
+        path.append(node.val) #实施
         if not node.left and not node.right:
             res.append(list(path))  # 创建 path 的拷贝
-        self.dfs(node.left, path, res) 
+        self.dfs(node.left, path, res) #递归
         self.dfs (node.right, path, res) 
-        path.pop()
+        path.pop() #回溯
 
 
 ⭕️不求路径，只求路径和的情况下，加法
