@@ -1,1 +1,78 @@
+⭕️拿到N叉树的所有组合
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        self.dfs(nums, -1, [], res)
+        return res
+
+    def dfs(self, nums, index, path, res):
+        if len(path)==len(nums):
+            return 
+        if index != -1: path.append(nums[index])
+        if len(path)==len(nums):
+            res.append(list(path))  
+        for i in range(len(nums)):
+            self.dfs(nums, i, path, res)    
+        if index != -1: path.pop()
+
+⭕️回溯代码框架
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        self.dfs(nums, -1, [], res)
+        return res
+
+    def dfs(self, nums, index, path, res):
+        if len(path)==len(nums):
+            res.append(list(path))  
+            return 
+            
+        for index in range(len(nums)):
+            path.append(nums[index])
+            self.dfs(nums, index, path, res)    
+            path.pop()
+
+⭕️排除重复使用的数字
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        self.dfs(nums, [], res)
+        return res
+
+    def dfs(self, nums, path, res):
+        if len(path)==len(nums):
+            res.append(list(path))  
+            return 
+            
+        for index in range(len(nums)):
+            if nums[index] in path: continue //剪枝
+            path.append(nums[index])
+            self.dfs(nums, path, res)  
+            //回溯
+            path.pop()
+
+⭕️时间复杂度=n！*n^2
+
+⭕️降低时间复杂度，引入used数组
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        used = [False] * len(nums)  # 初始化 used 列表
+        self.dfs(nums, [], used, res)
+        return res
+
+    def dfs(self, nums, path, used, res):
+        if len(path) == len(nums):
+            res.append(list(path))  
+            return 
+            
+        for index in range(len(nums)):
+            if used[index]:
+                continue
+            path.append(nums[index])
+            used[index] = True
+            self.dfs(nums, path, used, res)
+            path.pop()
+            used[index] = False
+
 
