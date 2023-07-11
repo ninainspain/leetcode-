@@ -19,8 +19,66 @@ class Solution:
         if not node.left and not node.right:
             res.append(list(path))  # 创建 path 的拷贝
         self.dfs(node.left, path, res) 
-        self.dfs(node.right, path, res) 
+        self.dfs (node.right, path, res) 
         path.pop()
+
+
+⭕️不求路径，只求路径和的情况下，加法
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        res = []
+        self.dfs(root, 0, res)
+
+        for num in res:
+            if num==targetSum:
+                return True
+        return False
+
+    def dfs(self, node, parentNodeSum, res):
+        if not node:
+            return 
+        currNodeSum = parentNodeSum + node.val
+        if not node.left and not node.right:
+            res.append(currNodeSum)  
+        self.dfs(node.left, currNodeSum, res)  
+        self.dfs(node.right, currNodeSum, res) 
+
+⭕️不求路径和，求targetSum，减法
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        res = []
+        self.dfs(root, targetSum, res)
+
+        for num in res:
+            if num==0:
+                return True
+        return False
+
+    def dfs(self, node, targetSum, res):
+        if not node:
+            return 
+        currNodeSum = targetSum - node.val
+        if not node.left and not node.right:
+            res.append(currNodeSum)  
+        self.dfs(node.left, currNodeSum, res)  
+        self.dfs(node.right, currNodeSum, res) 
+
+
+⭕️边遍历边判断，提前返回
+class Solution:
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        res = []
+        return self.dfs(root, targetSum)
+        
+    def dfs(self, node, targetSum):
+        if not node:
+            return False
+        currNodeSum = targetSum - node.val
+        if not node.left and not node.right and currNodeSum == 0:
+            return True
+
+        return self.dfs(node.left, currNodeSum)  or self.dfs(node.right, currNodeSum) 
+
 
 
 ⭕️dfs
