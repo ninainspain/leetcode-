@@ -1,1 +1,43 @@
+⭕️查询全排列
 
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        res = []
+        if n<=0 or k<=0 or k>n:
+            return res
+
+        self.dfs(n,k,[],res)
+        return res
+
+    def dfs(self, n, k, combination, res):
+        if len(combination)==k: #终止条件
+            res.append(list(combination))
+            return 
+
+        for i in range(1,n):
+            combination.append(i)
+            self.dfs(n,k, combination, res)    
+            combination.pop()
+
+
+⭕️剪枝
+▶️每个数字只能使用一次
+▶️结果不能重复，保证顺序
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        res = []
+        if n<=0 or k<=0 or k>n:
+            return res
+
+        self.dfs(1, n,k,[],res)
+        return res
+
+    def dfs(self, start, n, k, combination, res):
+        if len(combination)==k:
+            res.append(list(combination))
+            return 
+
+        for i in range(start,n+1):
+            combination.append(i)
+            self.dfs(i+1, n,k, combination, res)    
+            combination.pop()
