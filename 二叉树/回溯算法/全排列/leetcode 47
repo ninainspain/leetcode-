@@ -1,0 +1,25 @@
+⭕️输入数组中有重复数字
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        used = [False] * len(nums)  # 初始化 used 列表
+        nums.sort() #去重
+        self.dfs(nums, [], used, res)
+        return res
+
+    def dfs(self, nums, path, used, res):
+        if len(path) == len(nums):
+            res.append(list(path))  
+            return 
+            
+        for index in range(len(nums)):
+            # 去重条件
+            if index > 0 and nums[index] == nums[index-1] and not used[index-1]:
+                continue
+            if used[index]:
+                continue
+            path.append(nums[index])
+            used[index] = True
+            self.dfs(nums, path, used, res)
+            path.pop()
+            used[index] = False
