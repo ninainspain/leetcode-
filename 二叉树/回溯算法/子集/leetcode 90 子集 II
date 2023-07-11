@@ -1,0 +1,21 @@
+当然可以。这个问题与之前的子集问题类似，但在这里，我们需要处理一个额外的复杂性：输入数组中可能包含重复的元素。
+
+我们可以通过在生成子集时，检查当前元素是否与之前的元素相同，以避免生成重复的子集。
+
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        if nums is None:
+            return res
+        nums.sort()  # 对 nums 进行排序
+        self.dfs(0, nums, [], res)
+        return res
+
+    def dfs(self, start, nums, path, res):
+        res.append(list(path))  # 将当前 path 的拷贝加入结果集
+        for i in range(start, len(nums)):
+            if i > start and nums[i] == nums[i - 1]:  # 跳过重复的元素
+                continue
+            path.append(nums[i])
+            self.dfs(i + 1, nums, path, res)
+            path.pop()
