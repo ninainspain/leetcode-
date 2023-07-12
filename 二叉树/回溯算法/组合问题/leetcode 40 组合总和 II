@@ -1,5 +1,5 @@
 ⭕️剪枝策略
-#结果不能重复：子节点的索引大于父亲节点的索引
+#有重复元素的情况下，结果不能重复：子节点的索引大于父亲节点的索引
 #路径和=targetSum
 
 
@@ -23,5 +23,5 @@ class Solution:
         for i in range(start,len(candidates)):
             if i>start and candidates[i]==candidates[i-1]: continue
             combination.append(candidates[i])
-            self.dfs(i+1, target-candidates[i], candidates, combination, res)    
+            self.dfs(i+1, target-candidates[i], candidates, combination, res)    #不能使用同一个数字
             combination.pop()
