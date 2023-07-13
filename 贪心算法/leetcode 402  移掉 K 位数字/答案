@@ -1,1 +1,36 @@
+⭕️贪心算法
+
+class Solution:
+    def removeKdigits(self, num: str, k: int) -> str:
+        num_list = list(num)
+
+        for i in range(k):
+            hasDeleted = False
+            for j in range(1, len(num_list)):
+                if num_list[j] < num_list[j - 1]:
+                    del num_list[j - 1]
+                    hasDeleted = True
+                    break
+
+            if not hasDeleted:
+                num_list.pop()
+
+        while len(num_list) > 0 and num_list[0] == '0':
+            del num_list[0]
+
+        return '0' if len(num_list) == 0 else ''.join(num_list)
+
+
+⭕️贪心算法+单调栈
+def removeKdigits(num, k):
+    stack = []
+    for n in num:
+        while k and stack and stack[-1] > n:
+            stack.pop()
+            k -= 1
+        stack.append(n)
+    while k:
+        stack.pop()
+        k -= 1
+    return "".join(stack).lstrip('0') or '0'
 
