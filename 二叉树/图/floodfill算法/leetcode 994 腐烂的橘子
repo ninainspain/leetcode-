@@ -1,0 +1,38 @@
+from collections import deque
+
+class Solution(object):
+    def orangesRotting(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        rows, cols = len(grid), len(grid[0])
+
+        # 初始化队列和计数器
+        queue = deque()
+        fresh_oranges = 0
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 2:
+                    queue.append((r, c))  # 把所有腐烂的橘子放入队列
+                elif grid[r][c] == 1:
+                    fresh_oranges += 1  # 计算新鲜橘子的数量
+
+        # 运行 BFS 来腐烂新鲜的橘子
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        minutes_passed = 0
+        while queue and fresh_oranges:
+            minutes_passed += 1
+            for _ in range(len(queue)):
+                x, y = queue.popleft()
+                for dx, dy in directions:
+                    nx, ny = x + dx, y + dy
+                    if nx >= 0 and nx < rows and ny >= 0 and ny < cols and grid[nx][ny] == 1:
+                        grid[nx][ny] = 2
+                        fresh_oranges -= 1
+                        queue.append((nx, ny))
+
+        # 如果还有新鲜的橘子，则返回 -1
+        if fresh_oranges > 0:
+            return -1
+        return minutes_passed
