@@ -1,0 +1,19 @@
+这个问题可以通过贪心算法来解决。具体的策略是，从头到尾遍历气球，如果发现连续的两个气球颜色相同，
+
+那么就需要移除其中一个，为了使得总的移除时间最短，我们应该移除需要时间较少的那一个。
+
+class Solution:
+    def minCost(self, colors: str, neededTime: List[int]) -> int:
+        res = 0
+        leng = len(colors)
+        i = 0
+        while i<leng:
+            c = colors[i]
+            maxCost = 0
+            sumCost = 0
+            while i<leng and colors[i]==c:
+                maxCost = max(maxCost, neededTime[i])
+                sumCost += neededTime[i]
+                i+=1
+            res += sumCost-maxCost
+        return res
