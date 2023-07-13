@@ -1,0 +1,38 @@
+class Solution(object):
+    def updateBoard(self, board, click):
+        """
+        :type board: List[List[str]]
+        :type click: List[int]
+        :rtype: List[List[str]]
+        """
+        (row, col) = (click[0], click[1])
+
+        # 8个可能的相邻方向
+        directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+
+        # 挖出地雷，游戏结束
+        if board[row][col] == 'M':
+            board[row][col] = 'X'
+            return board
+
+        def adjacentMines(r, c):
+            # 返回周围地雷的数量
+            return sum([int(board[r + dr][c + dc] == 'M') for dr, dc in directions if 0 <= r + dr < len(board) and 0 <= c + dc < len(board[0])])
+
+        def reveal(r, c):
+            # 如果已经被揭示，不需要进一步操作
+            if board[r][c] != 'E':
+                return
+
+            mines = adjacentMines(r, c)
+            if mines == 0:  # 如果周围没有地雷，揭示周围所有格子
+                board[r][c] = 'B'
+                for dr, dc in directions:
+                    nr, nc = r + dr, c + dc
+                    if 0 <= nr < len(board) and 0 <= nc < len(board[0]):
+                        reveal(nr, nc)
+            else:  # 如果周围有地雷，揭示地雷数量，不进一步揭示
+                board[r][c] = str(mines)
+
+        reveal(row, col)
+        return board
