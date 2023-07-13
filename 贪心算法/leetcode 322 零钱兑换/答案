@@ -1,1 +1,33 @@
+⭕️贪心算法
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        coins.sort()
+        res = amount
+        count = 0
+        for i in range(len(coins)-1,-1,-1):
+            currCount = res//coins[i]
+            res = res-currCount*coins[i]
+            count += currCount
+            if res == 0:
+                return count
+        return -1
+
+⭕️回溯算法
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        self.minCoins = float('inf')
+        coins.sort()
+        self.dfs(coins, amount, 0)
+        return -1 if self.minCoins == float('inf') else self.minCoins
+
+    def dfs(self, coins, target, count):
+        if target == 0:
+            self.minCoins = min(self.minCoins, count)
+            return
+        for i in range(len(coins)-1, -1, -1):
+            # if the coin is larger than target or adding it would lead to a worse solution, then skip
+            if coins[i] > target or count + 1 >= self.minCoins:
+                continue
+            self.dfs(coins, target - coins[i], count + 1)
+
 
