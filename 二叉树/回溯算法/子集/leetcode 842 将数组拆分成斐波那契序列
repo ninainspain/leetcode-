@@ -1,0 +1,28 @@
+class Solution:
+    def splitIntoFibonacci(self, num: str) -> List[int]:
+        self.res = []
+        self.dfs(0,0,0,num)
+        return self.res
+
+
+    def dfs(self, start, prevTwoNumSum, prevNum, num):
+        if start == len(num):
+            return len(self.res) >= 3
+
+        currNum = 0
+        for i in range(start, len(num)):
+            if i > start and num[start] == '0': #处理前导零的情况
+                break
+            currNum = currNum * 10 + int(num[i])
+            if currNum > 2**31 - 1:
+                break
+            
+            if len(self.res) < 2 or currNum == prevTwoNumSum:
+                self.res.append(currNum)
+                if self.dfs(i+1, prevNum + currNum, currNum, num):
+                    return True #在回溯算法中，当找到一个满足条件的解时，我们通常会立即返回True以提前终止递归，这样可以避免进一步的无用搜索，提高代码的效率。
+                self.res.pop()
+            elif len(self.res) >= 2 and currNum > prevTwoNumSum:
+                break
+                
+        return False
