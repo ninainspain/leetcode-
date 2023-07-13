@@ -1,0 +1,19 @@
+这个问题的贪心策略是优先使用出现次数为偶数的字符以构造回文字符串的两侧。然后，对于出现次数为奇数的字符，我们舍弃一个，把剩下的偶数个字符也用于构造回文字符串的两侧。这是因为在构建最长回文串的时候，需要让尽可能多的字符出现在回文串的两侧。
+
+然后，如果有出现次数为奇数的字符，我们就把一个这样的字符放在回文串的中心。这样可以使得构造出的回文串尽可能长，也符合回文串的性质。
+
+所以，这个问题的贪心策略是优先使用出现次数为偶数的字符，并且最多只使用一个出现次数为奇数的字符。
+
+def longestPalindrome(s):
+    counts = {}
+    for char in s:
+        counts[char] = counts.get(char, 0) + 1
+    length = 0
+    odd = False
+    for count in counts.values():
+        if count % 2 == 0:
+            length += count
+        else:
+            length += count - 1
+            odd = True
+    return length + 1 if odd else length
