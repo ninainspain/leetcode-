@@ -1,1 +1,49 @@
+⭕️dfs
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        self.minSteps = float('inf')
+        self.dfs(nums,0,[])
+        return 0 if self.minSteps == float('inf') else self.minSteps
+
+
+    def dfs(self, nums, jumpedIndex, path):
+        if jumpedIndex==len(nums)-1:
+            self.minSteps = min(self.minSteps,len(path))
+            return 
+
+        for i in range(1, nums[jumpedIndex]+1):
+            if jumpedIndex+i >= len(nums):
+                continue
+
+            path.append(i)
+            self.dfs(nums, jumpedIndex+i, path)
+            path.pop()
+
+⭕️贪心算法
+class Solution:
+    def jump(self, nums: List[int]) -> int:
+        if len(nums) == 1: 
+            return 0
+
+        start = end = steps = 0
+
+        while end < len(nums) - 1:
+            maxPos = 0
+            for i in range(start, end + 1):
+                maxPos = max(maxPos, i + nums[i])
+            start = end + 1
+            end = maxPos
+            steps += 1
+        
+        return steps
+
+⭕️优化
+def jump(nums):
+    steps = max_pos = end = 0
+    for i in range(len(nums) - 1):
+        max_pos = max(max_pos, nums[i] + i)
+        if i == end:
+            end = max_pos
+            steps += 1
+    return steps
 
