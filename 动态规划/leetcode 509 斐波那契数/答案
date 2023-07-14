@@ -47,4 +47,34 @@ class Solution:
         self.memo[n] = leftFib + rightFib
         return self.memo[n]
 
-⭕️
+⭕️dp
+class Solution:
+    def fib(self, n: int) -> int:
+        if n<=1: return n
+        #定义数组，arr[i]表示的是数字i的斐波那契数
+        arr = [0] * (n+1)
+        #初始化数组元素
+        arr[0]=0
+        arr[1]=1
+
+        #计算数组的元素
+        for i in range(2,n+1):
+            arr[i]=arr[i-1]+arr[i-2]
+        #返回最终结果
+        return arr[n]
+
+⭕️dp
+class Solution:
+    def fib(self, n: int) -> int:
+        if n<=1: return n
+        #定义状态数组，arr[i]表示的是数字i的斐波那契数
+        arr = [0] * (n+1)
+        #状态初始化
+        arr[0]=0
+        arr[1]=1
+
+        #状态转移
+        for i in range(2,n+1):
+            arr[i]=arr[i-1]+arr[i-2]
+        #返回最终需要的状态值
+        return arr[n]
