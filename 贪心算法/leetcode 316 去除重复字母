@@ -1,0 +1,23 @@
+这个问题可以通过贪心算法和栈来解决。主要的想法是维护一个栈，遍历字符串，对于每一个字符，如果它在栈中已经存在，我们就跳过它；如果它不存在，我们就将它加入到栈中。
+
+但在加入之前，我们要先从栈顶开始，依次移除比它大且后面还会出现的字符。这样可以保证栈中的字符是按照字典序排列的，且每个字符只出现一次。
+
+
+def removeDuplicateLetters(s):
+    stack = []
+    remain_counter = collections.Counter(s)
+
+    for c in s:
+        if c not in stack:
+            while stack and c < stack[-1] and remain_counter[stack[-1]] > 0:
+                stack.pop()
+            stack.append(c)
+        remain_counter[c] -= 1
+
+    return ''.join(stack)
+
+在这个解法中，我们首先初始化一个空栈，然后用 collections.Counter 来统计每个字符的数量。然后遍历字符串的每个字符，
+
+对于每个字符，如果它不在栈中，我们就将它加入到栈中。但在加入之前，我们要先从栈顶开始，依次移除比它大且后面还会出现的字符。最后，我们把栈中的字符连接起来，就得到了结果。
+
+这种方法之所以可行，是因为在每一步都尽可能选择字典序小的字符，所以每一步都是最优的，从而得到全局最优解。这是贪心算法的思想。
