@@ -1,1 +1,39 @@
+⭕️回溯算法，自底朝上
 
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        def dfs(target, c):
+            if target == 0: return 0
+            minCoins = float('inf')
+            for i in range(len(c)):
+                if target - c[i] < 0: continue
+                subMinCoins = dfs(target - c[i], c)
+                if subMinCoins == -1: continue
+                minCoins = min(subMinCoins + 1, minCoins)
+            return -1 if minCoins == float('inf') else minCoins
+
+        minCoins = dfs(amount, coins)
+        return minCoins
+
+
+⭕️记忆化搜索
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        memo = [float('inf')] * (amount + 1)
+        
+        def dfs(target, c):
+            if target == 0: return 0
+            if memo[target] != float('inf'): return memo[target]
+
+            minCoins = float('inf')
+            for i in range(len(c)):
+                if target - c[i] < 0: continue
+                subMinCoins = dfs(target - c[i], c)
+                if subMinCoins == -1: continue
+                minCoins = min(subMinCoins + 1, minCoins)
+            memo[target] = -1 if minCoins == float('inf') else minCoins
+            return memo[target]
+
+        return dfs(amount, coins)
+
+⭕️dp
