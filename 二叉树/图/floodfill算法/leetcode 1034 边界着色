@@ -23,3 +23,12 @@ class Solution:
             for dx, dy in directions:
                 dfs(i+dx, j+dy)
             
+           
+        
+        dfs(row, col)
+        
+        # paint the border cells
+        for i, j in border_cells:
+            grid[i][j] = color
+        
+        return grid
