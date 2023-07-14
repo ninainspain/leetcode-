@@ -1,0 +1,33 @@
+⭕️暴力解法
+
+class Solution:
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        for i in range(len(gas)):
+            if gas[i]<cost[i]:
+                continue
+            start = i
+            remainGas = gas[i]-cost[i]
+            while remainGas >= 0:
+                start = (start+1)%len(gas)
+                if start==i: return i
+                remainGas = remainGas-cost[start]+gas[start]
+        return -1
+
+⭕️贪心算法
+如果x到不了y+1，但能够到达y的话，那么从x到y到任意一点出发都不可能到达y+1。因为从其中任何一点出发，相当于从0开始加油，而如果从x出发到该点则不一定是从0开始加油。既然
+不从0开始都到不了y+1，那么从0开始就更不可能到达y+1
+
+class Solution:
+    def canCompleteCircuit(self, gas, cost):
+        total_tank, curr_tank = 0, 0
+        starting_station = 0
+        for i in range(len(gas)):
+            total_tank += gas[i] - cost[i]
+            curr_tank += gas[i] - cost[i]
+            # 如果当前油量不足以到达下一个站点，那么下一个站点就作为新的起始站点
+            if curr_tank < 0:
+                starting_station = i + 1
+                # 重置当前油箱
+                curr_tank = 0
+        # 如果总的油量大于等于0，那么一定可以环绕一圈
+        return starting_station if total_tank >= 0 else -1
