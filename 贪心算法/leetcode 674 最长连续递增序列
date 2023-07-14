@@ -1,0 +1,16 @@
+def findLengthOfLCIS(nums):
+    if not nums:
+        return 0
+
+    n = len(nums)
+    ans = 1
+    cur = 1
+
+    for i in range(1, n):
+        if nums[i] > nums[i-1]:  # 如果当前元素大于前一个元素，说明序列还在递增
+            cur += 1
+            ans = max(ans, cur)  # 更新最大长度
+        else:
+            cur = 1  # 如果不再递增，重置cur为1
+
+    return ans
