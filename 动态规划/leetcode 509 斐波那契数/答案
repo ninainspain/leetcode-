@@ -1,0 +1,15 @@
+⭕️回溯 时间复杂度（2^n）
+
+class Solution:
+    def fib(self, n: int) -> int:
+        return self.dfs(n)
+
+    def dfs(self, n):
+        if n == 0: return 0
+        if n == 1: return 1
+        leftFib = self.dfs(n - 1)
+        rightFib = self.dfs(n - 2)
+        return leftFib + rightFib
+
+  ⭕️dp解法
+          
