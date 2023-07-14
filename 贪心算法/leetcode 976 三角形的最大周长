@@ -1,0 +1,11 @@
+def largestPerimeter(nums):
+    nums.sort(reverse=True)  # 降序排列
+    for i in range(len(nums) - 2):  # 遍历排序后的数组
+        if nums[i] < nums[i + 1] + nums[i + 2]:  # 如果任意两边之和大于第三边
+            return nums[i] + nums[i + 1] + nums[i + 2]  # 返回三角形的周长
+    return 0  # 如果没有满足条件的三边，返回0
+
+
+在这个问题中，我们首先对数组进行了降序排列。然后我们遍历排序后的数组，如果找到任意两边之和大于第三边，我们就找到了一个有效的三角形，返回这个三角形的周长。#贪心思想体现
+
+如果遍历结束都没有找到有效的三角形，那么我们返回0。
