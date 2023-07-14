@@ -1,0 +1,13 @@
+这个问题的解决方法是使用双指针。从两侧开始，向中间比较，如果发现两个字符不相等，我们有两种选择：删除左边的字符或者删除右边的字符。
+
+对于这两种情况，我们都可以用一个辅助函数来判断删除一个字符后的子字符串是否是回文的。
+
+def validPalindrome(s):
+    def is_pali_range(i, j):
+        return all(s[k] == s[j-k+i] for k in range(i, j))
+
+    for i in range(len(s) // 2):
+        if s[i] != s[~i]:
+            j = len(s) - 1 - i
+            return is_pali_range(i+1, j) or is_pali_range(i, j-1)
+    return True
