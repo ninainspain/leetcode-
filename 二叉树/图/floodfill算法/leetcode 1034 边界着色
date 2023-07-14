@@ -1,34 +1,25 @@
-from typing import List
-
 class Solution:
     def colorBorder(self, grid: List[List[int]], row: int, col: int, color: int) -> List[List[int]]:
-        # directions for DFS
-        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
-        m, n = len(grid), len(grid[0])
-        visited = [[False]*n for _ in range(m)]
-        
-        original_color = grid[row][col]
-        border_cells = []
-        
-        def dfs(i, j):
-            if not (0 <= i < m) or not (0 <= j < n) or grid[i][j] != original_color or visited[i][j]:
+        rows,cols = len(grid),len(grid[0])
+        dirs = [[-1,0],[1,0],[0,-1],[0,1]]
+        visited = [[False]*cols for _ in range(rows)]
+
+        oldColor = grid[row][col]
+        border = []
+
+        def dfs(i,j):
+            if not 0<=i<rows or not 0<=j<cols or grid[i][j]!=oldColor or visited[i][j]:
                 return 
-            
-            visited[i][j] = True
-            
-            # if the cell is on the border or next to a cell of a different color, it is a border cell
-            if i == 0 or i == m-1 or j == 0 or j == n-1 or any(grid[i+dx][j+dy] != original_color for dx, dy in directions if 0 <= i+dx < m and 0 <= j+dy < n):
-                border_cells.append((i, j))
-                
-            for dx, dy in directions:
-                dfs(i+dx, j+dy)
-            
-           
-        
-        dfs(row, col)
-        
-        # paint the border cells
-        for i, j in border_cells:
-            grid[i][j] = color
-        
+            visited[i][j]=True
+
+            if i==0 or i==rows-1 or j==0 or j==cols-1 or any(grid[i+dx][j+dy] != oldColor for dx,dy in dirs if 0<=i+dx<rows and 0<=j+dy<cols):
+                border.append((i,j))
+
+            for dx,dy in dirs:
+                dfs(i+dx,j+dy)
+
+        dfs(row,col)
+        for i,j in border:
+            grid[i][j]=color
+
         return grid
