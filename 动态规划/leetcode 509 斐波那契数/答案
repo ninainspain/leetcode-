@@ -11,5 +11,40 @@ class Solution:
         rightFib = self.dfs(n - 2)
         return leftFib + rightFib
 
-  ⭕️dp解法
+⭕️记忆化搜索
           
+class Solution:
+    def __init__(self):
+        self.memo = {}
+
+    def fib(self, n: int) -> int:
+        return self.dfs(n)
+
+    def dfs(self, n):
+        if n == 0: return 0
+        if n == 1: return 1
+        if n in self.memo: return self.memo[n]
+
+        leftFib = self.dfs(n - 1)
+        rightFib = self.dfs(n - 2)
+        self.memo[n] = leftFib + rightFib
+        return self.memo[n]
+
+⭕️记忆化搜索
+
+class Solution:
+    def fib(self, n: int) -> int:
+        self.memo = [-1] * (n+1)
+        return self.dfs(n)
+
+    def dfs(self, n):
+        if n == 0: return 0
+        if n == 1: return 1
+        if self.memo[n] != -1: return self.memo[n]
+
+        leftFib = self.dfs(n - 1)
+        rightFib = self.dfs(n - 2)
+        self.memo[n] = leftFib + rightFib
+        return self.memo[n]
+
+⭕️
