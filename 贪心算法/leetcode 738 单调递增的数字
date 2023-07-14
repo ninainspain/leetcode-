@@ -1,0 +1,15 @@
+这个问题可以通过贪心算法解决。对数字从右至左进行遍历，当找到一位数字大于其右侧的数字时，将该位数字减一，并将其右侧所有数字都设为9。这样可以确保构造的数字是最大的。
+
+
+
+def monotoneIncreasingDigits(n):
+    num_list = list(map(int, str(n)))
+    n = len(num_list)
+    flag = n
+    for i in range(n-1, 0, -1):
+        if num_list[i-1] > num_list[i]:
+            num_list[i-1] -= 1
+            flag = i
+    for i in range(flag, n):
+        num_list[i] = 9
+    return int(''.join(map(str, num_list)))
