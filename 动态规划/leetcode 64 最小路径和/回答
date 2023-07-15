@@ -26,3 +26,99 @@ class Solution:
         return minPathSum
 
 ⭕️另一种回溯算法
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        dirs = [[1,0],[0,1]]
+        
+
+        def dfs(grid, row, col):
+            if row==len(grid)-1 and col==len(grid[0])-1:
+                return grid[row][col]
+
+            minPathSum = float('inf')
+
+            for dir in dirs:
+                nr = row+dir[0]
+                nc = col+dir[1]
+                if not 0<=nr<len(grid) or not 0<=nc<len(grid[0]):
+                    continue
+
+                childMinPathSum = dfs(grid,nr,nc)
+                minPathSum = min(minPathSum, childMinPathSum)
+
+            return minPathSum + grid[row][col] 
+        
+        return dfs(grid, 0, 0)
+
+
+⭕️记忆化搜索
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        rows,cols = len(grid), len(grid[0])
+        dirs = [[1,0],[0,1]]
+
+        memo = [[float('inf') for _ in range(cols)] for _ in range(rows)] # 修正了此处
+        
+        def dfs(grid, row, col, memo):
+            if row==rows-1 and col==cols-1: # 优化：直接使用rows和cols
+                return grid[row][col]
+
+            if memo[row][col]!=float('inf'):
+                return memo[row][col]
+
+            minPathSum = float('inf')
+
+            for dir in dirs:
+                nr = row+dir[0]
+                nc = col+dir[1]
+                if not 0<=nr<rows or not 0<=nc<cols: # 优化：直接使用rows和cols
+                    continue
+
+                childMinPathSum = dfs(grid, nr, nc, memo)
+                minPathSum = min(minPathSum, childMinPathSum)
+
+            memo[row][col] =  minPathSum + grid[row][col]
+            return memo[row][col]
+
+        return dfs(grid, 0, 0, memo)
+
+⭕️dp
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        rows,cols = len(grid),len(grid[0])
+        #状态定义
+        dp = [[float('inf') for _ in range(cols)] for _ in range(rows)]
+        #状态初始化
+        dp[rows-1][cols-1] = grid[rows-1][cols-1]
+        #状态转移
+        for i in range(rows-1,-1,-1):
+            for j in range(cols-1, -1,-1):
+                if i==rows-1 and j!=cols-1:
+                    dp[i][j]=grid[i][j]+dp[i][j+1]
+                elif i!=rows-1 and j==cols-1:
+                    dp[i][j]=grid[i][j]+dp[i+1][j]
+                elif i!=rows-1 and j!=cols-1:
+                    dp[i][j]=grid[i][j]+min(dp[i][j+1],dp[i+1][j])
+        return dp[0][0]
+
+⭕️dp另一种解法
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        rows,cols = len(grid),len(grid[0])
+        #状态定义
+        dp = [[float('inf') for _ in range(cols)] for _ in range(rows)]
+        #状态初始化
+        dp[0][0] = grid[0][0]
+        #状态转移
+        for i in range(rows):
+            for j in range(cols):
+                if i==0 and j!=0:
+                    dp[i][j]=grid[i][j]+dp[i][j-1]
+                elif i!=0 and j==0:
+                    dp[i][j]=grid[i][j]+dp[i-1][j]
+                elif i!=0 and j!=0:
+                    dp[i][j]=grid[i][j]+min(dp[i][j-1],dp[i-1][j])
+        return dp[rows-1][cols-1]
+
+⭕️dp优化
+
