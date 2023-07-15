@@ -1,22 +1,19 @@
 class Solution:
-    def readBinaryWatch(self, num: int) -> List[str]:
-        def backtrack(hours, mins, idx, hour, minute, num):
-            if hours + mins == num:
+    def readBinaryWatch(self, turnedOn: int) -> List[str]:
+        def dfs(idx, hour, minute, num):
+            if num == 0:
                 if hour < 12 and minute < 60:
                     res.append(f"{hour}:{minute:02}")
-                return
+                return 
 
-            #Basically, in this part of code, it tries to turn on each LED one by one and backtrack on the remaining LEDs recursively.
-
-            #It does this for all possible combinations of hours and minutes LEDs.
             for i in range(idx, 10):
-                if i < 4:
-                    backtrack(hours+1, mins, i+1, hour+hour_leds[i], minute, num)
+                if i < 4: 
+                    dfs(i+1, hour+ hour_leds[i], minute, num-1)
                 else:
-                    backtrack(hours, mins+1, i+1, hour, minute+minute_leds[i-4], num)
+                    dfs(i+1, hour, minute+minute_leds[i-4], num-1)
         
-        hour_leds = [1, 2, 4, 8]
-        minute_leds = [1, 2, 4, 8, 16, 32]
+        hour_leds = [1,2,4,8]
+        minute_leds = [1,2,4,8,16,32]
         res = []
-        backtrack(0, 0, 0, 0, 0, num)
+        dfs(0, 0, 0, turnedOn)
         return res
