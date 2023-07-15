@@ -1,4 +1,4 @@
-⭕️回溯算法，自底朝上
+⭕️回溯算法
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
@@ -18,7 +18,24 @@ class Solution:
         dfs(amount, coins, [], minCoins)
         return -1 if minCoins[0] == float('inf') else minCoins[0]
 
+⭕️回溯算法，自底朝上
 
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        def dfs(target, coins):
+            if target==0: 
+                return 0
+            minCoins = float('inf')
+            for i in range(len(coins)-1,-1,-1):
+                if target-coins[i]<0:
+                    continue
+                subMinCoins = dfs(target-coins[i], coins)
+                if subMinCoins==-1: 
+                    continue
+                minCoins = min(subMinCoins+1, minCoins)
+            return -1 if minCoins==float('inf') else minCoins
+
+        return dfs(amount, coins)
 
 ⭕️记忆化搜索
 class Solution:
