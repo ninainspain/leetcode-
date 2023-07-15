@@ -1,0 +1,57 @@
+
+
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        self.dfs(nums, -1, [], res)
+        return res
+
+    def dfs(self, nums, index, path, res):
+        if len(path)==len(nums):
+            res.append(list(path))  
+            return 
+            
+        for index in range(len(nums)):
+            path.append(nums[index])
+            self.dfs(nums, index, path, res)    
+            path.pop()
+
+⭕️全排列：引入used数组来标记访问过的数字
+
+⭕️当输入数组中有重复数字时候
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        nums.sort() #去重
+        self.dfs(nums, -1, [], res)
+        return res
+
+    def dfs(self, nums, index, path, res):
+        if len(path)==len(nums):
+            res.append(list(path))  
+            return 
+            
+        for index in range(len(nums)):
+            path.append(nums[index])
+            self.dfs(nums, index, path, res)    
+            path.pop()
+
+⭕️组合模版
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        res = []
+        if n<=0 or k<=0 or k>n:
+            return res
+
+        self.dfs(1, n,k,[],res)
+        return res
+
+    def dfs(self, start, n, k, combination, res):
+        if len(combination)==k:
+            res.append(list(combination))
+            return 
+
+        for i in range(start,n+1):
+            combination.append(i)
+            self.dfs(i+1, n,k, combination, res)    
+            combination.pop()
