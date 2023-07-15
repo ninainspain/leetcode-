@@ -1,0 +1,28 @@
+⭕️回溯算法
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        dirs = [[1,0],[0,1]]
+        minPathSum=float('inf') # 修改此处
+        total=0
+
+        def dfs(grid, row, col, total):
+            nonlocal minPathSum # 修改此处
+            if row==len(grid)-1 and col==len(grid[0])-1:
+                minPathSum = min(minPathSum, total)
+                return 
+
+            for dir in dirs:
+                nr = row+dir[0]
+                nc = col+dir[1]
+                if not 0<=nr<len(grid) or not 0<=nc<len(grid[0]):
+                    continue
+
+                total+=grid[nr][nc]
+                dfs(grid, nr, nc, total)
+                total -= grid[nr][nc]
+
+        total += grid[0][0] # 修改此处，因为你需要包括起始点的值
+        dfs(grid, 0, 0, total)
+        return minPathSum
+
+⭕️另一种回溯算法
