@@ -25,15 +25,18 @@ class Solution:
 ⭕️写法二：
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        def backtrack(s='', left=0, right=0):
-            if len(s) == 2 * n:
+        def dfs(s, left, right, res):
+            if len(s)==2*n:
                 res.append(s)
-                return
-            if left < n:
-                backtrack(s + '(', left+1, right)
-            if right < left:
-                backtrack(s + ')', left, right+1)
-                
+                return 
+            
+            if left<n:
+                dfs(s+'(', left+1, right, res)
+            
+            if right<left:
+                dfs(s+')', left, right+1, res)
+
+        
         res = []
-        backtrack()
+        dfs('',0,0, res)
         return res
