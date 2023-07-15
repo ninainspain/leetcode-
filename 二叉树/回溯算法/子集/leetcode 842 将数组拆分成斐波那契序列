@@ -1,27 +1,25 @@
 class Solution:
     def splitIntoFibonacci(self, num: str) -> List[int]:
-        def dfs(start, preTwoNumSum, preNum):
+        def dfs(start, preTwoNumSum, preNum, res):
             if start==len(num):
                 return len(res)>=3
 
             currNum=0
             for i in range(start, len(num)):
-                if i>start and num[start]=='0':  # Break the loop if a leading zero is found
-                    break
+                if i>start and num[start]=='0': break
                 currNum = currNum*10+int(num[i])
                 if currNum>2**31-1: break
                 if len(res)<2 or currNum==preTwoNumSum:
                     res.append(currNum)
-                    if dfs(i+1, preNum+currNum, currNum):
+                    if dfs(i+1, preNum+currNum, currNum, res):
                         return True
                     res.pop()
                 elif len(res)>=2 and currNum>preTwoNumSum:
                     break
             return False
 
-        res=[]
-        if dfs(0, 0, 0):
+        res = []
+        if dfs(0,0,0,res):
             return res
         else:
-            return []
-
+            return res
