@@ -6,7 +6,7 @@ class Solution:
 
             currNum=0
             for i in range(start, len(num)):
-                if i>start and num[i]=='0':  # Break the loop if a leading zero is found
+                if i>start and num[start]=='0':  # Break the loop if a leading zero is found
                     break
                 currNum = currNum*10+int(num[i])
                 if currNum>2**31-1: break
