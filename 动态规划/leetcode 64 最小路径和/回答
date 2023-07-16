@@ -1,12 +1,13 @@
 ⭕️回溯算法
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
-        dirs = [[1,0],[0,1]]
-        minPathSum=float('inf') # 修改此处
+        dirs = [[1,0],[0,1]]  
+        minPathSum=float('inf')       
         total=0
 
         def dfs(grid, row, col, total):
-            nonlocal minPathSum # 修改此处
+            nonlocal minPathSum
+            
             if row==len(grid)-1 and col==len(grid[0])-1:
                 minPathSum = min(minPathSum, total)
                 return 
@@ -21,11 +22,12 @@ class Solution:
                 dfs(grid, nr, nc, total)
                 total -= grid[nr][nc]
 
-        total += grid[0][0] # 修改此处，因为你需要包括起始点的值
+        total += grid[0][0] 
         dfs(grid, 0, 0, total)
         return minPathSum
 
-⭕️另一种回溯算法
+
+⭕️回溯算法，自底朝上
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
         dirs = [[1,0],[0,1]]
