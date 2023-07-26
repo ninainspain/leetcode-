@@ -1,18 +1,22 @@
-⭕️DFS 递归
+⭕️后序遍历 递归
 class Solution:
-    def isSymmetric(self, root: TreeNode) -> bool:
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
         if not root:
             return True
         return self.isMirror(root.left, root.right)
-        
-    def isMirror(self, node1: TreeNode, node2: TreeNode) -> bool:
+
+    def isMirror(self, node1, node2):
         if not node1 and not node2:
             return True
-            
-        if not node1 or not node2 or node1.val != node2.val:
+        
+        if not node1 or not node2 or node1.val!=node2.val:
             return False
-            
-        return self.isMirror(node1.left, node2.right) and self.isMirror(node1.right, node2.left)
+
+        outside = self.isMirror(node1.left, node2.right) 
+        inside = self.isMirror(node1.right, node2.left)
+        isSame = outside and inside
+        return isSame
+
 
 ⭕️BFS 迭代
 from collections import deque
