@@ -1,0 +1,55 @@
+⭕️递归
+class Solution:
+    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+        res = []
+        self.dfs(root, res)
+        if len(res)<2: return 0
+        minValue = float('inf')
+        for i in range(1,len(res)):
+            minValue = min(minValue, res[i]-res[i-1])
+        return minValue
+
+        
+
+    def dfs(self, node, res):
+        if not node:
+            return 
+        self.dfs(node.left, res)
+        res.append(node.val)
+        self.dfs(node.right, res)
+
+⭕️递归
+class Solution:
+    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+        self.minValue = float('inf')
+        self.prev = None
+        self.dfs(root)
+        return self.minValue
+
+    def dfs(self, node: Optional[TreeNode]):
+        if not node:
+            return 
+        self.dfs(node.left)
+        if self.prev is not None:
+            self.minValue = min(self.minValue, node.val - self.prev.val)
+        self.prev = node
+        self.dfs(node.right)
+
+⭕️迭代
+class Solution:
+    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+        stack = []
+        cur = root
+        pre = None
+        res = float('inf')
+        while cur or stack:
+            if cur:
+                stack.append(cur)
+                cur = cur.left
+            else:
+                cur = stack.pop()
+                if pre is not None:
+                    res = min(res, cur.val-pre.val)
+                pre = cur
+                cur = cur.right
+        return res
