@@ -18,25 +18,27 @@ class Solution:
         self.dfs(node.right, res)
         
         
- ⭕️优化
- class Solution:
+⭕️迭代
+
+class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        self.prev = None
-        self.isBST = True
-        self.dfs(root)
-        return self.isBST
+        stack = []
+        cur = root
+        pre = None
+        while cur or stack:
+            if cur: 
+                stack.append(cur)
+                cur = cur.left
+            else:
+                cur = stack.pop()
+                if pre  and cur.val <= pre.val:
+                    return False
+                pre = cur
+                cur = cur.right
+        return True
 
-    def dfs(self, node):
-        if not node:
-            return 
-        self.dfs(node.left)
-        if self.prev is not None and node.val <= self.prev.val:
-            self.isBST = False
-            return 
-        self.prev = node
-        self.dfs(node.right)
 
-⭕️测试二叉搜索树性质
+⭕️递归
 class Solution:
     def isValidBST(self, root: TreeNode) -> bool:
         def helper(node, lower=float('-inf'), upper=float('inf')):
