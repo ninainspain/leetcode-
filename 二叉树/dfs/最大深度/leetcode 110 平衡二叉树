@@ -1,12 +1,27 @@
-class Solution:
-    def isBalanced(self, root):
-        return self.height(root) != -1
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 
-    def height(self, node):
-        if not node:
-            return 0
-        left_height = self.height(node.left)
-        right_height = self.height(node.right)
-        if left_height == -1 or right_height == -1 or abs(left_height - right_height) > 1:
-            return -1
-        return max(left_height, right_height) + 1
+class Solution:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        def depth(node):
+            if not node:
+                return 0
+            
+            left_depth = depth(node.left)
+            if left_depth == -1:
+                return -1
+            
+            right_depth = depth(node.right)
+            if right_depth == -1:
+                return -1
+            
+            # Check if the current subtree is balanced and update the result
+            if abs(left_depth - right_depth) > 1:
+                return -1
+            else:
+                return 1 + max(left_depth, right_depth)
+        
+        return depth(root) != -1
