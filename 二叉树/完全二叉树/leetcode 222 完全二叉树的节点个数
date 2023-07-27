@@ -13,32 +13,45 @@
 ⭕️后序遍历
 class Solution:
     def countNodes(self, root: Optional[TreeNode]) -> int:
-        if root is None:
+        if not root:
             return 0
 
-        left = self.countNodes(root.left)
-        right = self.countNodes(root.right)
-
-        return left + right + 1
+        leftNum = self.countNodes(root.left)
+        rightNum = self.countNodes(root.right)
+        treeNum = leftNum+rightNum+1
+        return treeNum
 
 ⭕️后序遍历2
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
 class Solution:
     def countNodes(self, root: Optional[TreeNode]) -> int:
         if not root:
             return 0
 
-        d_left = self.depth(root.left)
-        d_right = self.depth(root.right)
+        left_depth = self.leftDepth(root)
+        right_depth = self.rightDepth(root)
 
-        if d_left == d_right:
-            return (2 ** d_left) + self.countNodes(root.right)
+        if left_depth == right_depth:
+            return (2 ** left_depth) - 1
         else:
-            return (2 ** d_right) + self.countNodes(root.left)
+            return self.countNodes(root.left) + self.countNodes(root.right) + 1
 
-    def depth(self, node: Optional[TreeNode]) -> int:
+    def leftDepth(self, node: Optional[TreeNode]) -> int:
         d = 0
         while node:
             node = node.left
+            d += 1
+        return d
+
+    def rightDepth(self, node: Optional[TreeNode]) -> int:
+        d = 0
+        while node:
+            node = node.right
             d += 1
         return d
 
