@@ -56,3 +56,34 @@ class Solution:
             
         inorder(root)
         return self.modes
+⭕️不用额外空间
+class Solution:
+    def findMode(self, root: Optional[TreeNode]) -> List[int]:
+        self.max_count = 0
+        self.count = 0
+        self.pre = None
+        self.modes = []
+
+        def inorder(cur):
+            if not cur:
+                return 
+
+            inorder(cur.left)
+
+            if self.pre is None:
+                self.count = 1
+            elif self.pre.val == cur.val:
+                self.count += 1
+            else:
+                self.count = 1
+            
+            self.pre = cur
+            if self.count == self.max_count:
+                self.modes.append(cur.val)
+            elif self.count > self.max_count:
+                self.max_count = self.count
+                self.modes = [cur.val]
+            inorder(cur.right)
+
+        inorder(root)
+        return self.modes
