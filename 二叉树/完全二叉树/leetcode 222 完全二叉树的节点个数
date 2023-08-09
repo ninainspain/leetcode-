@@ -22,38 +22,28 @@ class Solution:
         return treeNum
 
 ⭕️后序遍历2
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-class Solution:
-    def countNodes(self, root: Optional[TreeNode]) -> int:
+def countNodes(self, root: Optional[TreeNode]) -> int:
         if not root:
             return 0
 
-        left_depth = self.leftDepth(root)
-        right_depth = self.rightDepth(root)
+        left = root
+        right = root
+        leftHeight = 0
+        rightHeight = 0
 
-        if left_depth == right_depth:
-            return (2 ** left_depth) - 1
-        else:
-            return self.countNodes(root.left) + self.countNodes(root.right) + 1
+        while left:
+            left = left.left
+            leftHeight += 1
 
-    def leftDepth(self, node: Optional[TreeNode]) -> int:
-        d = 0
-        while node:
-            node = node.left
-            d += 1
-        return d
+        while right:
+            right = right.right
+            rightHeight += 1
 
-    def rightDepth(self, node: Optional[TreeNode]) -> int:
-        d = 0
-        while node:
-            node = node.right
-            d += 1
-        return d
+        # If the tree is perfect
+        if leftHeight == rightHeight:
+            return 2**leftHeight - 1
+
+        return 1 + self.countNodes(root.left) + self.countNodes(root.right)
 
         
 ⭕️二分查找
