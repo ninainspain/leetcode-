@@ -1,22 +1,27 @@
 ⭕️后序遍历 递归
 class Solution:
-    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+    def countNodes(self, root: Optional[TreeNode]) -> int:
         if not root:
-            return True
-        return self.isMirror(root.left, root.right)
+            return 0
 
-    def isMirror(self, node1, node2):
-        if not node1 and not node2:
-            return True
-        
-        if not node1 or not node2 or node1.val!=node2.val:
-            return False
+        left = root
+        right = root
+        leftHeight = 0
+        rightHeight = 0
 
-        outside = self.isMirror(node1.left, node2.right) 
-        inside = self.isMirror(node1.right, node2.left)
-        isSame = outside and inside
-        return isSame
+        while left:
+            left = left.left
+            leftHeight += 1
 
+        while right:
+            right = right.right
+            rightHeight += 1
+
+        # If the tree is perfect
+        if leftHeight == rightHeight:
+            return 2**leftHeight - 1
+
+        return 1 + self.countNodes(root.left) + self.countNodes(root.right)
 
 ⭕️BFS 迭代
 from collections import deque
