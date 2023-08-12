@@ -1,0 +1,11 @@
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        slowPtr = head
+        fastPtr = head.next
+        while fastPtr:
+            if fastPtr.val != slowPtr.val:
+                slowPtr.next = fastPtr
+                slowPtr = slowPtr.next
+            fastPtr = fastPtr.next
+        slowPtr.next = None
+        return head
