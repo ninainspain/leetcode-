@@ -14,8 +14,10 @@ class Solution:
             
         for index in range(len(nums)):
             # 去重条件
+            # 同一树层
             if index > 0 and nums[index] == nums[index-1] and not used[index-1]:
                 continue
+            # 同一树枝
             if used[index]:
                 continue
             path.append(nums[index])
