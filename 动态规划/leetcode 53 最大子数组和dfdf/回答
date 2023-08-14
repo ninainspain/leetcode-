@@ -10,3 +10,5 @@ class Solution:
                     sum+=nums[k]
                 maxSum = max(maxSum, sum)
         return maxSum
+
+⭕️dp
