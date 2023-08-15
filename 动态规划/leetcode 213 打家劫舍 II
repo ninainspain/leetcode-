@@ -1,0 +1,26 @@
+from typing import List
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        
+        # Helper function to compute max money from linear list of houses
+        def rob1(nums):
+            if not nums:  # handle edge case of empty list
+                return 0
+            if len(nums) == 1:
+                return nums[0]
+            prevMax = nums[0]
+            currMax = max(nums[0], nums[1])
+            for i in range(2, len(nums)):
+                tempMax = max(nums[i] + prevMax, currMax)
+                prevMax = currMax
+                currMax = tempMax
+
+            return currMax
+
+        # If there are less than 2 houses, directly use rob1 function
+        if len(nums) < 2:
+            return rob1(nums)
+
+        # Max money when robbing house 1 to n-1 OR house 2 to n
+        return max(rob1(nums[:-1]), rob1(nums[1:]))
