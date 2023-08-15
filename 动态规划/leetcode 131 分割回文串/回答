@@ -17,4 +17,33 @@ class Solution:
         dfs(0, s, [], res)
         return res
 
-  ⭕️
+⭕️动态规划提升性能
+from typing import List
+
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        n = len(s)
+        # is_palindrome[i][j] 为 True 表示 s[i:j+1] 是回文
+        is_palindrome = [[False] * n for _ in range(n)]
+
+        # 填充 is_palindrome
+        for i in range(n - 1, -1, -1):
+            for j in range(i, n):
+                if s[i] == s[j] and (j - i < 2 or is_palindrome[i+1][j-1]):
+                    is_palindrome[i][j] = True
+
+        def dfs(start, s, path, res):
+            if start == len(s):
+                res.append(list(path))
+                return 
+
+            for i in range(start, len(s)):
+                if is_palindrome[start][i]:
+                    path.append(s[start:i+1])
+                    dfs(i+1, s, path, res)
+                    path.pop()
+
+        res = []
+        dfs(0, s, [], res)
+        return res
+
