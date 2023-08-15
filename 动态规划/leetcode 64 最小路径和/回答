@@ -123,4 +123,22 @@ class Solution:
         return dp[rows-1][cols-1]
 
 ⭕️dp优化
+class Solution:
+    def minPathSum(self, grid: List[List[int]]) -> int:
+        rows,cols = len(grid),len(grid[0])
+        #状态定义
+        dp = [float('inf') for _ in range(cols)]
+        #状态初始化
+        dp[0] = grid[0][0]
+        #状态转移
+        for i in range(rows):
+            for j in range(cols):
+                if i==0 and j!=0:
+                    dp[j]=grid[i][j]+dp[j-1]
+                elif i!=0 and j==0:
+                    dp[j]=grid[i][j]+dp[j]
+                elif i!=0 and j!=0:
+                    dp[j]=grid[i][j]+min(dp[j-1],dp[j])
+        return dp[cols-1]
+
 
