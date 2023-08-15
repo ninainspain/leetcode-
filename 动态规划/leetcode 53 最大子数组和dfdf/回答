@@ -31,4 +31,20 @@ class Solution:
         return maxSum
 
 ⭕️dp 优化
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        dp = [0 for _ in range(len(nums))]
 
+        
+        dp[0] = 0
+        maxSum = dp[0]
+        for i in range(len(nums)):
+            dp[i]=dp[i-1] + nums[i]
+            maxSum = max(maxSum, dp[i])
+
+        for i in range(1, len(nums)):
+            for j in range(i, len(nums)):
+                dp[j] = dp[j] - nums[i-1]
+                maxSum = max(maxSum, dp[j])
+
+        return maxSum
