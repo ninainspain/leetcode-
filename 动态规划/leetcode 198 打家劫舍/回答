@@ -1,0 +1,94 @@
+⭕️dfs
+from typing import List
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if not nums:  # If the list is empty, return 0
+            return 0
+
+        memo = [-1] * len(nums)
+        
+        def dfs(nums, i, memo):
+            if i >= len(nums):
+                return 0
+            
+            if memo[i] != -1:
+                return memo[i]
+
+            # Money robbed from the current house and skipping the next house
+            rob_current = nums[i] + dfs(nums, i + 2, memo)
+            # Money robbed from the next house
+            rob_next = dfs(nums, i + 1, memo)
+
+            memo[i] = max(rob_current, rob_next)
+            return memo[i]
+
+        dfs(nums, 0, memo)
+        return memo[0]
+
+⭕️dfs 自底朝上
+from typing import List
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if not nums:  # If the list is empty, return 0
+            return 0
+        
+        n = len(nums)
+        
+        if n == 1:  # If there's only one house, return its value
+            return nums[0]
+
+        memo = [-1] * n
+        
+        def dfs(nums, i, memo):
+            if i == 0:
+                return nums[0]
+            
+            if i == 1:
+                return max(nums[0], nums[1])
+
+            if memo[i] != -1:
+                return memo[i]
+            
+            # Money robbed from the current house and skipping the next house
+            rob_current = nums[i] + dfs(nums, i - 2, memo)
+            # Money robbed from the previous house
+            rob_next = dfs(nums, i - 1, memo)
+
+            memo[i] = max(rob_current, rob_next)
+            return memo[i]
+
+        return dfs(nums, n-1, memo)
+
+⭕️dp
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums)==1:
+            return nums[0]
+
+        n = len(nums)
+        dp = [-1]*(n)
+        dp[0]=nums[0]
+        dp[1]=max(nums[0],nums[1])
+
+        for i in range(2,n):
+            dp[i]=max(dp[i-1], nums[i]+dp[i-2])
+        
+        return dp[n-1]
+
+⭕️优化
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums)==1:
+            return nums[0]
+            
+        prevMax = nums[0]
+        currMax = max(nums[0], nums[1])
+
+        for i in range(2, len(nums)):
+            tempMax = max(currMax, prevMax+nums[i])
+            prevMax = currMax
+            currMax = tempMax
+
+        return currMax
