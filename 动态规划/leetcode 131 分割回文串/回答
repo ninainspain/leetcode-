@@ -1,0 +1,20 @@
+⭕️回溯
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        def dfs(start, s, path, res):
+            if start == len(s):
+                res.append(list(path))
+                return 
+
+            for i in range(start, len(s)):
+                seg = s[start:i+1]
+                if seg == seg[::-1]:
+                    path.append(seg)
+                    dfs(i+1, s, path, res)
+                    path.pop()
+
+        res=[]
+        dfs(0, s, [], res)
+        return res
+
+  ⭕️
