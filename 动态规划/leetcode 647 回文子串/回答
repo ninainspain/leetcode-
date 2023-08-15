@@ -1,0 +1,13 @@
+⭕️暴力解法
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        count=0
+        for i in range(len(s)):
+            for j in range(i, len(s)):
+                seg = s[i:j+1]
+                if seg==seg[::-1]:
+                    count+=1
+        return count
+
+⭕️dp
+#判断是否是回文，存在重复
