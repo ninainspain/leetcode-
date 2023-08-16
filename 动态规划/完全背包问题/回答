@@ -1,3 +1,22 @@
+⭕️dfs
+def knapsack02(self, v, w, C):
+
+    def dfs(index, leftC):
+        if index == len(v) or leftC == 0:
+            return 0
+
+        # Skip the current item
+        maxValue = dfs(index, leftC)
+
+        # Take the current item (if possible)
+        if leftC >= w[index]:
+            currValue = v[index] + dfs(index + 1, leftC - w[index])
+            maxValue = max(maxValue, currValue)
+
+        return maxValue
+
+    return dfs(0, C)
+
 ⭕️dp
 def knapsack03(self, v, w, C):
     dp = [[0 for _ in range(C + 1)] for _ in range(len(w))]
