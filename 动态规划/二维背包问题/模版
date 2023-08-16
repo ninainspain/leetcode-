@@ -1,0 +1,10 @@
+class Solution:
+    def twoDimensionalKnapsack(v, w, m, W, G):
+        dp = [[0 for _ in range(G + 1)] for _ in range(W + 1)] 
+
+        for i in range(1, len(w)):
+            for j in range(W,w[i]+1):
+                for k in range(G, g[i]+1):
+                    dp[j][k] = max(dp[j][k], dp[j-w[i]][k-g[i]] + v[i])
+
+        return dp[-1][-1]
