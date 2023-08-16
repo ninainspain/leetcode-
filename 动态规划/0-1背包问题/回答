@@ -1,1 +1,55 @@
+⭕️dfs前序
+def knapsack01(self, w, v, C):
+    maxValue = float('-inf')
+
+    def dfs(index, leftC, currValue):
+        nonlocal maxValue
+        maxValue = max(maxValue, currValue)
+        for i in range(index + 1, len(w)):  # starting from the next index
+            if leftC < w[i]:  # if the current weight is more than the remaining capacity
+                continue
+            dfs(i, leftC - w[i], currValue + v[i])  # recursively call with the updated weight and value
+
+    dfs(-1, C, 0)
+    return maxValue
+
+⭕️dfs后序
+def knapsack02(self, v, w, C):
+
+    def dfs(index, leftC):
+        if index == len(v) or leftC == 0:
+            return 0
+
+        # Skip the current item
+        maxValue = dfs(index + 1, leftC)
+
+        # Take the current item (if possible)
+        if leftC >= w[index]:
+            currValue = v[index] + dfs(index + 1, leftC - w[index])
+            maxValue = max(maxValue, currValue)
+
+        return maxValue
+
+    return dfs(0, C)
+
+⭕️dp
+def knapsack03(self, v, w, C):
+    dp = [[0 for _ in range(C + 1)] for _ in range(len(w))]
+
+    # Initialization for the first item
+    for leftC in range(1, C + 1):  # Starting from 1 because dp[0][0] is already 0
+        if leftC < w[0]:
+            dp[0][leftC] = 0
+        else:
+            dp[0][leftC] = v[0]
+
+    # Populate the rest of the table
+    for i in range(1, len(w)):
+        for leftC in range(1, C + 1):
+            if leftC < w[i]:
+                dp[i][leftC] = dp[i-1][leftC]
+            else:
+                dp[i][leftC] = max(dp[i-1][leftC], dp[i-1][leftC-w[i]] + v[i])
+
+    return dp[-1][-1]
 
