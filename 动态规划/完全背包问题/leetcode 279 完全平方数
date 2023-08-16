@@ -1,0 +1,16 @@
+from math import sqrt
+
+class Solution:
+    def numSquares(self, n: int) -> int:
+        #最小完全平方数为1，最大为sqrt(n)，也就是我们
+        #要从nums=[1,2,...,sqrt(n)]数组中选出几个数
+        #令其平方和为n（背包容量）。求最少的完全平方数
+        dp = [float('inf')]*(n+1)
+        dp[0] = 0
+
+        # 迭代到 int(sqrt(n)) + 1 以确保涵盖所有可能的完全平方数
+        for num in range(1, int(sqrt(n)) + 1):
+            for leftC in range(num * num, n + 1):
+                dp[leftC] = min(dp[leftC], dp[leftC - num * num] + 1)
+
+        return dp[n]
