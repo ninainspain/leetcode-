@@ -1,1 +1,16 @@
+⭕️dp
+def knapsack03(self, v, w, C):
+    dp = [[0 for _ in range(C + 1)] for _ in range(len(w))]
 
+    # Initialization for the first item
+    for leftC in range(1, C + 1): 
+        dp[0][leftC] = (leftC // w[0]) * v[0]
+
+    # Populate the rest of the table
+    for i in range(1, len(w)):
+        for leftC in range(1, C + 1):
+            count = leftC // w[i]
+            for k in range(count + 1):  # +1 to consider taking the item 0 times
+                dp[i][leftC] = max(dp[i][leftC], dp[i-1][leftC - k * w[i]] + k * v[i])
+
+    return dp[-1][-1]
