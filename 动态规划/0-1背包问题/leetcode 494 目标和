@@ -1,0 +1,29 @@
+class Solution:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+    #数组中所有数字的和是sum
+    #前面设置为负数的数字的总和是neg
+    #前面设置为正数的数字的总和是sum-neg
+
+    #(sum-neg)-neg=target
+    #neg=(sum-target)//2
+    #在数组nums列表中不可重复的选择数字组合，使得组合中所有数字之和为neg（背包容量）
+    #求有多少组合数
+
+        total = sum(nums)
+        
+        # 如果(target + total)不是偶数，或者目标值大于总和，那么不可能找到答案
+        if (total-target) % 2 != 0 or target > total:
+            return 0
+        
+        # 计算新目标值
+        new_target = (total-target) // 2
+        
+        # 初始化DP数组，dp[i]表示和为i的子集数目
+        dp = [0] * (new_target + 1)
+        dp[0] = 1
+        
+        for num in nums:
+            for i in range(new_target, num-1, -1):
+                dp[i] += dp[i-num]
+        
+        return dp[new_target]
