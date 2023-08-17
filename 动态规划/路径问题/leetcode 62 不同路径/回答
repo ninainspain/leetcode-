@@ -1,1 +1,65 @@
+⭕️dfs
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        # 初始化 memo 为 -1，代表这个位置还没有被计算过
+        memo = [[-1]*n for _ in range(m)]
+        
+        def dfs(i, j):
+            # 如果到达目标位置，返回1
+            if i == m-1 and j == n-1:
+                return 1
+            # 如果超出边界，返回0
+            if i == m or j == n:
+                return 0
+            # 如果这个位置已经被计算过，直接返回其值
+            if memo[i][j] != -1:
+                return memo[i][j]
+            
+            # 计算从当前位置向右和向下的路径数量
+            right = dfs(i, j + 1)
+            down = dfs(i + 1, j)
+            
+            # 记录并返回从当前位置到目标位置的路径数量
+            memo[i][j] = right + down
+            return memo[i][j]
+
+        # 从起始位置开始计算
+        dfs(0, 0)
+        return memo[0][0]
+
+
+⭕️dp
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        dp = [[-1] * n for _ in range(m)]
+        
+        for i in range(m-1, -1, -1):
+            for j in range(n-1, -1, -1):
+                if i == m-1 or j == n-1:
+                    dp[i][j] = 1
+                else:
+                    # Ensure we don't access out of bounds
+                    down = dp[i+1][j]
+                    right = dp[i][j+1] 
+                    dp[i][j] = down + right
+        
+        return dp[0][0]
+
+
+⭕️dp优化
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        dp = [-1] * n
+        
+        for i in range(m-1, -1, -1):
+            for j in range(n-1, -1, -1):
+                if i == m-1 or j == n-1:
+                    dp[j] = 1
+                else:
+                    # Ensure we don't access out of bounds
+                    down = dp[j]
+                    right = dp[j+1] 
+                    dp[j] = down + right
+        
+        return dp[0]
 
