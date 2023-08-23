@@ -1,3 +1,5 @@
+⭕️dp
+
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         # Initialize the dp list
@@ -14,3 +16,14 @@ class Solution:
 
         # The last row first column will have the maximum profit without stocks in hand
         return dp[-1][0]
+
+
+⭕️贪心
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        res = 0
+        for i in range(1, len(prices)):
+            if prices[i]>prices[i-1]:
+                res+=prices[i]-prices[i-1]
+
+        return res
