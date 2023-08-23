@@ -1,3 +1,5 @@
+⭕️dp
+
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
 
@@ -13,3 +15,49 @@ class Solution:
                     dp[i]=dp[i] or dp[i-wordLen]
 
         return dp[-1]
+
+
+⭕️dfs
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+
+        def dfs(s, wordDict, startIndex, memo):
+            # If we've reached the end of the string, it means it can be segmented
+            if startIndex == len(s):
+                return True
+            # If the result for this index is already computed, return it
+            if startIndex in memo:
+                return memo[startIndex]
+
+            for end in range(startIndex+1, len(s)+1):
+                # If the current substring is not in wordDict, skip this iteration
+                if s[startIndex: end] not in wordDict:
+                    continue
+
+                # If the remaining substring can be segmented, store the result and return True
+                if dfs(s, wordDict, end, memo):
+                    memo[startIndex] = True
+                    return True
+
+            # If we reach here, it means this startIndex can't be segmented
+            memo[startIndex] = False
+            return False
+
+        return dfs(s, wordDict, 0, {})
+
+⭕️dp
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+
+        dp = [False]*(len(s)+1)
+        dp[len(s)]=True
+
+        for i in range(len(s)-1,-1,-1):
+            for j in range(i+1, len(s)+1):
+                if s[i:j] not in wordDict:
+                    continue
+                if dp[j]:
+                    dp[i]=True
+                    break
+
+        return dp[0]
