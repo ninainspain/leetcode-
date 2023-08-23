@@ -1,0 +1,26 @@
+from typing import List
+
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        def dfs(s, wordDict, startIndex):
+            res = []
+            if startIndex == len(s):
+                res.append('')
+                return res
+
+            for end in range(startIndex, len(s)+1):
+                word = s[startIndex:end]
+                if word not in wordDict:
+                    continue
+                
+                subList = dfs(s, wordDict, end)
+                for subStr in subList:
+                    # Append word to result if subStr is empty or concatenate word and subStr with space
+                    if subStr == '':
+                        res.append(word)
+                    else:
+                        res.append(word + ' ' + subStr)
+            
+            return res
+
+        return dfs(s, wordDict, 0)
