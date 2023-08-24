@@ -1,22 +1,19 @@
 class Solution:
     def canPartition(self, nums: List[int]) -> bool:
         total = sum(nums)
-        
-        # 如果总和是奇数，则不可能将其分为两个和相等的子集
+
         if total % 2 != 0:
             return False
-        
+
         target = total // 2
         dp = [False] * (target + 1)
         dp[0] = True
-        
-        for num in nums:
-            for i in range(target, num-1, -1):
-                if dp[i-num]:
-                    dp[i] = True
-        
-        return dp[target]
 
+        for i in range(len(nums)):
+            for j in range(target, nums[i]-1, -1):  # Starting from target and going backwards to avoid double counting
+                dp[j] = dp[j] or dp[j-nums[i]]
+
+        return dp[-1]
 
 
 
