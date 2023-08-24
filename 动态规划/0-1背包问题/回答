@@ -34,6 +34,7 @@ def knapsack02(self, v, w, C):
 
 ⭕️dp
 def knapsack03(self, v, w, C):
+    #即dp[i][j] 表示从下标为[0-i]的物品里任意取，放进容量为j的背 包，价值总和最大是多少。
     dp = [[0 for _ in range(C + 1)] for _ in range(len(w))]
 
     # Initialization for the first item
