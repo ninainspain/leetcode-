@@ -1,0 +1,22 @@
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        if not s or s[0] == "0":
+            return 0
+
+        # Create an array to save solutions to subproblems
+        dp = [0] * (len(s) + 1)
+        
+        # Base cases
+        dp[0] = 1  # An empty string has one way to be decoded
+        dp[1] = 1  # The first character has only one way if it's not 0
+
+        for i in range(2, len(s) + 1):
+            # Take the last one digit
+            if 0 < int(s[i-1:i]) <= 9:  
+                dp[i] += dp[i-1]
+                
+            # Take the last two digits
+            if 10 <= int(s[i-2:i]) <= 26:  
+                dp[i] += dp[i-2]
+
+        return dp[len(s)]
