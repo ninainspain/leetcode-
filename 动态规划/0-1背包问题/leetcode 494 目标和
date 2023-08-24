@@ -4,26 +4,27 @@ class Solution:
     #前面设置为负数的数字的总和是neg
     #前面设置为正数的数字的总和是sum-neg
 
-    #(sum-neg)-neg=target
-    #neg=(sum-target)//2
-    #在数组nums列表中不可重复的选择数字组合，使得组合中所有数字之和为neg（背包容量）
-    #求有多少组合数
+   既然为target，那么就一定有 left组合 - right组合 = target。
+    left + right = sum，而sum是固定的。right = sum - left
+    公式来了， left - (sum - left) = target 推导出 left = (target + sum)/2 。 target是固定的，sum是固定的，left就可以求出来。
 
+class Solution:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
         total = sum(nums)
-        
-        # 如果(target + total)不是偶数，或者目标值大于总和，那么不可能找到答案
-        if (total-target) % 2 != 0 or target > total:
+
+        if (total+target)%2!=0:
             return 0
+        elif total<abs(target):
+            return 0
+
+        new_target = (total+target)//2
         
-        # 计算新目标值
-        new_target = (total-target) // 2
-        
-        # 初始化DP数组，dp[i]表示和为i的子集数目
-        dp = [0] * (new_target + 1)
-        dp[0] = 1
-        
-        for num in nums:
-            for i in range(new_target, num-1, -1):
-                dp[i] += dp[i-num]
-        
-        return dp[new_target]
+        dp = [0]*(new_target+1)
+        dp[0]=1
+
+        for i in range(len(nums)):
+            for j in range(new_target, nums[i]-1, -1):
+                dp[j]+=dp[j-nums[i]]
+
+        return dp[-1]
+
