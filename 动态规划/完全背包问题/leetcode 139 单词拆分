@@ -48,14 +48,12 @@ class Solution:
 ⭕️dp
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        dp = [False] * (len(s) + 1)
+        dp = [False]*(len(s)+1)
         dp[0] = True
-
-        for i in range(1, len(s) + 1):  # i represents the length of the substring
+        for i in range(1, len(s)+1):
             for word in wordDict:
-                # If the end of the substring matches the word and the starting index of the substring is True in dp
-                if dp[i - len(word)] and s[i - len(word):i] == word:
-                    dp[i] = True
-                    break  # Break as we found a valid word, no need to check other words
+                if len(word)<=i and dp[i-len(word)] and s[i-len(word):i]==word:
+                    dp[i]=True
+                    break
 
         return dp[-1]
