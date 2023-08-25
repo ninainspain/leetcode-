@@ -1,17 +1,11 @@
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-        # Initialize the dynamic programming table with infinity values
-        dp = [float('inf')] * (amount + 1)
-        
-        # Base case: 0 coins needed to make amount 0
+        dp = [float('inf')] * (amount+1)
         dp[0] = 0
+    
+        for i in range(len(coins)):
+            for j in range(coins[i], amount+1):
+                dp[j]=min(dp[j],dp[j-coins[i]]+1)
+
+        return -1 if dp[amount]==float('inf') else dp[amount]
         
-        # Loop through each coin value
-        for coin in coins:
-            # Update dp for all amounts greater than or equal to the coin value
-            for sub_amount in range(coin, amount + 1):
-                # Choose the minimum between the current value of dp[sub_amount] and dp[sub_amount - coin] + 1
-                dp[sub_amount] = min(dp[sub_amount], dp[sub_amount - coin] + 1)
-        
-        # If dp[amount] is still infinity, it means the amount cannot be formed using the given coins
-        return -1 if dp[amount] == float('inf') else dp[amount]
