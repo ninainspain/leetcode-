@@ -2,12 +2,13 @@ class Solution:
     def rob(self, root: Optional[TreeNode]) -> int:
         
         def dfs(node):
+#确定终止条件
             if not node:
                 return [0, 0]
-
+#确定递归顺序
             left = dfs(node.left)
             right = dfs(node.right)
-
+#确定单层递归逻辑
             # rob this node
             rob_this = node.val + left[0] + right[0]
             # do not rob this node
