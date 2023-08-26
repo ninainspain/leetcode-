@@ -10,8 +10,7 @@ class Solution:
 
         for i in range(len(nums)):
             for j in range(target, nums[i]-1,-1):
-                dp[j]=max(dp[j],dp[j-nums[i]]+nums[i])
-        
+                dp[j]=dp[j] or dp[j-nums[i]]        
         return dp[target]==target
 
 
