@@ -2,18 +2,17 @@
 
 class Solution:
     def findKthPositive(self, arr: List[int], k: int) -> int:
-        i=0
-        currNum=1
-        missCnt=0
-        lastMissNum=-1
-        while missCnt < k:
-            if i<len(arr) and arr[i]==currNum:
-                i+=1
+        num = 1
+        missingCount = 0
+        i = 0
+        while True:
+            if i < len(arr) and arr[i] == num:
+                i += 1
             else:
-                missCnt+=1
-                lastMissNum=currNum
-            currNum+=1     
-        return lastMissNum
+                missingCount += 1
+                if missingCount == k:
+                    return num
+            num += 1
 
  ⭕️二分查找
  
