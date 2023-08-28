@@ -1,37 +1,37 @@
 class Solution:
     def findInMountainArray(self, target: int, mountain_arr: 'MountainArray') -> int:
-        peakIndex = self.searchPeakIndex(mountain_arr)
-        firstTargetIndex = self.binarySearch(mountain_arr,0,peakIndex,target,True)
-        if firstTargetIndex != -1:
-            return firstTargetIndex
-        
-        return self.binarySearch(mountain_arr,peakIndex+1,mountain_arr.length()-1,target,False)
-    
-    def searchPeakIndex(self,mountain_arr):
-        left,right=0,mountain_arr.length()-1
-        while left<right:
-            mid=left+(right-left)//2
-            if mountain_arr.get(mid)<mountain_arr.get(mid+1):
-                left=mid+1
-            else:
-                right=mid
-
-        return left
-
-    def binarySearch(self, mountain_arr, left, right, target, is_increasing=True):
-        while left <= right:
-            mid = left + (right - left) // 2
-            midValue = mountain_arr.get(mid)
-            if target == midValue:
-                return mid
-            elif target > midValue:
-                if is_increasing:
-                    left = mid + 1
+        def searchPeak(mountain_arr):
+            left, right = 0, mountain_arr.length()-1
+            while left<right:
+                mid = left+(right-left)//2
+                if mountain_arr.get(mid)<mountain_arr.get(mid+1):
+                    left = mid+1
                 else:
-                    right = mid - 1
-            else:
-                if is_increasing:
-                    right = mid - 1
+                    right = mid
+            return left
+
+        def binarySearch(mountain_arr, left, right, target, is_increasing=True):
+            while left<=right:
+                mid = left+(right-left)//2
+                midValue = mountain_arr.get(mid)
+                if target==midValue:
+                    return mid
+                elif target>midValue:
+                    if is_increasing:
+                        left=mid+1
+                    else:
+                        right=mid-1
                 else:
-                    left = mid + 1
-        return -1
+                    if is_increasing:
+                        right=mid-1
+                    else:
+                        left=mid+1
+            return -1
+
+        peakValue = searchPeak(mountain_arr)
+        first = binarySearch(mountain_arr, 0, peakValue, target, is_increasing=True)
+        if first!=-1:
+            return first
+
+        second = binarySearch(mountain_arr, peakValue+1, mountain_arr.length()-1, target,is_increasing=False)
+        return second
