@@ -21,19 +21,20 @@ class Solution:
         #当没有缺失数字的情况下，num[i]-i-1=0
         #nums[i]前面缺失数字的个数 nums[i]-i-1
         #找到第一个前面缺失数字的个数大于等于k
-        if arr[0]>k:
-            return k
-        left,right=0,len(arr)
-        while left<right:
-            mid=left+(right-left)//2
-            if arr[mid]-mid-1<k:
-                left=mid+1
-            else:
-                right=mid
-        #前面一个数缺失的整数的个数
-        leftMissCnt = arr[left-1]-(left-1)-1
+            left, right = 0, len(arr)
 
-        return arr[left-1]+(k-leftMissCnt)
+            # 二分查找
+            while left < right:
+                mid = (left + right) // 2
+                # 如果中间元素前的缺失数的数量小于 k，则目标元素在右侧
+                if arr[mid] - (mid + 1) < k:
+                    left = mid + 1
+                else:
+                    right = mid
+        
+            # 二分查找结束后，left 指向的位置会告诉我们有多少个数是小于或等于 k 的
+            # 那么第 k 个缺失的数就是 left + k
+            return left + k
  
  
  
