@@ -23,17 +23,19 @@ class Solution:
         return max(ans,right-left)
  
  ⭕️优化
- class Solution:
-    def findMaxConsecutiveOnes(self, nums: List[int]) -> int:
-        ans = 0
-        left,right=0,0
-        zeroIndex = -1
-        while right<len(nums):
-            if nums[right]==0:
-                #说明当前窗口已经出现过0
-                if zeroIndex>=0:
-                    ans = max(ans,right-left)
-                    left = zeroIndex + 1
-                zeroIndex=right
-            right+=1
-        return max(ans,right-left)
+def findMaxConsecutiveOnes(nums):
+    left, right = 0, 0
+    flippedIndex = -1
+    maxLength = 0
+
+    for right in range(len(nums)):
+        if nums[right] == 0:
+            if flippedIndex >= 0:  # There is already a flipped 0 in the window
+                left = flippedIndex + 1
+            flippedIndex = right
+
+        # The window [left, right] contains at most one zero
+        maxLength = max(maxLength, right - left + 1)
+
+    return maxLength
+
