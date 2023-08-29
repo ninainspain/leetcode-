@@ -1,11 +1,19 @@
 class Solution:
     def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        slowPtr = head
-        fastPtr = head.next
-        while fastPtr:
-            if fastPtr.val != slowPtr.val:
-                slowPtr.next = fastPtr
-                slowPtr = slowPtr.next
-            fastPtr = fastPtr.next
-        slowPtr.next = None
+        if not head or not head.next:
+            return head
+        
+        slow = head
+        fast = head.next
+
+        while fast:
+            if fast.val != slow.val:
+                slow.next = fast
+                slow = slow.next
+            fast = fast.next
+        
+        # Ensure slow has a preceding node before setting its next to None
+        if slow:
+            slow.next = None
+
         return head
