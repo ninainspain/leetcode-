@@ -22,18 +22,22 @@ class Solution:
         
 ⭕️记录窗口中1的个数    
   
-class Solution:
-    def longestOnes(self, nums: List[int], k: int) -> int:
-        ans = 0
-        left,right=0,0
-        oneCnt = 0
-        while right<len(nums):
-            if nums[right]==1:
-                oneCnt+=1
-            while right-left+1-oneCnt>k:
-                if nums[left]==1:
-                    oneCnt-=1
-                left+=1
-            ans = max(ans,right-left+1)
-            right+=1
-        return ans
+def longestOnes(nums, k):
+    left = 0
+    max_length = 0
+    zeros_count = 0  # to keep track of the number of zeros in the current window
+
+    for right in range(len(nums)):
+        if nums[right] == 0:
+            zeros_count += 1
+
+        while zeros_count > k:  # shrink window from the left
+            if nums[left] == 0:
+                zeros_count -= 1
+            left += 1
+
+        # update the maximum length
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
+
