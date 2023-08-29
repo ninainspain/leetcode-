@@ -4,47 +4,52 @@
 ##记录t当中每个字符出现的次数，再去比较s当中每个字符出现的次数，只要s当中每个字符的次数大于等于t当中的次数
 #统计字符串t中每个字符出现的次数
         
-class Solution:
-    def minWindow(self, s: str, t: str) -> str:
-        def create_char_count_dict(t: str):
-            char_count = [0] * 128
-            unique_chars = 0
-            for c in t:
-                if char_count[ord(c)] == 0:
-                    unique_chars += 1
-                char_count[ord(c)] += 1
-            return char_count, unique_chars
+def min_window(s: str, t: str) -> str:
+    if not s or not t:
+        return ""
+    
+    # Create a dictionary to keep track of the characters in t.
+    char_count = {}
+    for char in t:
+        char_count[char] = char_count.get(char, 0) + 1
 
-        cntT, uniqueCharsInt = create_char_count_dict(t)
+    required = len(char_count)
 
-        left, right = 0, 0
-        windowCntS = [0] * 128
-        ans = [-1, 0, 0]
-        matchedChars = 0
+    # Pointers for the sliding window.
+    l, r = 0, 0
 
-        while right < len(s):
-            rightChar = s[right]
-            rightCharIndex = ord(rightChar)
-            windowCntS[rightCharIndex] += 1
+    # Variables to remember the smallest window.
+    min_len = float('inf')
+    min_window_start = 0
 
-            if windowCntS[rightCharIndex] == cntT[rightCharIndex]:
-                matchedChars += 1
+    # Number of characters met the required count.
+    formed = 0
 
-            while left <= right and matchedChars == uniqueCharsInt:
-                if ans[0] == -1 or right - left + 1 < ans[0]:
-                    ans[0] = right - left + 1
-                    ans[1] = left
-                    ans[2] = right
+    window_counts = {}
 
-                leftChar = s[left]
-                leftCharIndex = ord(leftChar)
-                windowCntS[leftCharIndex] -= 1
+    while r < len(s):
+        character = s[r]
+        window_counts[character] = window_counts.get(character, 0) + 1
 
-                if windowCntS[leftCharIndex] < cntT[leftCharIndex]:
-                    matchedChars -= 1
+        if character in char_count and window_counts[character] == char_count[character]:
+            formed += 1
 
-                left += 1
+        while l <= r and formed == required:
+            character = s[l]
 
-            right += 1
+            if r - l + 1 < min_len:
+                min_len = r - l + 1
+                min_window_start = l
 
-        return "" if ans[0] == -1 else s[ans[1]:ans[2] + 1]
+            window_counts[character] -= 1
+            if character in char_count and window_counts[character] < char_count[character]:
+                formed -= 1
+
+            l += 1
+
+        r += 1
+
+    if min_len == float('inf'):
+        return ""
+    return s[min_window_start:min_window_start + min_len]
+
