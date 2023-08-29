@@ -4,52 +4,50 @@
 ##记录t当中每个字符出现的次数，再去比较s当中每个字符出现的次数，只要s当中每个字符的次数大于等于t当中的次数
 #统计字符串t中每个字符出现的次数
         
-def min_window(s: str, t: str) -> str:
-    if not s or not t:
-        return ""
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if not s or not t:
+            return ''
+
+        char_count = {}
+        for char in t:
+            char_count[char]=char_count.get(char,0)+1
+
+        required = len(char_count)
+
+        left, right = 0, 0
+        min_len = float('inf')
+        min_window_start = 0
+
+        formed = 0
+
+        window_counts = {}
     
-    # Create a dictionary to keep track of the characters in t.
-    char_count = {}
-    for char in t:
-        char_count[char] = char_count.get(char, 0) + 1
+        while right<len(s):
+            character = s[right]
+            window_counts[character] = window_counts.get(character,0)+1
 
-    required = len(char_count)
+            if character in char_count and window_counts[character]==char_count[character]:
+                formed+=1
 
-    # Pointers for the sliding window.
-    l, r = 0, 0
+            while left<=right and formed == required:
+                character = s[left]
 
-    # Variables to remember the smallest window.
-    min_len = float('inf')
-    min_window_start = 0
+                if right-left+1<min_len:
+                    min_len = right-left+1
+                    min_window_start=left
 
-    # Number of characters met the required count.
-    formed = 0
+                window_counts[character]-=1
 
-    window_counts = {}
+                if character in char_count and window_counts[character]<char_count[character]:
+                    formed-=1
 
-    while r < len(s):
-        character = s[r]
-        window_counts[character] = window_counts.get(character, 0) + 1
+                left+=1
 
-        if character in char_count and window_counts[character] == char_count[character]:
-            formed += 1
+            right+=1
+        
+        if min_len==float('inf'):
+            return ''
 
-        while l <= r and formed == required:
-            character = s[l]
-
-            if r - l + 1 < min_len:
-                min_len = r - l + 1
-                min_window_start = l
-
-            window_counts[character] -= 1
-            if character in char_count and window_counts[character] < char_count[character]:
-                formed -= 1
-
-            l += 1
-
-        r += 1
-
-    if min_len == float('inf'):
-        return ""
-    return s[min_window_start:min_window_start + min_len]
+        return s[min_window_start:min_window_start+min_len]
 
