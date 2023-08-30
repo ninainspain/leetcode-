@@ -1,3 +1,5 @@
+⭕️dp
+
 class Solution:
     def isSubsequence(self, s: str, t: str) -> bool:
         m,n = len(s),len(t)
@@ -12,3 +14,35 @@ class Solution:
         
         return dp[-1][-1]==m
 
+⭕️dp解法
+def isSubsequence(s, t):
+    m, n = len(s), len(t)
+    
+    # 初始化dp数组
+    dp = [[False] * (n + 1) for _ in range(m + 1)]
+    for j in range(n + 1):
+        dp[0][j] = True
+
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if s[i-1] == t[j-1]:
+                dp[i][j] = dp[i-1][j-1]
+            else:
+                dp[i][j] = dp[i][j-1]
+                
+    return dp[m][n]
+
+
+⭕️双指针
+def isSubsequence(s, t):
+    if not s:
+        return True
+    
+    pointer_s, pointer_t = 0, 0
+    while pointer_t < len(t):
+        if s[pointer_s] == t[pointer_t]:
+            pointer_s += 1
+            if pointer_s == len(s):
+                return True
+        pointer_t += 1
+    return False
