@@ -14,18 +14,16 @@ class Solution:
 class Solution:
     def countSubstrings(self, s: str) -> int:
         n = len(s)
-        dp = [[False for _ in range(n)] for _ in range(n)]
-        result = 0
+        dp = [[False] * n for _ in range(n)]
+        res = 0
 
         for i in range(n-1, -1, -1):
             for j in range(i, n):
+                # Check for palindromic condition
                 if s[i] == s[j]:
-                    if j - i <= 1:  # This covers cases where the substring length is 1 or 2.
+                    # If the substring length is less than or equal to 2 or the inner substring is palindromic
+                    if j - i <= 1 or dp[i+1][j-1]:
                         dp[i][j] = True
-                    else:
-                        dp[i][j] = dp[i+1][j-1]
-                    
-                    if dp[i][j]:
-                        result += 1
+                        res += 1
+        return res
 
-        return result
