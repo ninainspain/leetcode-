@@ -39,18 +39,15 @@ class Solution:
 ⭕️滑动窗口
 class Solution:
     def findMaxAverage(self, nums: List[int], k: int) -> float:
-    #固定左右边界
-        left,right=0,0
-        sum=0
-        maxSum=float('-inf')
-        while right<len(nums):
-            sum+=nums[right]
-            #满足窗口的条件
+        left=0
+        total = 0
+        maxTotal = float('-inf')
+        for right in range(len(nums)):
+            total+=nums[right]
             if right-left+1==k:
-                maxSum=max(maxSum,sum)
-                sum-=nums[left]
+                maxTotal = max(maxTotal, total)
+                total -=nums[left]
                 left+=1
-            
-            right+=1
-        return maxSum/k
+        
+        return maxTotal/k
 
