@@ -37,9 +37,9 @@ class Solution:
                 curr = next_node
 
             # 3. 连接各段
-            group_start.next = curr
-            prev_group_end.next = prev
-            prev_group_end = group_start
+            group_start.next = curr #1->4
+            prev_group_end.next = prev #dummy->3
+            prev_group_end = group_start 
 
             length -= k
 
