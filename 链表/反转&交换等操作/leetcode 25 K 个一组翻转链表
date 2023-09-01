@@ -3,40 +3,45 @@
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
 class Solution:
-    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
-        if head is None or head.next is None or k==0 or k==1:
+    def reverseKGroup(self, head: ListNode, k: int) -> ListNode:
+        if not head or k == 1:
             return head
 
-        dummy = ListNode(-1)
+        # 1. 计算链表长度
+        length = 0
+        temp = head
+        while temp:
+            length += 1
+            temp = temp.next
+        
+        dummy = ListNode(0)
         dummy.next = head
+        prev_group_end = dummy  # 上一组的最后一个节点
 
-        prev = dummy
-        first = head
-        last = first
+        while length >= k:  # 只有当剩余节点数大于等于k时才进行翻转
+            group_start = prev_group_end.next
+            curr = group_start
 
-        while first:
-            for i in range(k-1):
-                last = last.next
-                if last is None:
-                    return dummy.next
-            next = last.next
-            last.next = None
-            self.reverse(first)
-            prev.next = last
-            first.next = next
+            # 2. 分段翻转
+            prev = None
+            for _ in range(k):
+                next_node = curr.next
+                curr.next = prev
+                prev = curr
+                curr = next_node
 
-            prev = first
-            first = next
-            last = first
+            # 3. 连接各段
+            group_start.next = curr
+            prev_group_end.next = prev
+            prev_group_end = group_start
+
+            length -= k
 
         return dummy.next
 
-    def reverse(self,head):
-        if not head or not head.next:
-            return head
-        
-        new_head = self.reverse(head.next)
-        head.next.next = head
-        head.next = None
-        return new_head
