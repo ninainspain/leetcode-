@@ -4,24 +4,19 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
-        # Create a dummy node to handle the case where the first node needs to be removed.
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
         dummy = ListNode(-1)
         dummy.next = head
+        slow, fast = dummy, dummy
         
-        # Initialize the pointers.
-        slow = fast = dummy
-        
-        # Move the fast pointer n nodes ahead of the slow pointer.
-        for i in range(n):
+        for i in range(n+1):
             fast = fast.next
-        
-        # Move both pointers one node at a time until the fast pointer reaches the end of the linked list.
-        while fast.next:
+
+        while fast:
             slow = slow.next
             fast = fast.next
-        
-        # Remove the nth node from the end of the linked list.
+
         slow.next = slow.next.next
-        
+
         return dummy.next
+
