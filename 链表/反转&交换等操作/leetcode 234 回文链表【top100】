@@ -4,31 +4,29 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def isPalindrome(self,head):
+    def isPalindrome(self, head: Optional[ListNode]) -> bool:
         if not head or not head.next:
             return True
 
-        slow = fast = head
-
-        # Find the middle of the linked list
+        slow, fast = head, head
         while fast and fast.next:
-            slow = slow.next
             fast = fast.next.next
+            slow = slow.next
 
-        # Reverse the second half of the linked list
         prev = None
+
         while slow:
-            next_node = slow.next
+            nextNode = slow.next
             slow.next = prev
             prev = slow
-            slow = next_node
+            slow = nextNode
 
-        # Compare values of the first and second half of the linked list
-        fast = head
-        while prev:
-            if fast.val != prev.val:
+        firstHalf, secondHalf = head, prev
+        while secondHalf:
+            if firstHalf.val != secondHalf.val:
                 return False
-            fast = fast.next
-            prev = prev.next
+
+            firstHalf = firstHalf.next
+            secondHalf = secondHalf.next
 
         return True
