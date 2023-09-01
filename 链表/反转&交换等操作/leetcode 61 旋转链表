@@ -10,31 +10,27 @@
 #         self.next = next
 
 class Solution:
-    def rotateRight(self, head: ListNode, k: int) -> ListNode:
-        # Edge cases: empty linked list or k == 0
-        if not head or k == 0:
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        if not head or k==0:
             return head
-        
-        # Compute the length of the linked list
+
         length = 1
-        tail = head
-        while tail.next:
-            tail = tail.next
-            length += 1
-        
-        # Compute the actual number of rotations we need to perform
+        temp = head
+        while temp.next:
+            length+=1
+            temp = temp.next
+
         k %= length
-        if k == 0:
+        if k==0:
             return head
-        
-        # Find the new tail and new head of the rotated linked list
+
         new_tail = head
-        for i in range(length - k - 1):
+        for i in range(length-k-1):
             new_tail = new_tail.next
+
         new_head = new_tail.next
-        
-        # Perform the rotation
+
         new_tail.next = None
-        tail.next = head
-        
+        temp.next = head
+
         return new_head
