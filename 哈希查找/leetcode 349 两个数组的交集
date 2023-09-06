@@ -1,0 +1,14 @@
+class Solution:
+    def intersection(self, nums1, nums2):
+        # 使用set存放nums1的元素，达到去重的效果
+        nums_set = set(nums1)
+        
+        # 使用set存放结果，也是为了去重
+        result_set = set()
+        
+        # 遍历nums2中的每个元素
+        for num in nums2:
+            if num in nums_set:  # 如果nums2的元素在nums_set里出现过
+                result_set.add(num)
+        
+        return list(result_set)  # 转换成list返回
