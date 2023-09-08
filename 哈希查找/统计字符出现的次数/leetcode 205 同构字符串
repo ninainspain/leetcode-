@@ -2,15 +2,23 @@ class Solution:
     def isIsomorphic(self, s: str, t: str) -> bool:
         if len(s) != len(t):
             return False
-        dic = {}
+
+        s_to_t_mapping = {}
+        t_to_s_mapping = {}
+
         for i in range(len(s)):
-            charS = s[i]
-            charT = t[i]
-            if charS in dic:
-                if dic[charS] != charT:
+            # If character s[i] has already been mapped to some character in t
+            if s[i] in s_to_t_mapping:
+                if s_to_t_mapping[s[i]] != t[i]:
                     return False
             else:
-                if charT in dic.values():
+                s_to_t_mapping[s[i]] = t[i]
+
+            # If character t[i] has already been mapped to some character in s
+            if t[i] in t_to_s_mapping:
+                if t_to_s_mapping[t[i]] != s[i]:
                     return False
-                dic[charS] = charT
+            else:
+                t_to_s_mapping[t[i]] = s[i]
+
         return True
