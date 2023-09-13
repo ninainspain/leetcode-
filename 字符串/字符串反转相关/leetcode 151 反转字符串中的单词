@@ -1,0 +1,33 @@
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        def reverse_strings(s, start, end):
+            while start<end:
+                s[start],s[end]=s[end],s[start]
+                start+=1
+                end-=1
+            
+        list_s = list(s)
+        reverse_strings(list_s, 0, len(list_s)-1)
+
+        start=0
+        while start<len(list_s):
+            while start<len(list_s) and list_s[start]==' ':
+                start+=1
+            if start==len(list_s):
+                break
+            end = start
+            while end<len(list_s) and list_s[end]!=' ':
+                end+=1
+            
+            reverse_strings(list_s, start, end-1)
+            start=end
+
+        res=[]
+        i=0
+        while i<len(list_s):
+            if list_s[i]!=' ':
+                res.append(list_s[i])
+            elif i>0 and list_s[i-1]!=' ':
+                res.append(list_s[i])
+            i+=1
+        return ''.join(res).strip()
